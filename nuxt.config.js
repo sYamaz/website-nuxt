@@ -2,7 +2,7 @@ import colors from 'vuetify/es5/util/colors'
 
 /* nuxt.config.js */
 const environment = process.env.NODE_ENV || 'local'
-const env = require('./env/${environment}.js')
+const env = require(`./env/${environment}.js`)
 
 console.log(env)
 
