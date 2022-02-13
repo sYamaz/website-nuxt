@@ -12,11 +12,10 @@
     "lintfix": "npm run lint:js -- --fix",
     "build:gh-pages": "DEPLOY_ENV=GH_PAGES nuxt build",
     "generate:gh-pages": "DEPLOY_ENV=GH_PAGES nuxt generate",
-    "deploy": "gh-pages -d dist"
+    "deploy": "push-dir --dir=dist --branch=gh-pages --cleanup"
   },
   "dependencies": {
     "core-js": "^3.19.3",
-    "gh-pages": "^3.2.3",
     "nuxt": "^2.15.8",
     "vue": "^2.6.14",
     "vue-server-renderer": "^2.6.14",
@@ -33,6 +32,7 @@
     "@nuxtjs/vuetify": "^1.12.3",
     "eslint": "^8.4.1",
     "eslint-plugin-nuxt": "^3.1.0",
-    "eslint-plugin-vue": "^8.2.0"
+    "eslint-plugin-vue": "^8.2.0",
+    "push-dir": "^0.4.1"
   }
 }
