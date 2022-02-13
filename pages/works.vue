@@ -32,7 +32,7 @@ export default {
             items: [
                 {
                     name: "RoutineTree",
-                    img: "/RoutineTree.png",
+                    img: "../static/RoutineTree.png",
                     text: "Task management application that helps you accomplish your daily routine tasks.",
                     platform: ["iOS"],
                     status: "In Review",
