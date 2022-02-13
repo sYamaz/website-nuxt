@@ -1,6 +1,6 @@
 <template>
   <v-container>
-  <h1>Biography</h1>
+  <h2>Biography</h2>
   <v-container>
   <v-simple-table>
     <template v-slot:default>

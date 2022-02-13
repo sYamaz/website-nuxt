@@ -27,8 +27,8 @@
       
       <v-toolbar-title v-text="title"/>
       <v-spacer />
-      <v-app-bar-nav-icon><v-icon>mdi-github</v-icon><a>{{sourceUrl}}</a></v-app-bar-nav-icon>
       
+      <v-app-bar-nav-icon :href="sourceUrl"><v-icon>mdi-github</v-icon></v-app-bar-nav-icon>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
 
     </v-app-bar>
@@ -64,8 +64,8 @@ export default {
           to: "/works"
         }
       ],
-      title: 'sYamaz',
-      sourceUrl: ""
+      title: 'Shun Yamazaki',
+      sourceUrl: "https://github.com/sYamaz/website-nuxt"
     }
   }
 }

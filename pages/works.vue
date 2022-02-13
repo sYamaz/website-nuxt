@@ -14,8 +14,8 @@
                   <v-card-subtitle>Status: {{app.status}}</v-card-subtitle>
                   <v-divider></v-divider>
                   <v-card-actions>
-                      <v-btn v-if="app.url != ''" :to="app.url"><span class="info--text">{{app.buttonName}}</span></v-btn>
-                      <v-btn v-if="app.outerurl != ''" :href="app.outerurl"><span class="info--text">{{app.buttonName}}</span></v-btn>
+                      <v-btn elevation="0" v-if="app.url != ''" :to="app.url"><span class="info--text">{{app.buttonName}}</span></v-btn>
+                      <v-btn elevation="0" v-if="app.outerurl != ''" :href="app.outerurl"><span class="info--text">{{app.buttonName}}</span></v-btn>
                   </v-card-actions>
               </v-card>
           </v-container>

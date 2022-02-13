@@ -1,6 +1,6 @@
 <template>
   <v-container>
-      <h1>Hobby</h1>
+      <h2>Hobby</h2>
       <v-container>
       <p>
           <span>Music🎵, Guitar🎸, Ramen🍜, Travel🛫</span>
