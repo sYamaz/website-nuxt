@@ -1,12 +1,10 @@
 import colors from 'vuetify/es5/util/colors'
 
 /* nuxt.config.js */
-// `DEPLOY_ENV` が `GH_PAGES` の場合のみ `router.base = '/<repository-name>/'` を追加する
-const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? {
-  router: {
-    base: '/website-nuxt/'
-  }
-} : {}
+const environment = process.env.NODE_ENV || 'local'
+const env = require('./env/${environment}.js')
+
+console.log(env)
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -80,5 +78,9 @@ export default {
   },
 
   // Base-URL Configuration for github pages
-  routerBase
+  router: {
+    base: env.BASE_URL
+  },
+  env: env
+
 }
