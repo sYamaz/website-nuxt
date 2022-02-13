@@ -11,10 +11,12 @@
     "lint": "npm run lint:js",
     "lintfix": "npm run lint:js -- --fix",
     "build:gh-pages": "DEPLOY_ENV=GH_PAGES nuxt build",
-    "generate:gh-pages": "DEPLOY_ENV=GH_PAGES nuxt generate"
+    "generate:gh-pages": "DEPLOY_ENV=GH_PAGES nuxt generate",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "core-js": "^3.19.3",
+    "gh-pages": "^3.2.3",
     "nuxt": "^2.15.8",
     "vue": "^2.6.14",
     "vue-server-renderer": "^2.6.14",
