@@ -1,5 +1,5 @@
 npm run build:gh-pages
 
-npm run generate
+npm run generate:gh-pages
 
 npm run deploy
