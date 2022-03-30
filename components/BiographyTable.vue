@@ -31,9 +31,13 @@ export default {
                 text: "Completed bachelor's degree in Electrical, Electronic and Computer Engineering at Tokyo University of Science."
             },
             {
-                year: "2013 to present",
+                year: "2013",
                 text: "Work as a software developper at Orientalmotor co., ltd."
             },
+            {
+                year: "2022",
+                text: "Work as a software developper at Zkai inc."
+            }
             ]
         }
     }
