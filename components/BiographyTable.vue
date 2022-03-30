@@ -36,7 +36,7 @@ export default {
             },
             {
                 year: "2022",
-                text: "Work as a software developper at Zkai inc."
+                text: "Work as a software developper at Z-kai inc."
             }
             ]
         }
