@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1>Shun Yamazaki（sYamaz）</h1>    
+    <page-headline :title="headline"></page-headline>
     <v-container>
         <v-row>
             <v-col cols="1" class="ml-4 mr-4">
@@ -20,8 +20,15 @@
 </template>
 
 <script>
+import PageHeadline from './atoms/PageHeadline.vue'
 export default {
-    name: "SelfIntroduction"
+  components: { PageHeadline },
+    name: "SelfIntroduction",
+    data() {
+        return {
+            headline : "Shun Yamazaki (sYamaz)"
+        }
+    }
 }
 </script>
 

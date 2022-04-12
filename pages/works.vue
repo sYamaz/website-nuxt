@@ -1,7 +1,7 @@
 <template>
   <v-row justify="center" align="center">
       <v-col cols="12" sm="8" md="6">
-          <h1>Works</h1>
+          <page-headline :title="headline" />
           <v-container v-for="app in items" :key="app">
               <WorkCard :work="app"></WorkCard>
           </v-container>
@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import PageHeadline from '~/components/atoms/PageHeadline.vue';
 import RoutineTreeImage from "~/components/RoutineTreeImage.vue"
 import WorkCard from "../components/WorkCard.vue"
 
@@ -17,6 +18,7 @@ export default {
     name: "WorksPage",
     data() {
         return {
+            headline: "Works",
             items: [
                 {
                     name: "RoutineTree",
@@ -41,6 +43,6 @@ export default {
             ]
         };
     },
-    components: { RoutineTreeImage, WorkCard }
+    components: { RoutineTreeImage, WorkCard, PageHeadline }
 }
 </script>
