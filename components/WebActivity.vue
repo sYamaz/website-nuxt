@@ -1,6 +1,6 @@
 <template>
   <v-container>
-      <h2>Web</h2>
+      <section-headline :title="headline"/>
         <v-container v-for="item in items" v-bind:key="item">
             <v-btn elevation="0" class="info--text" :href="item.url" flat>{{item.name}} <v-icon v-if="item.icon != ''">{{item.icon}}</v-icon></v-btn>
         </v-container>
@@ -8,10 +8,13 @@
 </template>
 
 <script>
+import SectionHeadline from './atoms/SectionHeadline.vue'
 export default {
+  components: { SectionHeadline },
     name:"WebActiviry",
     data() {
         return {
+        headline: "Web",
         items:[
             {
                 icon: "mdi-twitter",

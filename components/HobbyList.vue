@@ -1,6 +1,6 @@
 <template>
   <v-container>
-      <h2>Hobby</h2>
+      <section-headline :title="headline"/>
       <v-container>
       <p>
           <span>Music🎵, Guitar🎸, Ramen🍜, Travel🛫</span>
@@ -10,7 +10,14 @@
 </template>
 
 <script>
+import SectionHeadline from './atoms/SectionHeadline.vue'
 export default {
-    name:"HobbyList"
+  components: { SectionHeadline },
+    name:"HobbyList",
+    data() {
+        return {
+            headline: "Hobby"
+        }
+    }
 }
 </script>
