@@ -12,7 +12,7 @@
 <script>
 import PageHeadline from '~/components/atoms/PageHeadline.vue';
 import RoutineTreeImage from "~/components/RoutineTreeImage.vue"
-import WorkCard from "../components/WorkCard.vue"
+import WorkCard from "~/components/organisms/WorkCard.vue"
 
 export default {
     name: "WorksPage",
