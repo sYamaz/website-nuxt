@@ -25,7 +25,7 @@ export default {
                     img: require("../static/RoutineTree.png"),
                     text: "Task management application that helps you accomplish your daily routine tasks.",
                     platform: ["iOS"],
-                    status: "In Review",
+                    status: "Released",
                     url: "",
                     outerurl: "https://syamaz.github.io/RoutineTree/",
                     buttonName: "Read more"
