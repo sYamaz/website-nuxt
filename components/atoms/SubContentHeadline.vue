@@ -1,5 +1,5 @@
 <template>
-  <h1>{{title}}</h1>
+  <h3>{{title}}</h3>
 </template>
 
 <script lang="ts">
@@ -7,7 +7,7 @@ import Vue from 'vue'
 import { Component, Prop } from 'vue-property-decorator'
 
 @Component
-export default class PageHeadline extends Vue{
+export default class SubContentHeadline extends Vue{
   @Prop({default: 'title'})
   private title!:string
 }

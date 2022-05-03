@@ -9,21 +9,41 @@
         <v-card-subtitle>Status: {{ work.status }}</v-card-subtitle>
         <v-divider></v-divider>
         <v-card-actions>
-            <v-btn elevation="0" v-if="work.url != ''" :to="work.url">
-                <span class="info--text">{{ work.buttonName }}</span>
-            </v-btn>
-            <v-btn elevation="0" v-if="work.outerurl != ''" :href="work.outerurl">
-                <span class="info--text">{{ work.buttonName }}</span>
-            </v-btn>
+            <LinkButton v-if="work.url !== ''" :linkData="{icon:'', name:work.buttonName, url:work.url}" />
+            <LinkButton v-if="work.outerurl !== ''" :linkData="{icon:'', name:work.buttonName, url:work.outerurl}" />
         </v-card-actions>
     </v-card>
 </template>
 
-<script>
-export default {
-    name: "WorkCard",
-    props: {
-        work: Object
+<script lang="ts">
+import Vue from "vue"
+import Component from "vue-class-component"
+import { Prop } from "vue-property-decorator"
+import LinkButton from "../atoms/LinkButton.vue"
+
+export interface Work{
+    name:string,
+    img:any,
+    text:string,
+    platform:string[],
+    status:string,
+    url:string,
+    outerurl:string,
+    buttonName:string
+}
+
+@Component({
+    components:{
+        LinkButton
     }
+})
+export default class WorkCard extends Vue {
+    @Prop({default: {
+        name: 'name',
+        img: '',
+        platform: ['A', 'B'],
+        status: 'Status',
+    }})
+    private work!:Work
 }
 </script>

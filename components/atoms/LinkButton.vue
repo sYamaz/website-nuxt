@@ -2,15 +2,24 @@
   <v-btn elevation="0" class="info--text" :href="linkData.url" flat>{{linkData.name}} <v-icon v-if="linkData.icon != ''">{{linkData.icon}}</v-icon></v-btn>
 </template>
 
-<script>
-export default {
-    name: "LinkButton",
-    props: {
-        linkData: {
-            icon: "mdi-icon-name",
-            name: "displayName",
-            url: "url",
+<script lang="ts">
+import {Vue, Component, Prop} from 'vue-property-decorator'
+
+export interface LinkData{
+    icon:any
+    name:string
+    url:string
+}
+
+@Component
+export default class LinkButton extends Vue {
+    @Prop({default: [
+        {
+            icon: '',
+            name: 'displayName',
+            url: 'url'
         }
-    }
+    ]})
+    private linkData!: LinkData[]
 }
 </script>
