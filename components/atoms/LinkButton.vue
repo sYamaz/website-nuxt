@@ -1,5 +1,5 @@
 <template>
-  <v-btn elevation="0" class="info--text" :href="linkData.url" flat>
+  <v-btn elevation="0" class="info--text" :href="linkData.url" text>
     {{ linkData.name }} <v-icon v-if="linkData.icon != ''">
       {{ linkData.icon }}
     </v-icon>

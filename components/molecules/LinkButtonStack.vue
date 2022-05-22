@@ -1,6 +1,6 @@
 <template>
   <v-list style="padding:0px">
-    <v-list-item v-for="data in datas" :key="data" class="pa-0">
+    <v-list-item v-for="data in datas" :key="data.name" class="pa-0">
       <LinkButton :link-data="data" />
     </v-list-item>
   </v-list>
@@ -8,8 +8,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import Component from 'vue-class-component'
-import { Prop } from 'vue-property-decorator'
+import { Component, Prop } from 'nuxt-property-decorator'
 import LinkButton, { LinkData } from '../atoms/LinkButton.vue'
 
 @Component({

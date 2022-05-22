@@ -3,7 +3,7 @@
     <template #default>
       <tbody>
         <tr v-for="(item, i) in records" :key="i">
-          <td :style="{width: firstColWidth < 0 ? undefined : firstColWidth}">
+          <td>
             {{ item.col1 }}
           </td>
           <td>{{ item.col2 }}</td>

@@ -24,8 +24,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import Component from 'vue-class-component'
-import { Prop } from 'vue-property-decorator'
+import { Prop, Component } from 'nuxt-property-decorator'
 import LinkButtonStack from '../molecules/LinkButtonStack.vue'
 import { LinkData } from '../atoms/LinkButton.vue'
 import PageHeadline from '~/components/atoms/PageHeadline.vue'

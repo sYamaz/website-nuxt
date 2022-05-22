@@ -3,7 +3,7 @@
     <v-col cols="12" sm="8" md="6">
       <PageHeadline :title="data.pageTitle" />
       <v-container>
-        <WorkCard v-for="work in data.works" :key="work" class="my-4" :work="work" />
+        <WorkCard v-for="work in data.works" :key="work.name" class="my-4" :work="work" />
       </v-container>
     </v-col>
   </v-row>

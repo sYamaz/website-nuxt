@@ -69,6 +69,10 @@ export default {
         {
           title: 'Works',
           to: '/works'
+        },
+        {
+          title: 'Posts',
+          to: '/posts'
         }
       ],
       title: 'Shun Yamazaki',
