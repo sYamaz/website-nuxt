@@ -1,3 +1,3 @@
 module.exports = {
-    BASE_URL: '/website-nuxt/'
-  }
+  BASE_URL: '/website-nuxt/'
+}

@@ -1,9 +1,11 @@
 <template>
   <v-simple-table>
-    <template v-slot:default>
+    <template #default>
       <tbody>
         <tr v-for="(item, i) in records" :key="i">
-          <td :style="{width: firstColWidth < 0 ? undefined : firstColWidth}">{{ item.col1 }}</td>
+          <td :style="{width: firstColWidth < 0 ? undefined : firstColWidth}">
+            {{ item.col1 }}
+          </td>
           <td>{{ item.col2 }}</td>
         </tr>
       </tbody>
@@ -12,9 +14,9 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import Component from "vue-class-component";
-import { Prop } from "vue-property-decorator";
+import Vue from 'vue'
+import Component from 'vue-class-component'
+import { Prop } from 'vue-property-decorator'
 
 export interface TwoColomnsRecord{
     col1: any
@@ -23,7 +25,7 @@ export interface TwoColomnsRecord{
 
 @Component
 export default class TwoColomnsTable extends Vue {
-    @Prop({default:[]})
-    private records!:TwoColomnsRecord[]
+    @Prop({ default: [] })
+  private records!:TwoColomnsRecord[]
 }
 </script>

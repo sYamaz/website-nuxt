@@ -24,16 +24,20 @@
       fixed
       app
     >
-      
-      <v-toolbar-title v-text="title"/>
+      <v-toolbar-title v-text="title" />
       <v-spacer />
       <v-app-bar-nav-icon @click.stop="$vuetify.theme.dark = !$vuetify.theme.dark">
-        <v-icon v-if="$vuetify.theme.dark">mdi-white-balance-sunny</v-icon>
-        <v-icon v-if="$vuetify.theme.dark !== true">mdi-weather-night</v-icon>
+        <v-icon v-if="$vuetify.theme.dark">
+          mdi-white-balance-sunny
+        </v-icon>
+        <v-icon v-if="$vuetify.theme.dark !== true">
+          mdi-weather-night
+        </v-icon>
       </v-app-bar-nav-icon>
-      <v-app-bar-nav-icon :href="sourceUrl"><v-icon>mdi-github</v-icon></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon :href="sourceUrl">
+        <v-icon>mdi-github</v-icon>
+      </v-app-bar-nav-icon>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-
     </v-app-bar>
     <v-main>
       <v-container>
@@ -44,9 +48,9 @@
       :absolute="true"
       app
     >
-      <v-spacer></v-spacer>
+      <v-spacer />
       <span>&copy; {{ new Date().getFullYear() }} Shun Yamazaki. All Rights Reserved.</span>
-      <v-spacer></v-spacer>
+      <v-spacer />
     </v-footer>
   </v-app>
 </template>
@@ -63,12 +67,12 @@ export default {
           to: '/'
         },
         {
-          title: "Works",
-          to: "/works"
+          title: 'Works',
+          to: '/works'
         }
       ],
       title: 'Shun Yamazaki',
-      sourceUrl: "https://github.com/sYamaz/website-nuxt",
+      sourceUrl: 'https://github.com/sYamaz/website-nuxt'
     }
   }
 }

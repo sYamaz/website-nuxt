@@ -1,9 +1,13 @@
 <template>
-  <v-btn elevation="0" class="info--text" :href="linkData.url" flat>{{linkData.name}} <v-icon v-if="linkData.icon != ''">{{linkData.icon}}</v-icon></v-btn>
+  <v-btn elevation="0" class="info--text" :href="linkData.url" flat>
+    {{ linkData.name }} <v-icon v-if="linkData.icon != ''">
+      {{ linkData.icon }}
+    </v-icon>
+  </v-btn>
 </template>
 
 <script lang="ts">
-import {Vue, Component, Prop} from 'vue-property-decorator'
+import { Vue, Component, Prop } from 'vue-property-decorator'
 
 export interface LinkData{
     icon:any
@@ -13,13 +17,15 @@ export interface LinkData{
 
 @Component
 export default class LinkButton extends Vue {
-    @Prop({default: [
+    @Prop({
+      default: [
         {
-            icon: '',
-            name: 'displayName',
-            url: 'url'
+          icon: '',
+          name: 'displayName',
+          url: 'url'
         }
-    ]})
-    private linkData!: LinkData[]
+      ]
+    })
+  private linkData!: LinkData[]
 }
 </script>

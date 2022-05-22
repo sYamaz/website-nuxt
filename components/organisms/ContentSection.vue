@@ -8,18 +8,18 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import Component from "vue-class-component";
-import { Prop } from "vue-property-decorator";
-import SectionHeadline from "../atoms/SectionHeadline.vue";
+import Vue from 'vue'
+import Component from 'vue-class-component'
+import { Prop } from 'vue-property-decorator'
+import SectionHeadline from '../atoms/SectionHeadline.vue'
 
 @Component({
   components: {
-    SectionHeadline,
-  },
+    SectionHeadline
+  }
 })
 export default class ContentSection extends Vue {
-  @Prop({ default: "Section title" })
-  private title!: string;
+  @Prop({ default: 'Section title' })
+  private title!: string
 }
 </script>
