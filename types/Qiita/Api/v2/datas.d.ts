@@ -29,6 +29,8 @@ export interface PostData{
   title:string
   /** データが最後に更新された日時 */
   updated_at:string
+  /** Qiita上のユーザー情報 */
+  user: any
   /** 記事のurl */
   url:string
   /** Qiita上のユーザーを表します。 */

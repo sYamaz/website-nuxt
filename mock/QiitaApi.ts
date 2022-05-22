@@ -22,6 +22,7 @@ export class QiitaApi implements IApi {
         title: 'AAAAAAAA',
         updated_at: '2000-01-01T00:00:00+00:00',
         url: '',
+        user: null,
         page_views_count: 100,
         team_membership: null
       }

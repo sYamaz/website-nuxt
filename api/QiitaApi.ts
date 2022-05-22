@@ -21,8 +21,6 @@ export default class QiitaApi implements IApi {
     const url = 'items'
     try{
       const response: PostData[] = await this.axios.$get(url, { params: {
-        page: 1,
-        per_page: 100,
         query: 'user:sYamaz'
       } })
       return response
