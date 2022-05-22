@@ -7,10 +7,10 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import { Prop, Component } from "nuxt-property-decorator";
-import LocalImage from "../atoms/LocalImage.vue";
-import CardUrl from "../atoms/CardUrl.vue";
+import Vue from 'vue'
+import { Prop, Component } from 'nuxt-property-decorator'
+import LocalImage from '../atoms/LocalImage.vue'
+import CardUrl from '../atoms/CardUrl.vue'
 
 @Component({
   components: {
@@ -19,23 +19,23 @@ import CardUrl from "../atoms/CardUrl.vue";
   }
 })
 export default class OGPCard extends Vue {
-  @Prop({ default: "{url}" })
-  private url!: string;
+  @Prop({ default: '{url}' })
+  private url!: string
 
-  @Prop({ default: "" })
-  private site_name!: string;
+  @Prop({ default: '' })
+  private site_name!: string
 
   @Prop({ default: null })
-  private image!: any;
+  private image!: any
 
-  @Prop({ default: "" })
-  private description!: string;
+  @Prop({ default: '' })
+  private description!: string
 
-  @Prop({ default: "article" })
-  private type!: string;
+  @Prop({ default: 'article' })
+  private type!: string
 
-  @Prop({ default: "{title}" })
-  private title!: string;
+  @Prop({ default: '{title}' })
+  private title!: string
 }
 </script>
 

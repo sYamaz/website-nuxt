@@ -3,7 +3,7 @@
     <h2>Posts</h2>
     <OGPCard
       v-for="post in posts"
-      v-bind:key="posts.id"
+      :key="posts.id"
       class="ma-4"
       :url="post.url"
       :title="post.title"

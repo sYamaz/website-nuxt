@@ -1,5 +1,7 @@
-<template >
-  <v-card-text class="text-secondary">{{ url }}</v-card-text>
+<template>
+  <v-card-text class="text-secondary">
+    {{ url }}
+  </v-card-text>
 </template>
 
 <script lang="ts">
