@@ -20,15 +20,16 @@ import { Component } from 'nuxt-property-decorator'
 import { Context } from '@nuxt/types'
 import { PostData } from '~/types/Qiita/Api/v2/datas'
 import OGPCard from '~/components/molecules/OGPCard.vue'
+import { articles } from '~/constants/articles'
 
 @Component({
   components: {
     OGPCard
   },
-  async asyncData (context:Context) {
-    const ret = await context.app.$qiitaApi.getMyQiitaItems()
-    console.log(ret)
-    return { posts: ret }
+  asyncData (_:Context) {
+    // const ret = await context.app.$qiitaApi.getMyQiitaItems()
+    console.log(articles)
+    return { posts: articles }
   }
 })
 export default class PostPage extends Vue {
