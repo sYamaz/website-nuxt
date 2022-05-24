@@ -35,7 +35,7 @@ def Tag(tag:dict):
   arr.append(f'name: \'{name}\'')
   vals = delimiter.join(map(lambda v: f'\'{v}\'' ,versions))
   arr.append(f'versions: [ {vals} ]')
-  return '{' + delimiter.join(vals) + '}'
+  return '{' + delimiter.join(arr) + '}'
 
 
 def Tags(tags):
@@ -95,8 +95,8 @@ def TeamMembership(tm:dict) -> str:
 
 def Item(item:dict) -> str:
   arr = []
-  rendered_body = item['rendered_body'].replace('`', '\`')
-  body = item['body'].replace('`', '\`')
+  rendered_body = item['rendered_body'].replace('\\', '\\\\').replace('`', '\`')
+  body = item['body'].replace('\\', '\\\\').replace('`', '\`')
   coediting = item['coediting']
   comments_count = item['comments_count']
   created_at = item['created_at']
