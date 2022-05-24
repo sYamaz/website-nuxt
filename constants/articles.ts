@@ -1,4 +1,429 @@
-export const articles = [{rendered_body: `<p>GitHubpagesに自己紹介サイトを立てて少しずつ拡張しています。<br>
+export const articles = [{rendered_body: `<p>先日@nuxt/axiosを使ってQiitaApiから自分の記事一覧を取得しました</p>
+<p><qiita-embed-ogp src="https://qiita.com/sYamaz/items/10c8c9db83e5dad62b90"></qiita-embed-ogp></p>
+<p>ただ、この記事の最後に書いたようにスクリプトでコードを自動生成する方が目的に会っていると思っていたのでPythonでQiitaApiにアクセスしようと思います</p>
+<h3>
+<span id="環境" class="fragment"></span><a href="#%E7%92%B0%E5%A2%83"><i class="fa fa-link"></i></a>環境</h3>
+<ul>
+<li>Python 3.8.9
+<ul>
+<li><code>pip install requests</code></li>
+</ul>
+</li>
+</ul>
+<h3>
+<span id="スクリプト" class="fragment"></span><a href="#%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%97%E3%83%88"><i class="fa fa-link"></i></a>スクリプト</h3>
+<p><code>requests</code>パッケージを使用しApiから記事一覧を取得します。簡潔に書くと以下</p>
+<div class="code-frame" data-lang="python"><div class="highlight"><pre><code><span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'https://qiita.com/api/v2/items?query=user:sYamaz'</span><span class="p">)</span>
+
+<span class="n">items</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+  <span class="c1"># item(=記事)ごとの処理
+</span>
+</code></pre></div></div>
+<p>この内容をもとにarticles.tsを出力できるようにします。</p>
+<p>期待する内容</p>
+<div class="code-frame" data-lang="typescript">
+<div class="code-lang"><span class="bold">constants/articles.ts</span></div>
+<div class="highlight"><pre><code><span class="k">export</span> <span class="kd">const</span> <span class="nx">articles</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="p">{</span>
+    <span class="na">rendered_body</span><span class="p">:</span> <span class="dl">'</span><span class="s1">........</span><span class="dl">'</span>
+    <span class="na">body</span><span class="p">:</span> <span class="dl">'</span><span class="s1">.......</span><span class="dl">'</span>
+    <span class="p">...</span> <span class="nx">略</span>
+  <span class="p">},</span>
+  <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+  <span class="p">...</span><span class="nx">略</span>
+<span class="p">]</span>
+</code></pre></div>
+</div>
+<details><summary>スクリプト全文（長いので折りたたみ）</summary><div>
+<div class="code-frame" data-lang="python"><div class="highlight"><pre><code><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">io</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="k">def</span> <span class="nf">Empty</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+  <span class="k">return</span> <span class="s">'{ }'</span>
+
+<span class="k">def</span> <span class="nf">Group</span><span class="p">(</span><span class="n">grp</span><span class="p">:</span><span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+  <span class="k">if</span><span class="p">(</span><span class="n">grp</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">Empty</span><span class="p">()</span>
+
+  <span class="n">created_at</span> <span class="o">=</span> <span class="n">grp</span><span class="p">[</span><span class="s">'created_at'</span><span class="p">]</span>
+  <span class="n">description</span> <span class="o">=</span> <span class="n">grp</span><span class="p">[</span><span class="s">'description'</span><span class="p">]</span>
+  <span class="n">name</span> <span class="o">=</span> <span class="n">grp</span><span class="p">[</span><span class="s">'name'</span><span class="p">]</span>
+  <span class="n">private</span> <span class="o">=</span> <span class="n">grp</span><span class="p">[</span><span class="s">'private'</span><span class="p">]</span>
+  <span class="n">updated_at</span> <span class="o">=</span> <span class="n">grp</span><span class="p">[</span><span class="s">'updated_at'</span><span class="p">]</span>
+  <span class="n">url_name</span> <span class="o">=</span> <span class="n">grp</span><span class="p">[</span><span class="s">'url_name'</span><span class="p">]</span>
+
+  <span class="n">arr</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'created_at: </span><span class="se">\\'</span><span class="si">{</span><span class="n">created_at</span><span class="si">}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'description: </span><span class="se">\\'</span><span class="si">{</span><span class="n">description</span><span class="si">}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'name: </span><span class="se">\\'</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'private: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">private</span><span class="p">).</span><span class="n">lower</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'updated_at: </span><span class="se">\\'</span><span class="si">{</span><span class="n">updated_at</span><span class="si">}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'url_name: </span><span class="se">\\'</span><span class="si">{</span><span class="n">url_name</span><span class="si">}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="k">return</span> <span class="s">'{'</span> <span class="o">+</span> <span class="s">',</span><span class="se">\\n</span><span class="s">'</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">+</span>  <span class="s">'}'</span>
+
+<span class="k">def</span> <span class="nf">Tag</span><span class="p">(</span><span class="n">tag</span><span class="p">:</span><span class="nb">dict</span><span class="p">):</span>
+  <span class="n">name</span> <span class="o">=</span> <span class="n">tag</span><span class="p">[</span><span class="s">'name'</span><span class="p">]</span>
+  <span class="n">versions</span> <span class="o">=</span> <span class="n">tag</span><span class="p">[</span><span class="s">'versions'</span><span class="p">]</span>
+  <span class="n">arr</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="n">delimiter</span> <span class="o">=</span> <span class="s">','</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'name: </span><span class="se">\\'</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">vals</span> <span class="o">=</span> <span class="n">delimiter</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="sa">f</span><span class="s">'</span><span class="se">\\'</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="se">\\'</span><span class="s">'</span> <span class="p">,</span><span class="n">versions</span><span class="p">))</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'versions: [ </span><span class="si">{</span><span class="n">vals</span><span class="si">}</span><span class="s"> ]'</span><span class="p">)</span>
+  <span class="k">return</span> <span class="s">'{'</span> <span class="o">+</span> <span class="n">delimiter</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">+</span> <span class="s">'}'</span>
+
+
+<span class="k">def</span> <span class="nf">Tags</span><span class="p">(</span><span class="n">tags</span><span class="p">):</span>
+  <span class="n">tags</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">tag</span><span class="p">:</span> <span class="n">Tag</span><span class="p">(</span><span class="n">tag</span><span class="p">),</span> <span class="n">tags</span><span class="p">)</span>
+  <span class="n">arr</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">tags</span><span class="p">:</span>
+    <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="s">'['</span> <span class="o">+</span> <span class="s">','</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">+</span> <span class="s">']'</span>
+
+<span class="k">def</span> <span class="nf">User</span><span class="p">(</span><span class="n">user</span><span class="p">:</span><span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+  <span class="n">description</span> <span class="o">=</span> <span class="n">user</span><span class="p">[</span><span class="s">'description'</span><span class="p">]</span>
+  <span class="n">facebook_id</span> <span class="o">=</span> <span class="n">user</span><span class="p">[</span><span class="s">'facebook_id'</span><span class="p">]</span>
+  <span class="n">followees_count</span> <span class="o">=</span> <span class="n">user</span><span class="p">[</span><span class="s">'followees_count'</span><span class="p">]</span>
+  <span class="n">followers_count</span> <span class="o">=</span> <span class="n">user</span><span class="p">[</span><span class="s">'followers_count'</span><span class="p">]</span>
+  <span class="n">github_login_name</span> <span class="o">=</span> <span class="n">user</span><span class="p">[</span><span class="s">'github_login_name'</span><span class="p">]</span>
+  <span class="nb">id</span> <span class="o">=</span> <span class="n">user</span><span class="p">[</span><span class="s">'id'</span><span class="p">]</span>
+  <span class="n">items_count</span> <span class="o">=</span> <span class="n">user</span><span class="p">[</span><span class="s">'items_count'</span><span class="p">]</span>
+  <span class="n">linkedin_id</span> <span class="o">=</span> <span class="n">user</span><span class="p">[</span><span class="s">'linkedin_id'</span><span class="p">]</span>
+  <span class="n">location</span> <span class="o">=</span> <span class="n">user</span><span class="p">[</span><span class="s">'location'</span><span class="p">]</span>
+  <span class="n">name</span> <span class="o">=</span> <span class="n">user</span><span class="p">[</span><span class="s">'name'</span><span class="p">]</span>
+  <span class="n">organization</span> <span class="o">=</span> <span class="n">user</span><span class="p">[</span><span class="s">'organization'</span><span class="p">]</span>
+  <span class="n">permanent_id</span> <span class="o">=</span> <span class="n">user</span><span class="p">[</span><span class="s">'permanent_id'</span><span class="p">]</span>
+  <span class="n">profile_image_url</span> <span class="o">=</span> <span class="n">user</span><span class="p">[</span><span class="s">'profile_image_url'</span><span class="p">]</span>
+  <span class="n">team_only</span> <span class="o">=</span> <span class="n">user</span><span class="p">[</span><span class="s">'team_only'</span><span class="p">]</span>
+  <span class="n">twitter_screen_name</span> <span class="o">=</span> <span class="n">user</span><span class="p">[</span><span class="s">'twitter_screen_name'</span><span class="p">]</span>
+  <span class="n">website_url</span> <span class="o">=</span> <span class="n">user</span><span class="p">[</span><span class="s">'website_url'</span><span class="p">]</span>
+
+  <span class="n">arr</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'description: \`</span><span class="si">{</span><span class="n">description</span><span class="si">}</span><span class="s">\`'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'facebook_id: </span><span class="se">\\'</span><span class="si">{</span><span class="n">facebook_id</span><span class="si">}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'followees_count: </span><span class="si">{</span><span class="n">followees_count</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'followers_count: </span><span class="si">{</span><span class="n">followers_count</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'github_login_name: </span><span class="se">\\'</span><span class="si">{</span><span class="n">github_login_name</span><span class="si">}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'id: </span><span class="se">\\'</span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'items_count: </span><span class="si">{</span><span class="n">items_count</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'linkedin_id: </span><span class="se">\\'</span><span class="si">{</span><span class="n">linkedin_id</span><span class="si">}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'location: </span><span class="se">\\'</span><span class="si">{</span><span class="n">location</span><span class="si">}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'name: </span><span class="se">\\'</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'organization: </span><span class="se">\\'</span><span class="si">{</span><span class="n">organization</span><span class="si">}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'permanent_id: </span><span class="se">\\'</span><span class="si">{</span><span class="n">permanent_id</span><span class="si">}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'profile_image_url: </span><span class="se">\\'</span><span class="si">{</span><span class="n">profile_image_url</span><span class="si">}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'team_only: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">team_only</span><span class="p">).</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'twitter_screen_name: </span><span class="se">\\'</span><span class="si">{</span><span class="n">twitter_screen_name</span><span class="si">}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'website_url: </span><span class="se">\\'</span><span class="si">{</span><span class="n">website_url</span><span class="si">}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="s">'{'</span> <span class="o">+</span> <span class="s">','</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">+</span> <span class="s">'}'</span>
+
+<span class="k">def</span> <span class="nf">TeamMembership</span><span class="p">(</span><span class="n">tm</span><span class="p">:</span><span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+  <span class="k">if</span><span class="p">(</span><span class="n">tm</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">Empty</span><span class="p">()</span>
+
+  <span class="n">arr</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="n">name</span> <span class="o">=</span> <span class="n">tm</span><span class="p">[</span><span class="s">'name'</span><span class="p">]</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'name: </span><span class="se">\\'</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="k">return</span> <span class="s">'{'</span> <span class="o">+</span> <span class="s">','</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">+</span> <span class="s">'}'</span>
+
+<span class="k">def</span> <span class="nf">Item</span><span class="p">(</span><span class="n">item</span><span class="p">:</span><span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+  <span class="n">arr</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="n">rendered_body</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s">'rendered_body'</span><span class="p">].</span><span class="n">replace</span><span class="p">(</span><span class="s">'</span><span class="se">\\\\</span><span class="s">'</span><span class="p">,</span> <span class="s">'</span><span class="se">\\\\\\\\</span><span class="s">'</span><span class="p">).</span><span class="n">replace</span><span class="p">(</span><span class="s">'\`'</span><span class="p">,</span> <span class="s">'\\\`'</span><span class="p">)</span>
+  <span class="n">body</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s">'body'</span><span class="p">].</span><span class="n">replace</span><span class="p">(</span><span class="s">'</span><span class="se">\\\\</span><span class="s">'</span><span class="p">,</span> <span class="s">'</span><span class="se">\\\\\\\\</span><span class="s">'</span><span class="p">).</span><span class="n">replace</span><span class="p">(</span><span class="s">'\`'</span><span class="p">,</span> <span class="s">'\\\`'</span><span class="p">)</span>
+  <span class="n">coediting</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s">'coediting'</span><span class="p">]</span>
+  <span class="n">comments_count</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s">'comments_count'</span><span class="p">]</span>
+  <span class="n">created_at</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s">'created_at'</span><span class="p">]</span>
+  <span class="n">group</span> <span class="o">=</span> <span class="n">Group</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s">'group'</span><span class="p">])</span> <span class="k">if</span> <span class="s">'group'</span> <span class="ow">in</span> <span class="n">item</span> <span class="k">else</span> <span class="n">Empty</span><span class="p">()</span>
+  <span class="nb">id</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s">'id'</span><span class="p">]</span>
+  <span class="n">likes_count</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s">'likes_count'</span><span class="p">]</span>
+  <span class="n">private</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s">'private'</span><span class="p">]</span>
+  <span class="n">tags</span> <span class="o">=</span> <span class="n">Tags</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s">'tags'</span><span class="p">])</span> <span class="k">if</span> <span class="s">'tags'</span> <span class="ow">in</span> <span class="n">item</span> <span class="k">else</span> <span class="s">'[]'</span>
+  <span class="n">title</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s">'title'</span><span class="p">]</span>
+  <span class="n">updated_at</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s">'updated_at'</span><span class="p">]</span>
+  <span class="n">url</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s">'url'</span><span class="p">]</span>
+  <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s">'user'</span><span class="p">])</span> <span class="k">if</span> <span class="s">'user'</span> <span class="ow">in</span> <span class="n">item</span> <span class="k">else</span> <span class="n">Empty</span><span class="p">()</span>
+  <span class="n">page_views_count</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s">'page_views_count'</span><span class="p">]</span>
+  <span class="n">team_membership</span> <span class="o">=</span> <span class="n">TeamMembership</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s">'team_membership'</span><span class="p">])</span> <span class="k">if</span> <span class="s">'team_membership'</span> <span class="ow">in</span> <span class="n">item</span> <span class="k">else</span> <span class="n">Empty</span><span class="p">()</span>
+
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'rendered_body: \`</span><span class="si">{</span><span class="n">rendered_body</span><span class="si">}</span><span class="s">\`'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'body: \`</span><span class="si">{</span><span class="n">body</span><span class="si">}</span><span class="s">\`'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'coediting: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">coediting</span><span class="p">).</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'comments_count: </span><span class="si">{</span><span class="n">comments_count</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'created_at: </span><span class="se">\\'</span><span class="si">{</span><span class="n">created_at</span><span class="si">}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'group: </span><span class="se">\\'</span><span class="si">{</span><span class="n">group</span><span class="si">}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'id: </span><span class="se">\\'</span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'likes_count: </span><span class="si">{</span><span class="n">likes_count</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'private: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">private</span><span class="p">).</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'tags: </span><span class="si">{</span><span class="n">tags</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'title: </span><span class="se">\\'</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'updated_at: </span><span class="se">\\'</span><span class="si">{</span><span class="n">updated_at</span><span class="si">}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'url: </span><span class="se">\\'</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'user: </span><span class="si">{</span><span class="n">user</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'page_views_count: </span><span class="si">{</span><span class="s">"null"</span> <span class="k">if</span> <span class="n">page_views_count</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">page_views_count</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'team_membership: </span><span class="si">{</span><span class="n">team_membership</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="s">'{'</span> <span class="o">+</span> <span class="s">','</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">+</span> <span class="s">'}'</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">out_path</span><span class="p">):</span>
+
+  <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'https://qiita.com/api/v2/items?query=user:sYamaz'</span><span class="p">)</span>
+  <span class="n">items</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
+
+  <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+    <span class="n">it</span> <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+    <span class="n">lines</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
+
+
+
+  <span class="n">text</span> <span class="o">=</span> <span class="s">'export const articles = ['</span> <span class="o">+</span> <span class="s">','</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span> <span class="o">+</span> <span class="s">']'</span>
+  <span class="k">if</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">out_path</span><span class="p">))</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
+    <span class="n">os</span><span class="p">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">out_path</span><span class="p">))</span>
+  <span class="n">f</span> <span class="o">=</span> <span class="n">io</span><span class="p">.</span><span class="nb">open</span><span class="p">(</span><span class="n">out_path</span><span class="p">,</span> <span class="s">'w'</span><span class="p">)</span>
+  <span class="n">f</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+  <span class="n">main</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</code></pre></div></div>
+</div></details>
+<h2>
+<span id="終わりに" class="fragment"></span><a href="#%E7%B5%82%E3%82%8F%E3%82%8A%E3%81%AB"><i class="fa fa-link"></i></a>終わりに</h2>
+<p>pythonでQiitaApiから自分の記事一覧を取得、tsファイルを生成することができました。</p>
+<p>次はGithub Actionsと連携させて、</p>
+<ul>
+<li>日1回Apiから取得 → tsファイル生成</li>
+<li>コミット</li>
+<li>Github Pagesデプロイ</li>
+</ul>
+<p>を目指そうと思います。</p>
+`,body: `先日@nuxt/axiosを使ってQiitaApiから自分の記事一覧を取得しました
+
+https://qiita.com/sYamaz/items/10c8c9db83e5dad62b90
+
+ただ、この記事の最後に書いたようにスクリプトでコードを自動生成する方が目的に会っていると思っていたのでPythonでQiitaApiにアクセスしようと思います
+
+### 環境
+
+* Python 3.8.9
+    * \`pip install requests\`
+
+### スクリプト
+
+\`requests\`パッケージを使用しApiから記事一覧を取得します。簡潔に書くと以下
+
+\`\`\`python
+import requests
+import json
+
+response = requests.get('https://qiita.com/api/v2/items?query=user:sYamaz')
+
+items = json.loads(response.text)
+for item in items:
+  # item(=記事)ごとの処理
+
+\`\`\`
+
+この内容をもとにarticles.tsを出力できるようにします。
+
+期待する内容
+
+\`\`\`constants/articles.ts
+export const articles = [
+  {
+    rendered_body: '........'
+    body: '.......'
+    ... 略
+  },
+  { ... }
+  ...略
+]
+\`\`\`
+
+<details><summary>スクリプト全文（長いので折りたたみ）</summary><div>
+
+\`\`\`python
+import sys
+import json
+import io
+import requests
+import os
+
+def Empty() -> str:
+  return '{ }'
+
+def Group(grp:dict) -> str:
+  if(grp is None):
+    return Empty()
+
+  created_at = grp['created_at']
+  description = grp['description']
+  name = grp['name']
+  private = grp['private']
+  updated_at = grp['updated_at']
+  url_name = grp['url_name']
+
+  arr = []
+  arr.append(f'created_at: \\'{created_at}\\'')
+  arr.append(f'description: \\'{description}\\'')
+  arr.append(f'name: \\'{name}\\'')
+  arr.append(f'private: {str(private).lower}')
+  arr.append(f'updated_at: \\'{updated_at}\\'')
+  arr.append(f'url_name: \\'{url_name}\\'')
+  return '{' + ',\\n'.join(arr) +  '}'
+
+def Tag(tag:dict):
+  name = tag['name']
+  versions = tag['versions']
+  arr = []
+  delimiter = ','
+  arr.append(f'name: \\'{name}\\'')
+  vals = delimiter.join(map(lambda v: f'\\'{v}\\'' ,versions))
+  arr.append(f'versions: [ {vals} ]')
+  return '{' + delimiter.join(arr) + '}'
+
+
+def Tags(tags):
+  tags = map(lambda tag: Tag(tag), tags)
+  arr = []
+  for tag in tags:
+    arr.append(tag)
+
+  return '[' + ','.join(arr) + ']'
+
+def User(user:dict) -> str:
+  description = user['description']
+  facebook_id = user['facebook_id']
+  followees_count = user['followees_count']
+  followers_count = user['followers_count']
+  github_login_name = user['github_login_name']
+  id = user['id']
+  items_count = user['items_count']
+  linkedin_id = user['linkedin_id']
+  location = user['location']
+  name = user['name']
+  organization = user['organization']
+  permanent_id = user['permanent_id']
+  profile_image_url = user['profile_image_url']
+  team_only = user['team_only']
+  twitter_screen_name = user['twitter_screen_name']
+  website_url = user['website_url']
+
+  arr = []
+  arr.append(f'description: \`{description}\`')
+  arr.append(f'facebook_id: \\'{facebook_id}\\'')
+  arr.append(f'followees_count: {followees_count}')
+  arr.append(f'followers_count: {followers_count}')
+  arr.append(f'github_login_name: \\'{github_login_name}\\'')
+  arr.append(f'id: \\'{id}\\'')
+  arr.append(f'items_count: {items_count}')
+  arr.append(f'linkedin_id: \\'{linkedin_id}\\'')
+  arr.append(f'location: \\'{location}\\'')
+  arr.append(f'name: \\'{name}\\'')
+  arr.append(f'organization: \\'{organization}\\'')
+  arr.append(f'permanent_id: \\'{permanent_id}\\'')
+  arr.append(f'profile_image_url: \\'{profile_image_url}\\'')
+  arr.append(f'team_only: {str(team_only).lower()}')
+  arr.append(f'twitter_screen_name: \\'{twitter_screen_name}\\'')
+  arr.append(f'website_url: \\'{website_url}\\'')
+
+  return '{' + ','.join(arr) + '}'
+
+def TeamMembership(tm:dict) -> str:
+  if(tm is None):
+    return Empty()
+
+  arr = []
+  name = tm['name']
+  arr.append(f'name: \\'{name}\\'')
+  return '{' + ','.join(arr) + '}'
+
+def Item(item:dict) -> str:
+  arr = []
+  rendered_body = item['rendered_body'].replace('\\\\', '\\\\\\\\').replace('\`', '\\\`')
+  body = item['body'].replace('\\\\', '\\\\\\\\').replace('\`', '\\\`')
+  coediting = item['coediting']
+  comments_count = item['comments_count']
+  created_at = item['created_at']
+  group = Group(item['group']) if 'group' in item else Empty()
+  id = item['id']
+  likes_count = item['likes_count']
+  private = item['private']
+  tags = Tags(item['tags']) if 'tags' in item else '[]'
+  title = item['title']
+  updated_at = item['updated_at']
+  url = item['url']
+  user = User(item['user']) if 'user' in item else Empty()
+  page_views_count = item['page_views_count']
+  team_membership = TeamMembership(item['team_membership']) if 'team_membership' in item else Empty()
+
+  arr.append(f'rendered_body: \`{rendered_body}\`')
+  arr.append(f'body: \`{body}\`')
+  arr.append(f'coediting: {str(coediting).lower()}')
+  arr.append(f'comments_count: {comments_count}')
+  arr.append(f'created_at: \\'{created_at}\\'')
+  arr.append(f'group: \\'{group}\\'')
+  arr.append(f'id: \\'{id}\\'')
+  arr.append(f'likes_count: {likes_count}')
+  arr.append(f'private: {str(private).lower()}')
+  arr.append(f'tags: {tags}')
+  arr.append(f'title: \\'{title}\\'')
+  arr.append(f'updated_at: \\'{updated_at}\\'')
+  arr.append(f'url: \\'{url}\\'')
+  arr.append(f'user: {user}')
+  arr.append(f'page_views_count: {"null" if page_views_count is None else page_views_count}')
+  arr.append(f'team_membership: {team_membership}')
+
+  return '{' + ','.join(arr) + '}'
+
+
+def main(out_path):
+
+  response = requests.get('https://qiita.com/api/v2/items?query=user:sYamaz')
+  items = json.loads(response.text)
+
+  lines = []
+  for item in items:
+    it = Item(item)
+    lines.append(it)
+
+
+
+  text = 'export const articles = [' + ','.join(lines) + ']'
+  if os.path.exists(os.path.dirname(out_path)) == False:
+    os.makedirs(os.path.dirname(out_path))
+  f = io.open(out_path, 'w')
+  f.write(text)
+
+if __name__ == '__main__':
+  main(sys.argv[1])
+\`\`\`
+
+</div></details>
+
+## 終わりに
+
+pythonでQiitaApiから自分の記事一覧を取得、tsファイルを生成することができました。
+
+次はGithub Actionsと連携させて、
+
+* 日1回Apiから取得 → tsファイル生成
+* コミット
+* Github Pagesデプロイ
+
+を目指そうと思います。
+`,coediting: false,comments_count: 0,created_at: '2022-05-24T22:58:05+09:00',group: '{ }',id: '2e5facc0032ed0801a26',likes_count: 0,private: false,tags: [{name: 'Python',versions: [  ]},{name: 'QiitaAPI',versions: [  ]},{name: 'Python3',versions: [  ]}],title: 'PythonでもQiitaApiから自分の記事一覧を取得したい',updated_at: '2022-05-24T23:15:23+09:00',url: 'https://qiita.com/sYamaz/items/2e5facc0032ed0801a26',user: {description: `職業Web (フロント、バック）開発者。
+
+過去dotnetプログラマもしていました。
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 14,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>GitHubpagesに自己紹介サイトを立てて少しずつ拡張しています。<br>
 今回、サイトにQiita記事へのリンクを貼りたい、けどリンクをペタペタ貼るのもつまらないということで、QiitaApiから私が書いた記事を取得しサイトに表示することにしました。</p>
 <h3>
 <span id="準備" class="fragment"></span><a href="#%E6%BA%96%E5%82%99"><i class="fa fa-link"></i></a>準備</h3>
@@ -348,10 +773,10 @@ Github Actionを使って定期的にApiアクセス＆コード自動生成→�
 自己紹介サイト
 
 * [https://syamaz.github.io/website-nuxt/](https://syamaz.github.io/website-nuxt/)
-`,coediting: false,comments_count: 0,created_at: '2022-05-23T22:46:08+09:00',group: '{ }',id: '10c8c9db83e5dad62b90',likes_count: 1,private: false,tags: [{},{},{},{}],title: '@nuxt/axiosを使ってQiita Apiから記事一覧を取得する',updated_at: '2022-05-23T22:46:08+09:00',url: 'https://qiita.com/sYamaz/items/10c8c9db83e5dad62b90',user: {description: `職業Web (フロント、バック）開発者。
+`,coediting: false,comments_count: 0,created_at: '2022-05-23T22:46:08+09:00',group: '{ }',id: '10c8c9db83e5dad62b90',likes_count: 1,private: false,tags: [{name: 'QiitaAPI',versions: [  ]},{name: 'Vue.js',versions: [  ]},{name: 'axios',versions: [  ]},{name: 'nuxt.js',versions: [  ]}],title: '@nuxt/axiosを使ってQiita Apiから記事一覧を取得する',updated_at: '2022-05-23T22:46:08+09:00',url: 'https://qiita.com/sYamaz/items/10c8c9db83e5dad62b90',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 13,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>2022年5月2日に初めてアプリをリリースしました。</p>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 14,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>2022年5月2日に初めてアプリをリリースしました。</p>
 <p>今回は提出からリリースに至るまでの審査の過程やリジェクト内容などをサクッと共有できればと思います。</p>
 <h2>
 <span id="2021年12月15日アプリ提出" class="fragment"></span><a href="#2021%E5%B9%B412%E6%9C%8815%E6%97%A5%E3%82%A2%E3%83%97%E3%83%AA%E6%8F%90%E5%87%BA"><i class="fa fa-link"></i></a>2021年12月15日：アプリ提出</h2>
@@ -447,10 +872,10 @@ App Store Connectの審査に自作アプリを提出しました。
 そのアプリ（iPhoneのみ）
 
 https://apps.apple.com/jp/app/routinetree/id1600469504
-`,coediting: false,comments_count: 0,created_at: '2022-05-11T21:35:51+09:00',group: '{ }',id: '6f6985cc71cd96dfdb4f',likes_count: 0,private: false,tags: [{},{}],title: '初めてAppStoreにアプリを出した話（ほぼ日記）',updated_at: '2022-05-11T21:35:51+09:00',url: 'https://qiita.com/sYamaz/items/6f6985cc71cd96dfdb4f',user: {description: `職業Web (フロント、バック）開発者。
+`,coediting: false,comments_count: 0,created_at: '2022-05-11T21:35:51+09:00',group: '{ }',id: '6f6985cc71cd96dfdb4f',likes_count: 0,private: false,tags: [{name: 'AppStore',versions: [  ]},{name: 'AppStoreConnect',versions: [  ]}],title: '初めてAppStoreにアプリを出した話（ほぼ日記）',updated_at: '2022-05-11T21:35:51+09:00',url: 'https://qiita.com/sYamaz/items/6f6985cc71cd96dfdb4f',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 13,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>タイトルの通りのことをやってみました。</p>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 14,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>タイトルの通りのことをやってみました。</p>
 
 <p>結論から言うと、Blazorをやっているとvueの学習コストが下がるので「dotnetしかやったことないよ！」という人にはVueはお勧めできるかと思います。</p>
 
@@ -1050,10 +1475,10 @@ export default router
 # まとめ
 
 dotnet開発者が→Webに手を広げていく際の一つの道が、「WinForm/WPF/UWP」→「Blazor」→「vue」なのかもしれません
-`,coediting: false,comments_count: 0,created_at: '2022-01-09T17:48:02+09:00',group: '{ }',id: '86f574ec54a1e23ea527',likes_count: 0,private: false,tags: [{},{},{},{}],title: 'C# Blazorで作ったサイトをVue.jsで作り直してみた',updated_at: '2022-01-09T17:48:02+09:00',url: 'https://qiita.com/sYamaz/items/86f574ec54a1e23ea527',user: {description: `職業Web (フロント、バック）開発者。
+`,coediting: false,comments_count: 0,created_at: '2022-01-09T17:48:02+09:00',group: '{ }',id: '86f574ec54a1e23ea527',likes_count: 0,private: false,tags: [{name: 'C#',versions: [  ]},{name: 'github-pages',versions: [  ]},{name: 'Vue.js',versions: [  ]},{name: 'Blazor',versions: [  ]}],title: 'C# Blazorで作ったサイトをVue.jsで作り直してみた',updated_at: '2022-01-09T17:48:02+09:00',url: 'https://qiita.com/sYamaz/items/86f574ec54a1e23ea527',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 13,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>本日で今年の仕事納めなので、2021/10/18から続けていた朝活について共有しようかと思います。<br>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 14,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>本日で今年の仕事納めなので、2021/10/18から続けていた朝活について共有しようかと思います。<br>
 （この記事も2021/12/29の朝活中に書いてます）</p>
 
 <h2>
@@ -1211,10 +1636,10 @@ iOSアプリやBlazorホームページはdotnet開発という仕事での経�
   * ホームページ作成も\`Blazor\`, \`GitHub pages\`だけに集中して不要な機能拡張やデザインへのこだわりを排除できた気がする。
 
 私個人としてはいいことの方が多かったので来年も続けます。
-`,coediting: false,comments_count: 0,created_at: '2021-12-29T20:55:34+09:00',group: '{ }',id: '664b898221f7fef2b384',likes_count: 1,private: false,tags: [{}],title: '朝活開発を約２カ月半行った結果',updated_at: '2021-12-29T20:55:34+09:00',url: 'https://qiita.com/sYamaz/items/664b898221f7fef2b384',user: {description: `職業Web (フロント、バック）開発者。
+`,coediting: false,comments_count: 0,created_at: '2021-12-29T20:55:34+09:00',group: '{ }',id: '664b898221f7fef2b384',likes_count: 1,private: false,tags: [{name: '朝活',versions: [  ]}],title: '朝活開発を約２カ月半行った結果',updated_at: '2021-12-29T20:55:34+09:00',url: 'https://qiita.com/sYamaz/items/664b898221f7fef2b384',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 13,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>GitHub Pagesで自分のポートフォリオサイト作りたいなと思い立ちましたが</p>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 14,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>GitHub Pagesで自分のポートフォリオサイト作りたいなと思い立ちましたが</p>
 
 <ul>
 <li>markdownで作るのはちょっと味気ない</li>
@@ -1777,10 +2202,10 @@ Skclusive.Material.LayoutではMainLayoutコンポーネントが定義済みに
 ## GitHub pagesについて参考にさせていただいた記事
 
 https://qiita.com/nobu17/items/116a0d1c949885e21d70
-`,coediting: false,comments_count: 0,created_at: '2021-12-25T20:01:57+09:00',group: '{ }',id: 'd0b12043f5b25a36d8e6',likes_count: 2,private: false,tags: [{},{},{},{},{}],title: 'BlazorでSkclusive-UIを使った話',updated_at: '2021-12-25T20:01:57+09:00',url: 'https://qiita.com/sYamaz/items/d0b12043f5b25a36d8e6',user: {description: `職業Web (フロント、バック）開発者。
+`,coediting: false,comments_count: 0,created_at: '2021-12-25T20:01:57+09:00',group: '{ }',id: 'd0b12043f5b25a36d8e6',likes_count: 2,private: false,tags: [{name: 'github-pages',versions: [  ]},{name: 'dotnet',versions: [  ]},{name: 'Blazor',versions: [  ]},{name: 'BlazorWebAssembly',versions: [  ]},{name: 'Skclusive-UI',versions: [  ]}],title: 'BlazorでSkclusive-UIを使った話',updated_at: '2021-12-25T20:01:57+09:00',url: 'https://qiita.com/sYamaz/items/d0b12043f5b25a36d8e6',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 13,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>Human Interface Guidelinesに沿った使い回しが効くようなTextFieldを検討しました</p>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 14,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>Human Interface Guidelinesに沿った使い回しが効くようなTextFieldを検討しました</p>
 
 <ul>
 <li>Swift5</li>
@@ -2088,10 +2513,10 @@ extension HIGTextField{
 ## 結果
 
 おおよそのパターンに対応できそうな汎用的なTextFieldができました。
-`,coediting: false,comments_count: 0,created_at: '2021-12-07T22:48:48+09:00',group: '{ }',id: 'cafa6a4e13db71d54eea',likes_count: 1,private: false,tags: [{},{},{},{}],title: 'SwiftUI: Human Interface Guidelinesに沿ったTextField',updated_at: '2021-12-07T22:51:23+09:00',url: 'https://qiita.com/sYamaz/items/cafa6a4e13db71d54eea',user: {description: `職業Web (フロント、バック）開発者。
+`,coediting: false,comments_count: 0,created_at: '2021-12-07T22:48:48+09:00',group: '{ }',id: 'cafa6a4e13db71d54eea',likes_count: 1,private: false,tags: [{name: 'Swift',versions: [  ]},{name: 'textField',versions: [  ]},{name: 'SwiftUI',versions: [  ]},{name: 'HumanInterfaceGuidelines',versions: [  ]}],title: 'SwiftUI: Human Interface Guidelinesに沿ったTextField',updated_at: '2021-12-07T22:51:23+09:00',url: 'https://qiita.com/sYamaz/items/cafa6a4e13db71d54eea',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 13,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>仕事ではdotnet（C#）アプリ開発、プライベートでSwift/SwiftUIでiOSアプリの開発をしています。<br>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 14,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>仕事ではdotnet（C#）アプリ開発、プライベートでSwift/SwiftUIでiOSアプリの開発をしています。<br>
 現在AppStoreへの初リリースを目標に黙々と手を動かしている途中ですが、その際に得られた感覚について共有できればと思います。<br>
 万人に共通するわけではないと思いますが誰かの気づきの一助になれば幸いです。</p>
 
@@ -2124,10 +2549,10 @@ Swift/SwiftUIについては見習いレベルですが、dotnet(C#)開発をそ
 現在は、多少汚いコードでもいいからまずは動くものを完成させることを最優先に実装を進めています。
 
 ちゃんと設計することで可読性やメンテナンス性の向上など期待できることは多いですが、初心者のうちはまだそのステージに立っていない（特に独自で設計するとき）ことを自覚しないといつまでたってもリリースできないことに気がつきました
-`,coediting: false,comments_count: 0,created_at: '2021-11-27T23:44:02+09:00',group: '{ }',id: 'cfc3f1bbd0b3cb512a19',likes_count: 4,private: false,tags: [{},{}],title: '新たなプログラミング言語に挑戦するときは見栄を捨てようという話',updated_at: '2021-11-27T23:44:02+09:00',url: 'https://qiita.com/sYamaz/items/cfc3f1bbd0b3cb512a19',user: {description: `職業Web (フロント、バック）開発者。
+`,coediting: false,comments_count: 0,created_at: '2021-11-27T23:44:02+09:00',group: '{ }',id: 'cfc3f1bbd0b3cb512a19',likes_count: 4,private: false,tags: [{name: '初心者',versions: [  ]},{name: '考え方',versions: [  ]}],title: '新たなプログラミング言語に挑戦するときは見栄を捨てようという話',updated_at: '2021-11-27T23:44:02+09:00',url: 'https://qiita.com/sYamaz/items/cfc3f1bbd0b3cb512a19',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 13,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>趣味でSwiftをいじっている私ですが<code>@Published</code>プロパティラッパーとかを見て、「dotnetアプリ開発でお世話になっているReactivePropertyっぽいな...」と思ってました。</p>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 14,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>趣味でSwiftをいじっている私ですが<code>@Published</code>プロパティラッパーとかを見て、「dotnetアプリ開発でお世話になっているReactivePropertyっぽいな...」と思ってました。</p>
 
 <p><qiita-embed-ogp src="https://github.com/runceel/ReactiveProperty"></qiita-embed-ogp></p>
 
@@ -2268,7 +2693,7 @@ Swift/SwiftUIについては見習いレベルですが、dotnet(C#)開発をそ
     <span class="kd">@ObservedObject</span> <span class="k">var</span> <span class="nv">vm</span> <span class="o">=</span> <span class="kt">ContentViewModel</span><span class="p">()</span>
     <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
         <span class="kt">VStack</span><span class="p">(</span><span class="nv">alignment</span><span class="p">:</span> <span class="o">.</span><span class="n">center</span><span class="p">,</span> <span class="nv">spacing</span><span class="p">:</span> <span class="kc">nil</span><span class="p">){</span>
-            <span class="kt">Text</span><span class="p">(</span><span class="s">"</span><span class="se">\(</span><span class="n">vm</span><span class="o">.</span><span class="n">value</span><span class="se">)</span><span class="s">"</span><span class="p">)</span><span class="o">.</span><span class="nf">padding</span><span class="p">()</span>
+            <span class="kt">Text</span><span class="p">(</span><span class="s">"</span><span class="se">\\(</span><span class="n">vm</span><span class="o">.</span><span class="n">value</span><span class="se">)</span><span class="s">"</span><span class="p">)</span><span class="o">.</span><span class="nf">padding</span><span class="p">()</span>
             <span class="kt">Button</span><span class="p">(</span><span class="s">"Count up"</span><span class="p">){</span><span class="n">vm</span><span class="o">.</span><span class="nf">countUp</span><span class="p">()}</span>
         <span class="p">}</span>
     <span class="p">}</span>
@@ -2448,7 +2873,7 @@ struct ContentView: View {
     @ObservedObject var vm = ContentViewModel()
     var body: some View {
         VStack(alignment: .center, spacing: nil){
-            Text("\(vm.value)").padding()
+            Text("\\(vm.value)").padding()
             Button("Count up"){vm.countUp()}
         }
     }
@@ -2494,10 +2919,10 @@ OK！
 
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/78aa4e0d-37be-b7e4-97e8-74dea33f0464.png)
 
-`,coediting: false,comments_count: 0,created_at: '2021-10-30T20:27:51+09:00',group: '{ }',id: '56e943c2536397cc41d4',likes_count: 0,private: false,tags: [{},{},{},{},{}],title: 'dotnet慣れした私がSwift CombineのAnyCancellableの取り扱いでハマった話',updated_at: '2021-10-30T20:27:51+09:00',url: 'https://qiita.com/sYamaz/items/56e943c2536397cc41d4',user: {description: `職業Web (フロント、バック）開発者。
+`,coediting: false,comments_count: 0,created_at: '2021-10-30T20:27:51+09:00',group: '{ }',id: '56e943c2536397cc41d4',likes_count: 0,private: false,tags: [{name: 'Swift',versions: [  ]},{name: 'ReactiveProperty',versions: [  ]},{name: 'dotnet',versions: [  ]},{name: 'Combine',versions: [  ]},{name: 'dotnetcore',versions: [  ]}],title: 'dotnet慣れした私がSwift CombineのAnyCancellableの取り扱いでハマった話',updated_at: '2021-10-30T20:27:51+09:00',url: 'https://qiita.com/sYamaz/items/56e943c2536397cc41d4',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 13,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p><a href="https://qiita.com/sYamaz/items/9ef8fceb5650fc7b7ad8" id="reference-6995fde8c3fa0eb25fc5">体温を最速で入力するためのユーザーインターフェースの検討(その1) - Qiita</a>で体温入力のユーザーインターフェースを考えていました。</p>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 14,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p><a href="https://qiita.com/sYamaz/items/9ef8fceb5650fc7b7ad8" id="reference-6995fde8c3fa0eb25fc5">体温を最速で入力するためのユーザーインターフェースの検討(その1) - Qiita</a>で体温入力のユーザーインターフェースを考えていました。</p>
 
 <p><a href="https://camo.qiitausercontent.com/46e7710c56e7d2ff88ce9381adc1d37869379798/68747470733a2f2f71696974612d696d6167652d73746f72652e73332e61702d6e6f727468656173742d312e616d617a6f6e6177732e636f6d2f302f323038383339392f38383238326330322d613538642d636566342d326132382d3333343131656166656433302e676966" target="_blank" rel="nofollow noopener"><img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F2088399%2F88282c02-a58d-cef4-2a28-33411eafed30.gif?ixlib=rb-4.0.0&amp;auto=format&amp;gif-q=60&amp;q=75&amp;s=b10cc6dae9aaf1acec2aa284de125c66" alt="タイトルなし.gif" data-canonical-src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/88282c02-a58d-cef4-2a28-33411eafed30.gif" srcset="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F2088399%2F88282c02-a58d-cef4-2a28-33411eafed30.gif?ixlib=rb-4.0.0&amp;auto=format&amp;gif-q=60&amp;q=75&amp;w=1400&amp;fit=max&amp;s=9e42e486d8a5ded7e523a609cbfd64e3 1x" loading="lazy"></a></p>
 
@@ -2610,9 +3035,9 @@ OK！
     <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
         <span class="c1">// 表示</span>
         <span class="kt">HStack</span><span class="p">(</span><span class="nv">alignment</span><span class="p">:</span> <span class="o">.</span><span class="n">firstTextBaseline</span><span class="p">,</span> <span class="nv">spacing</span><span class="p">:</span> <span class="mi">4</span><span class="p">){</span>
-            <span class="kt">Text</span><span class="p">(</span><span class="s">"</span><span class="se">\(</span><span class="n">vm</span><span class="o">.</span><span class="n">temp</span><span class="o">.</span><span class="n">higher</span><span class="se">)</span><span class="s">."</span><span class="p">)</span>
+            <span class="kt">Text</span><span class="p">(</span><span class="s">"</span><span class="se">\\(</span><span class="n">vm</span><span class="o">.</span><span class="n">temp</span><span class="o">.</span><span class="n">higher</span><span class="se">)</span><span class="s">."</span><span class="p">)</span>
                 <span class="o">.</span><span class="nf">foregroundColor</span><span class="p">(</span><span class="n">upperValueColor</span><span class="p">)</span>
-            <span class="kt">Text</span><span class="p">(</span><span class="s">"</span><span class="se">\(</span><span class="n">vm</span><span class="o">.</span><span class="n">temp</span><span class="o">.</span><span class="n">lower</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+            <span class="kt">Text</span><span class="p">(</span><span class="s">"</span><span class="se">\\(</span><span class="n">vm</span><span class="o">.</span><span class="n">temp</span><span class="o">.</span><span class="n">lower</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
                 <span class="o">.</span><span class="nf">foregroundColor</span><span class="p">(</span><span class="n">lowerValueColor</span><span class="p">)</span>
             <span class="kt">Text</span><span class="p">(</span><span class="s">"℃"</span><span class="p">)</span><span class="o">.</span><span class="nf">font</span><span class="p">(</span><span class="kt">Font</span><span class="o">.</span><span class="nf">system</span><span class="p">(</span><span class="nv">size</span><span class="p">:</span> <span class="mi">48</span><span class="p">))</span>
         <span class="p">}</span><span class="o">.</span><span class="nf">font</span><span class="p">(</span><span class="kt">Font</span><span class="o">.</span><span class="nf">system</span><span class="p">(</span><span class="nv">size</span><span class="p">:</span> <span class="mi">80</span><span class="p">))</span>
@@ -2803,9 +3228,9 @@ struct DisplayView: View {
     var body: some View {
         // 表示
         HStack(alignment: .firstTextBaseline, spacing: 4){
-            Text("\(vm.temp.higher).")
+            Text("\\(vm.temp.higher).")
                 .foregroundColor(upperValueColor)
-            Text("\(vm.temp.lower)")
+            Text("\\(vm.temp.lower)")
                 .foregroundColor(lowerValueColor)
             Text("℃").font(Font.system(size: 48))
         }.font(Font.system(size: 80))
@@ -2897,10 +3322,10 @@ extension Temperature{
 私が現時点でそうだと思っているMVVM化できました。
 
 Store-Value部分は使いやすいかどうか、テストしやすいかどうかなど今後検証してみたいところです。
-`,coediting: false,comments_count: 0,created_at: '2021-10-27T22:30:12+09:00',group: '{ }',id: '7b72e26ed48579eb814b',likes_count: 1,private: false,tags: [{},{},{}],title: 'SwiftUI/Swift: 既存のプロジェクトをMVVMパターンに変更する',updated_at: '2021-10-27T22:40:45+09:00',url: 'https://qiita.com/sYamaz/items/7b72e26ed48579eb814b',user: {description: `職業Web (フロント、バック）開発者。
+`,coediting: false,comments_count: 0,created_at: '2021-10-27T22:30:12+09:00',group: '{ }',id: '7b72e26ed48579eb814b',likes_count: 1,private: false,tags: [{name: 'MVVM',versions: [  ]},{name: 'Swift',versions: [  ]},{name: 'SwiftUI',versions: [  ]}],title: 'SwiftUI/Swift: 既存のプロジェクトをMVVMパターンに変更する',updated_at: '2021-10-27T22:40:45+09:00',url: 'https://qiita.com/sYamaz/items/7b72e26ed48579eb814b',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 13,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>体調管理（と会社での感染予防）のために毎朝体温を測るのが習慣化しています。<br>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 14,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>体調管理（と会社での感染予防）のために毎朝体温を測るのが習慣化しています。<br>
 しかし、朝の1分1秒は非常に貴重な時間です。できればiPhoneでの体温データ入力も極限まで無駄を減らしたいところです。</p>
 
 <p>そこで、体温を最速で入力するためにはどんな入力インターフェースがいいのかを検討してみようと思いました。</p>
@@ -3130,10 +3555,10 @@ https://github.com/sYamaz/BodyTempLogger
 * 音声入力
 
 
-`,coediting: false,comments_count: 0,created_at: '2021-10-17T22:22:01+09:00',group: '{ }',id: '9ef8fceb5650fc7b7ad8',likes_count: 1,private: false,tags: [{},{},{},{},{}],title: '体温を最速で入力するためのユーザーインターフェースの検討（その1）',updated_at: '2021-10-28T22:25:02+09:00',url: 'https://qiita.com/sYamaz/items/9ef8fceb5650fc7b7ad8',user: {description: `職業Web (フロント、バック）開発者。
+`,coediting: false,comments_count: 0,created_at: '2021-10-17T22:22:01+09:00',group: '{ }',id: '9ef8fceb5650fc7b7ad8',likes_count: 1,private: false,tags: [{name: 'UI',versions: [  ]},{name: 'Swift',versions: [  ]},{name: 'HealthKit',versions: [  ]},{name: 'ユーザーインターフェース',versions: [  ]},{name: 'SwiftUI',versions: [  ]}],title: '体温を最速で入力するためのユーザーインターフェースの検討（その1）',updated_at: '2021-10-28T22:25:02+09:00',url: 'https://qiita.com/sYamaz/items/9ef8fceb5650fc7b7ad8',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 13,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>まずは公式ドキュメントをちゃんと読む人間になろうと思いたち、Apple公式ドキュメント<strong>だけ</strong>を元にHealthKitにアクセスを試みました。</p>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 14,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>まずは公式ドキュメントをちゃんと読む人間になろうと思いたち、Apple公式ドキュメント<strong>だけ</strong>を元にHealthKitにアクセスを試みました。</p>
 
 <h1>
 <span id="環境" class="fragment"></span><a href="#%E7%92%B0%E5%A2%83"><i class="fa fa-link"></i></a>環境</h1>
@@ -3473,10 +3898,10 @@ class HealthCareRepository{
 適当なUI作って上記クラスを試した結果、シミュレータ上ではありますが無事に体温データをヘルスケアに登録することができました。大抵のことは公式Documentに書いてあることも実感できました。次回はUI予定です。
 
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/3e4d3f4a-c05a-c2c6-98ec-51bd21a79249.png)
-`,coediting: false,comments_count: 1,created_at: '2021-10-14T22:26:17+09:00',group: '{ }',id: 'cedfd869f74f14b4b25b',likes_count: 0,private: false,tags: [{},{}],title: 'Swift: HealthKitに体温データを入力する。できるだけ公式ドキュメントだけを見て。',updated_at: '2021-12-30T15:59:37+09:00',url: 'https://qiita.com/sYamaz/items/cedfd869f74f14b4b25b',user: {description: `職業Web (フロント、バック）開発者。
+`,coediting: false,comments_count: 1,created_at: '2021-10-14T22:26:17+09:00',group: '{ }',id: 'cedfd869f74f14b4b25b',likes_count: 0,private: false,tags: [{name: 'Swift',versions: [  ]},{name: 'HealthKit',versions: [  ]}],title: 'Swift: HealthKitに体温データを入力する。できるだけ公式ドキュメントだけを見て。',updated_at: '2021-12-30T15:59:37+09:00',url: 'https://qiita.com/sYamaz/items/cedfd869f74f14b4b25b',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 13,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>前回、<a href="https://qiita.com/sYamaz/items/1a29a2cb5b3207ad87dc" id="reference-b37a8931e3901955ed10">SwiftでMarkdownを解析してオブジェクトツリーに変換する</a>という記事を作成しましたが、今回はその続きです。</p>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 14,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>前回、<a href="https://qiita.com/sYamaz/items/1a29a2cb5b3207ad87dc" id="reference-b37a8931e3901955ed10">SwiftでMarkdownを解析してオブジェクトツリーに変換する</a>という記事を作成しましたが、今回はその続きです。</p>
 
 <p>尚、前回記事で「レンダリングはしてくれるけどオブジェクトツリーにしてくれるパッケージあまりないな...」と言いましたが大抵のSwiftのMarkdownレンダリング系パッケージは</p>
 
@@ -3703,10 +4128,10 @@ let result2 = parser.parse(text: "texttext")
 
 https://github.com/sYamaz/MarkdownAnalyzer
 
-`,coediting: false,comments_count: 0,created_at: '2021-10-03T22:30:32+09:00',group: '{ }',id: '31ef5374ad7c9a0dfde4',likes_count: 0,private: false,tags: [{},{},{},{}],title: 'Swift：開発中のMarkdown解析パッケージをもう少しテストしやすくする',updated_at: '2021-10-03T22:30:32+09:00',url: 'https://qiita.com/sYamaz/items/31ef5374ad7c9a0dfde4',user: {description: `職業Web (フロント、バック）開発者。
+`,coediting: false,comments_count: 0,created_at: '2021-10-03T22:30:32+09:00',group: '{ }',id: '31ef5374ad7c9a0dfde4',likes_count: 0,private: false,tags: [{name: 'test',versions: [  ]},{name: 'Markdown',versions: [  ]},{name: '構文解析',versions: [  ]},{name: 'Swift',versions: [  ]}],title: 'Swift：開発中のMarkdown解析パッケージをもう少しテストしやすくする',updated_at: '2021-10-03T22:30:32+09:00',url: 'https://qiita.com/sYamaz/items/31ef5374ad7c9a0dfde4',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 13,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>Markdownをレンダリングしてくれるパッケージはあるけど、オブジェクトツリーにしてくれるものは無いなと思ったのでやってみてます。</p>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 14,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>Markdownをレンダリングしてくれるパッケージはあるけど、オブジェクトツリーにしてくれるものは無いなと思ったのでやってみてます。</p>
 
 <p>オブジェクトツリーに変換できるとコードからMarkdownを扱いやすくなるんじゃないかと思ってます。</p>
 
@@ -3829,7 +4254,7 @@ Markdownの記法は以下の２つに分類できると考えました
             <span class="k">var</span> <span class="nv">nextInd</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="nf">index</span><span class="p">(</span><span class="nv">after</span><span class="p">:</span> <span class="n">ind</span><span class="p">)</span>
             <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"# "</span><span class="p">)){</span>
                 <span class="k">let</span> <span class="nv">blockSpan</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span>
-                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">){</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">){</span>
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseHeadline1</span><span class="p">(</span><span class="n">blockSpan</span><span class="p">[</span><span class="o">..&lt;</span><span class="n">r</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]))</span>
                     <span class="n">nextInd</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">upperBound</span>
                 <span class="p">}</span> <span class="k">else</span><span class="p">{</span>
@@ -3839,7 +4264,7 @@ Markdownの記法は以下の２つに分類できると考えました
             <span class="p">}</span>
             <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"## "</span><span class="p">)){</span>
                 <span class="k">let</span> <span class="nv">blockSpan</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span>
-                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">){</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">){</span>
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseHeadline2</span><span class="p">(</span><span class="n">blockSpan</span><span class="p">[</span><span class="o">..&lt;</span><span class="n">r</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]))</span>
                     <span class="n">nextInd</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">upperBound</span>
                 <span class="p">}</span> <span class="k">else</span><span class="p">{</span>
@@ -3849,7 +4274,7 @@ Markdownの記法は以下の２つに分類できると考えました
             <span class="p">}</span>
             <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"### "</span><span class="p">)){</span>
                 <span class="k">let</span> <span class="nv">blockSpan</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span>
-                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">){</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">){</span>
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseHeadline3</span><span class="p">(</span><span class="n">blockSpan</span><span class="p">[</span><span class="o">..&lt;</span><span class="n">r</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]))</span>
                     <span class="n">nextInd</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">upperBound</span>
                 <span class="p">}</span><span class="k">else</span><span class="p">{</span>
@@ -3859,7 +4284,7 @@ Markdownの記法は以下の２つに分類できると考えました
             <span class="p">}</span>
             <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"#### "</span><span class="p">)){</span>
                 <span class="k">let</span> <span class="nv">blockSpan</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span>
-                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">){</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">){</span>
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseHeadline4</span><span class="p">(</span><span class="n">blockSpan</span><span class="p">[</span><span class="o">..&lt;</span><span class="n">r</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]))</span>
                     <span class="n">nextInd</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">upperBound</span>
                 <span class="p">}</span><span class="k">else</span><span class="p">{</span>
@@ -3869,7 +4294,7 @@ Markdownの記法は以下の２つに分類できると考えました
             <span class="p">}</span>
             <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"##### "</span><span class="p">)){</span>
                 <span class="k">let</span> <span class="nv">blockSpan</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span>
-                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">){</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">){</span>
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseHeadline5</span><span class="p">(</span><span class="n">blockSpan</span><span class="p">[</span><span class="o">..&lt;</span><span class="n">r</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]))</span>
                     <span class="n">nextInd</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">upperBound</span>
                 <span class="p">}</span><span class="k">else</span><span class="p">{</span>
@@ -3879,7 +4304,7 @@ Markdownの記法は以下の２つに分類できると考えました
             <span class="p">}</span>
             <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"###### "</span><span class="p">)){</span>
                 <span class="k">let</span> <span class="nv">blockSpan</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span>
-                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">){</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">){</span>
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseHeadline6</span><span class="p">(</span><span class="n">blockSpan</span><span class="p">[</span><span class="o">..&lt;</span><span class="n">r</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]))</span>
                     <span class="n">nextInd</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">upperBound</span>
                 <span class="p">}</span><span class="k">else</span><span class="p">{</span>
@@ -3887,21 +4312,21 @@ Markdownの記法は以下の２つに分類できると考えました
                     <span class="k">break</span><span class="p">;</span>
                 <span class="p">}</span>
             <span class="p">}</span>
-            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"---</span><span class="se">\n\n</span><span class="s">"</span><span class="p">)){</span>
-                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"---</span><span class="se">\n\n</span><span class="s">"</span><span class="p">){</span>
-                    <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseHorizontalRule</span><span class="p">(</span><span class="s">"---</span><span class="se">\n\n</span><span class="s">"</span><span class="p">))</span>
+            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"---</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">)){</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"---</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">){</span>
+                    <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseHorizontalRule</span><span class="p">(</span><span class="s">"---</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">))</span>
                     <span class="n">nextInd</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">upperBound</span>
                 <span class="p">}</span>
             <span class="p">}</span>
-            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"===</span><span class="se">\n\n</span><span class="s">"</span><span class="p">)){</span>
-                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"===</span><span class="se">\n\n</span><span class="s">"</span><span class="p">){</span>
-                    <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseHorizontalRule</span><span class="p">(</span><span class="s">"===</span><span class="se">\n\n</span><span class="s">"</span><span class="p">))</span>
+            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"===</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">)){</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"===</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">){</span>
+                    <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseHorizontalRule</span><span class="p">(</span><span class="s">"===</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">))</span>
                     <span class="n">nextInd</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">upperBound</span>
                 <span class="p">}</span>
             <span class="p">}</span>
             <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"\`\`\`"</span><span class="p">)){</span>
                 <span class="k">if</span> <span class="k">let</span> <span class="nv">start</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"\`\`\`"</span><span class="p">){</span>
-                    <span class="k">if</span> <span class="k">let</span> <span class="nv">end</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">start</span><span class="o">.</span><span class="n">upperBound</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"\`\`\`</span><span class="se">\n\n</span><span class="s">"</span><span class="p">){</span>
+                    <span class="k">if</span> <span class="k">let</span> <span class="nv">end</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">start</span><span class="o">.</span><span class="n">upperBound</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"\`\`\`</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">){</span>
 
                         <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseCodeBlock</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">..&lt;</span><span class="n">end</span><span class="o">.</span><span class="n">upperBound</span><span class="p">]))</span>
                         <span class="n">nextInd</span> <span class="o">=</span> <span class="n">end</span><span class="o">.</span><span class="n">upperBound</span>
@@ -3913,7 +4338,7 @@ Markdownの記法は以下の２つに分類できると考えました
             <span class="p">}</span>
             <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"- "</span><span class="p">)){</span>
                 <span class="k">let</span> <span class="nv">blockSpan</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span>
-                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">){</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">){</span>
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseUnorderedList</span><span class="p">(</span><span class="n">blockSpan</span><span class="p">[</span><span class="o">..&lt;</span><span class="n">r</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]))</span>
                     <span class="n">nextInd</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">upperBound</span>
                 <span class="p">}</span><span class="k">else</span><span class="p">{</span>
@@ -3923,7 +4348,7 @@ Markdownの記法は以下の２つに分類できると考えました
             <span class="p">}</span>
             <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"* "</span><span class="p">)){</span>
                 <span class="k">let</span> <span class="nv">blockSpan</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span>
-                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">){</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">){</span>
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseUnorderedList</span><span class="p">(</span><span class="n">blockSpan</span><span class="p">[</span><span class="o">..&lt;</span><span class="n">r</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]))</span>
                     <span class="n">nextInd</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">upperBound</span>
                 <span class="p">}</span><span class="k">else</span><span class="p">{</span>
@@ -3933,7 +4358,7 @@ Markdownの記法は以下の２つに分類できると考えました
             <span class="p">}</span>
             <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"+ "</span><span class="p">)){</span>
                 <span class="k">let</span> <span class="nv">blockSpan</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span>
-                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">){</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">){</span>
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseUnorderedList</span><span class="p">(</span><span class="n">blockSpan</span><span class="p">[</span><span class="o">..&lt;</span><span class="n">r</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]))</span>
                     <span class="n">nextInd</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">upperBound</span>
                 <span class="p">}</span><span class="k">else</span><span class="p">{</span>
@@ -3943,7 +4368,7 @@ Markdownの記法は以下の２つに分類できると考えました
             <span class="p">}</span>
             <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"1. "</span><span class="p">)){</span>
                 <span class="k">let</span> <span class="nv">blockSpan</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span>
-                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">){</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">){</span>
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseOrderedList</span><span class="p">(</span><span class="n">blockSpan</span><span class="p">[</span><span class="o">..&lt;</span><span class="n">r</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]))</span>
                     <span class="n">nextInd</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">upperBound</span>
                 <span class="p">}</span><span class="k">else</span><span class="p">{</span>
@@ -3953,7 +4378,7 @@ Markdownの記法は以下の２つに分類できると考えました
             <span class="p">}</span>
             <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"&gt; "</span><span class="p">)){</span>
                 <span class="k">let</span> <span class="nv">blockSpan</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span>
-                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">){</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">){</span>
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseBlockQuote</span><span class="p">(</span><span class="n">blockSpan</span><span class="p">[</span><span class="o">..&lt;</span><span class="n">r</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]))</span>
                     <span class="n">nextInd</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">upperBound</span>
                 <span class="p">}</span><span class="k">else</span><span class="p">{</span>
@@ -3964,7 +4389,7 @@ Markdownの記法は以下の２つに分類できると考えました
             <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"|"</span><span class="p">)){</span>
                 <span class="c1">//table or paragragh</span>
                 <span class="k">let</span> <span class="nv">blockSpan</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span>
-                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"|</span><span class="se">\n\n</span><span class="s">"</span><span class="p">){</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"|</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">){</span>
 
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseTable</span><span class="p">(</span><span class="n">blockSpan</span><span class="p">[</span><span class="o">..&lt;</span><span class="n">r</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]))</span>
                     <span class="n">nextInd</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">upperBound</span>
@@ -3975,7 +4400,7 @@ Markdownの記法は以下の２つに分類できると考えました
             <span class="p">}</span>
             <span class="k">else</span><span class="p">{</span> <span class="c1">// paragragh</span>
                 <span class="k">let</span> <span class="nv">blockSpan</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span>
-                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">){</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">){</span>
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseParagragh</span><span class="p">(</span><span class="n">blockSpan</span><span class="p">[</span><span class="o">..&lt;</span><span class="n">r</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]))</span>
                     <span class="n">nextInd</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">upperBound</span>
                 <span class="p">}</span><span class="k">else</span><span class="p">{</span>
@@ -4050,7 +4475,7 @@ Markdownの記法は以下の２つに分類できると考えました
         <span class="k">var</span> <span class="nv">items</span><span class="p">:[</span><span class="kt">MDUnorderedListItem</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="kt">MDUnorderedListItem</span><span class="p">]()</span>
         <span class="k">var</span> <span class="nv">span</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">text</span><span class="o">.</span><span class="n">startIndex</span><span class="o">...</span><span class="p">]</span>
         <span class="k">while</span><span class="p">(</span><span class="kc">true</span><span class="p">){</span>
-            <span class="k">if</span> <span class="k">let</span> <span class="nv">endofLine</span> <span class="o">=</span> <span class="n">span</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">){</span>
+            <span class="k">if</span> <span class="k">let</span> <span class="nv">endofLine</span> <span class="o">=</span> <span class="n">span</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n</span><span class="s">"</span><span class="p">){</span>
                 <span class="k">let</span> <span class="nv">line</span> <span class="o">=</span> <span class="n">span</span><span class="p">[</span><span class="n">span</span><span class="o">.</span><span class="n">startIndex</span><span class="o">..&lt;</span><span class="n">endofLine</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]</span>
                 <span class="k">var</span> <span class="nv">lineTxt</span> <span class="o">=</span> <span class="kt">String</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
                 <span class="n">lineTxt</span><span class="o">.</span><span class="nf">removeFirst</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
@@ -4071,7 +4496,7 @@ Markdownの記法は以下の２つに分類できると考えました
         <span class="k">var</span> <span class="nv">items</span><span class="p">:[</span><span class="kt">MDOrderedListItem</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="kt">MDOrderedListItem</span><span class="p">]()</span>
         <span class="k">var</span> <span class="nv">span</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">text</span><span class="o">.</span><span class="n">startIndex</span><span class="o">...</span><span class="p">]</span>
         <span class="k">while</span><span class="p">(</span><span class="kc">true</span><span class="p">){</span>
-            <span class="k">if</span> <span class="k">let</span> <span class="nv">endofLine</span> <span class="o">=</span> <span class="n">span</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">){</span>
+            <span class="k">if</span> <span class="k">let</span> <span class="nv">endofLine</span> <span class="o">=</span> <span class="n">span</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n</span><span class="s">"</span><span class="p">){</span>
                 <span class="k">let</span> <span class="nv">line</span> <span class="o">=</span> <span class="n">span</span><span class="p">[</span><span class="n">span</span><span class="o">.</span><span class="n">startIndex</span><span class="o">..&lt;</span><span class="n">endofLine</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]</span>
                 <span class="k">var</span> <span class="nv">lineTxt</span> <span class="o">=</span> <span class="kt">String</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
                 <span class="n">lineTxt</span><span class="o">.</span><span class="nf">removeFirst</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
@@ -4091,12 +4516,12 @@ Markdownの記法は以下の２つに分類できると考えました
     <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseCodeBlock</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDBlockDelegate</span><span class="p">{</span>
         <span class="k">var</span> <span class="nv">data</span> <span class="o">=</span> <span class="n">text</span>
         <span class="n">data</span><span class="o">.</span><span class="nf">removeFirst</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-        <span class="k">let</span> <span class="nv">id</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span><span class="o">!</span>
+        <span class="k">let</span> <span class="nv">id</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n</span><span class="s">"</span><span class="p">)</span><span class="o">!</span>
 
         <span class="k">let</span> <span class="nv">langName</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="o">..&lt;</span><span class="n">id</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]</span>
 
         <span class="k">let</span> <span class="nv">content</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">id</span><span class="o">.</span><span class="n">upperBound</span><span class="o">...</span><span class="p">]</span>
-        <span class="k">var</span> <span class="nv">contentText</span> <span class="o">=</span> <span class="n">content</span><span class="o">.</span><span class="nf">trimmingCharacters</span><span class="p">(</span><span class="nv">in</span><span class="p">:</span> <span class="kt">CharacterSet</span><span class="p">(</span><span class="nv">charactersIn</span><span class="p">:</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">))</span>
+        <span class="k">var</span> <span class="nv">contentText</span> <span class="o">=</span> <span class="n">content</span><span class="o">.</span><span class="nf">trimmingCharacters</span><span class="p">(</span><span class="nv">in</span><span class="p">:</span> <span class="kt">CharacterSet</span><span class="p">(</span><span class="nv">charactersIn</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n</span><span class="s">"</span><span class="p">))</span>
         <span class="n">contentText</span><span class="o">.</span><span class="nf">removeLast</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="kt">MDCodeBlock</span><span class="p">(</span><span class="nv">lang</span><span class="p">:</span> <span class="kt">String</span><span class="p">(</span><span class="n">langName</span><span class="p">),</span> <span class="nv">multilineText</span><span class="p">:</span> <span class="kt">String</span><span class="p">(</span><span class="n">contentText</span><span class="p">))</span>
@@ -4107,7 +4532,7 @@ Markdownの記法は以下の２つに分類できると考えました
     <span class="p">}</span>
 
     <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseTable</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span> <span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDBlockDelegate</span><span class="p">{</span>
-        <span class="k">let</span> <span class="nv">lines</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="nf">split</span><span class="p">(</span><span class="nv">separator</span><span class="p">:</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+        <span class="k">let</span> <span class="nv">lines</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="nf">split</span><span class="p">(</span><span class="nv">separator</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n</span><span class="s">"</span><span class="p">)</span>
         <span class="k">if</span><span class="p">(</span><span class="n">lines</span><span class="o">.</span><span class="n">count</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">){</span>
             <span class="k">return</span> <span class="nf">parseParagragh</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
         <span class="p">}</span>
@@ -4522,7 +4947,7 @@ public class MarkdownAnalyzer
             var nextInd = text.index(after: ind)
             if(text[ind...].starts(with: "# ")){
                 let blockSpan = text[ind...]
-                if let r = blockSpan.range(of: "\n\n"){
+                if let r = blockSpan.range(of: "\\n\\n"){
                     blocks.append(parseHeadline1(blockSpan[..<r.lowerBound]))
                     nextInd = r.upperBound
                 } else{
@@ -4532,7 +4957,7 @@ public class MarkdownAnalyzer
             }
             else if(text[ind...].starts(with: "## ")){
                 let blockSpan = text[ind...]
-                if let r = blockSpan.range(of: "\n\n"){
+                if let r = blockSpan.range(of: "\\n\\n"){
                     blocks.append(parseHeadline2(blockSpan[..<r.lowerBound]))
                     nextInd = r.upperBound
                 } else{
@@ -4542,7 +4967,7 @@ public class MarkdownAnalyzer
             }
             else if(text[ind...].starts(with: "### ")){
                 let blockSpan = text[ind...]
-                if let r = blockSpan.range(of: "\n\n"){
+                if let r = blockSpan.range(of: "\\n\\n"){
                     blocks.append(parseHeadline3(blockSpan[..<r.lowerBound]))
                     nextInd = r.upperBound
                 }else{
@@ -4552,7 +4977,7 @@ public class MarkdownAnalyzer
             }
             else if(text[ind...].starts(with: "#### ")){
                 let blockSpan = text[ind...]
-                if let r = blockSpan.range(of: "\n\n"){
+                if let r = blockSpan.range(of: "\\n\\n"){
                     blocks.append(parseHeadline4(blockSpan[..<r.lowerBound]))
                     nextInd = r.upperBound
                 }else{
@@ -4562,7 +4987,7 @@ public class MarkdownAnalyzer
             }
             else if(text[ind...].starts(with: "##### ")){
                 let blockSpan = text[ind...]
-                if let r = blockSpan.range(of: "\n\n"){
+                if let r = blockSpan.range(of: "\\n\\n"){
                     blocks.append(parseHeadline5(blockSpan[..<r.lowerBound]))
                     nextInd = r.upperBound
                 }else{
@@ -4572,7 +4997,7 @@ public class MarkdownAnalyzer
             }
             else if(text[ind...].starts(with: "###### ")){
                 let blockSpan = text[ind...]
-                if let r = blockSpan.range(of: "\n\n"){
+                if let r = blockSpan.range(of: "\\n\\n"){
                     blocks.append(parseHeadline6(blockSpan[..<r.lowerBound]))
                     nextInd = r.upperBound
                 }else{
@@ -4580,21 +5005,21 @@ public class MarkdownAnalyzer
                     break;
                 }
             }
-            else if(text[ind...].starts(with: "---\n\n")){
-                if let r = text[ind...].range(of: "---\n\n"){
-                    blocks.append(parseHorizontalRule("---\n\n"))
+            else if(text[ind...].starts(with: "---\\n\\n")){
+                if let r = text[ind...].range(of: "---\\n\\n"){
+                    blocks.append(parseHorizontalRule("---\\n\\n"))
                     nextInd = r.upperBound
                 }
             }
-            else if(text[ind...].starts(with: "===\n\n")){
-                if let r = text[ind...].range(of: "===\n\n"){
-                    blocks.append(parseHorizontalRule("===\n\n"))
+            else if(text[ind...].starts(with: "===\\n\\n")){
+                if let r = text[ind...].range(of: "===\\n\\n"){
+                    blocks.append(parseHorizontalRule("===\\n\\n"))
                     nextInd = r.upperBound
                 }
             }
             else if(text[ind...].starts(with: "\`\`\`")){
                 if let start = text[ind...].range(of: "\`\`\`"){
-                    if let end = text[start.upperBound...].range(of: "\`\`\`\n\n"){
+                    if let end = text[start.upperBound...].range(of: "\`\`\`\\n\\n"){
                         
                         blocks.append(parseCodeBlock(text[ind..<end.upperBound]))
                         nextInd = end.upperBound
@@ -4606,7 +5031,7 @@ public class MarkdownAnalyzer
             }
             else if(text[ind...].starts(with: "- ")){
                 let blockSpan = text[ind...]
-                if let r = blockSpan.range(of: "\n\n"){
+                if let r = blockSpan.range(of: "\\n\\n"){
                     blocks.append(parseUnorderedList(blockSpan[..<r.lowerBound]))
                     nextInd = r.upperBound
                 }else{
@@ -4616,7 +5041,7 @@ public class MarkdownAnalyzer
             }
             else if(text[ind...].starts(with: "* ")){
                 let blockSpan = text[ind...]
-                if let r = blockSpan.range(of: "\n\n"){
+                if let r = blockSpan.range(of: "\\n\\n"){
                     blocks.append(parseUnorderedList(blockSpan[..<r.lowerBound]))
                     nextInd = r.upperBound
                 }else{
@@ -4626,7 +5051,7 @@ public class MarkdownAnalyzer
             }
             else if(text[ind...].starts(with: "+ ")){
                 let blockSpan = text[ind...]
-                if let r = blockSpan.range(of: "\n\n"){
+                if let r = blockSpan.range(of: "\\n\\n"){
                     blocks.append(parseUnorderedList(blockSpan[..<r.lowerBound]))
                     nextInd = r.upperBound
                 }else{
@@ -4636,7 +5061,7 @@ public class MarkdownAnalyzer
             }
             else if(text[ind...].starts(with: "1. ")){
                 let blockSpan = text[ind...]
-                if let r = blockSpan.range(of: "\n\n"){
+                if let r = blockSpan.range(of: "\\n\\n"){
                     blocks.append(parseOrderedList(blockSpan[..<r.lowerBound]))
                     nextInd = r.upperBound
                 }else{
@@ -4646,7 +5071,7 @@ public class MarkdownAnalyzer
             }
             else if(text[ind...].starts(with: "> ")){
                 let blockSpan = text[ind...]
-                if let r = blockSpan.range(of: "\n\n"){
+                if let r = blockSpan.range(of: "\\n\\n"){
                     blocks.append(parseBlockQuote(blockSpan[..<r.lowerBound]))
                     nextInd = r.upperBound
                 }else{
@@ -4657,7 +5082,7 @@ public class MarkdownAnalyzer
             else if(text[ind...].starts(with: "|")){
                 //table or paragragh
                 let blockSpan = text[ind...]
-                if let r = blockSpan.range(of: "|\n\n"){
+                if let r = blockSpan.range(of: "|\\n\\n"){
                     
                     blocks.append(parseTable(blockSpan[..<r.lowerBound]))
                     nextInd = r.upperBound
@@ -4668,7 +5093,7 @@ public class MarkdownAnalyzer
             }
             else{ // paragragh
                 let blockSpan = text[ind...]
-                if let r = blockSpan.range(of: "\n\n"){
+                if let r = blockSpan.range(of: "\\n\\n"){
                     blocks.append(parseParagragh(blockSpan[..<r.lowerBound]))
                     nextInd = r.upperBound
                 }else{
@@ -4743,7 +5168,7 @@ public class MarkdownAnalyzer
         var items:[MDUnorderedListItem] = [MDUnorderedListItem]()
         var span = text[text.startIndex...]
         while(true){
-            if let endofLine = span.range(of: "\n"){
+            if let endofLine = span.range(of: "\\n"){
                 let line = span[span.startIndex..<endofLine.lowerBound]
                 var lineTxt = String(line)
                 lineTxt.removeFirst(2)
@@ -4764,7 +5189,7 @@ public class MarkdownAnalyzer
         var items:[MDOrderedListItem] = [MDOrderedListItem]()
         var span = text[text.startIndex...]
         while(true){
-            if let endofLine = span.range(of: "\n"){
+            if let endofLine = span.range(of: "\\n"){
                 let line = span[span.startIndex..<endofLine.lowerBound]
                 var lineTxt = String(line)
                 lineTxt.removeFirst(2)
@@ -4784,12 +5209,12 @@ public class MarkdownAnalyzer
     private func parseCodeBlock(_ text:String.SubSequence) -> MDBlockDelegate{
         var data = text
         data.removeFirst(3)
-        let id = data.range(of: "\n")!
+        let id = data.range(of: "\\n")!
         
         let langName = data[..<id.lowerBound]
         
         let content = data[id.upperBound...]
-        var contentText = content.trimmingCharacters(in: CharacterSet(charactersIn: "\n"))
+        var contentText = content.trimmingCharacters(in: CharacterSet(charactersIn: "\\n"))
         contentText.removeLast(3)
         
         return MDCodeBlock(lang: String(langName), multilineText: String(contentText))
@@ -4800,7 +5225,7 @@ public class MarkdownAnalyzer
     }
     
     private func parseTable(_ text: String.SubSequence) -> MDBlockDelegate{
-        let lines = text.split(separator: "\n")
+        let lines = text.split(separator: "\\n")
         if(lines.count < 3){
             return parseParagragh(text)
         }
@@ -5130,7 +5555,7 @@ struct MDTableRow{
     var cells:[MDTableCell]
 }
 \`\`\`
-`,coediting: false,comments_count: 0,created_at: '2021-09-26T22:19:57+09:00',group: '{ }',id: '1a29a2cb5b3207ad87dc',likes_count: 3,private: false,tags: [{},{},{}],title: 'SwiftでMarkdownを解析してオブジェクトツリーに変換する',updated_at: '2021-10-06T07:54:17+09:00',url: 'https://qiita.com/sYamaz/items/1a29a2cb5b3207ad87dc',user: {description: `職業Web (フロント、バック）開発者。
+`,coediting: false,comments_count: 0,created_at: '2021-09-26T22:19:57+09:00',group: '{ }',id: '1a29a2cb5b3207ad87dc',likes_count: 3,private: false,tags: [{name: 'Markdown',versions: [  ]},{name: '構文解析',versions: [  ]},{name: 'Swift',versions: [  ]}],title: 'SwiftでMarkdownを解析してオブジェクトツリーに変換する',updated_at: '2021-10-06T07:54:17+09:00',url: 'https://qiita.com/sYamaz/items/1a29a2cb5b3207ad87dc',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 13,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }}]
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 14,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }}]
