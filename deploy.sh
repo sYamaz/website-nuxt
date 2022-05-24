@@ -1,5 +1,5 @@
-npm run build:gh-pages
+yarn build:gh-pages
 
-npm run generate:gh-pages
+yarn generate:gh-pages
 
-npm run deploy
+yarn deploy
