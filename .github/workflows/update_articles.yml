@@ -20,11 +20,19 @@ jobs:
         with:
           message: 'Update constants/articles.ts'
   deploy:
+    needs: update_articles # deployジョブの実行条件
+
     runs-on: ubuntu-latest
     name: Checkout, build, deploy
     steps:
       - uses: actions/checkout@v3
-      - name: aaa
-        run: |
-          yarn
-          sh ./deploy.sh
+      - name: Restore packages
+        run: yarn
+      - name: Build
+        run: yarn generate:gh-pages
+      - name: Deploy (puth dist dir to gh-pages branch)
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          push_dir: ./dist
+          publish_branch: gh-pages
