@@ -1,4 +1,136 @@
-export const articles = [{rendered_body: `<p>先日@nuxt/axiosを使ってQiitaApiから自分の記事一覧を取得しました</p>
+export const articles = [{rendered_body: `<p>PythonでQiitaApiから自分の記事一覧を取得し、コードを自動生成できるようになりました。<br>
+今回はGitHub Actionsを用いて、</p>
+<ol>
+<li>QiitaApiから記事一覧を取得し、コードを自動生成</li>
+<li>コミット、プッシュ</li>
+<li>GitHub Pagesにデプロイ</li>
+</ol>
+<p>の一連の作業を毎日朝の３時に実行できるようにします。ということで以下のworkflowを作成しました。</p>
+<div class="code-frame" data-lang="yaml">
+<div class="code-lang"><span class="bold">~/github/workflows/update_articles.yaml</span></div>
+<div class="highlight"><pre><code><span class="na">name</span><span class="pi">:</span> <span class="s">GitHub Pages cron deploy</span>
+
+<span class="na">on</span><span class="pi">:</span>
+  <span class="na">schedule</span><span class="pi">:</span>
+    <span class="c1"># 分 時 日 月 曜日 コマンド  UTC時間</span>
+    <span class="c1"># 毎日日本時間3時に実行(設定時間の9時間後が日本時間になる)</span>
+    <span class="pi">-</span> <span class="na">cron</span><span class="pi">:</span> <span class="s1">'</span><span class="s">0</span><span class="nv"> </span><span class="s">18</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*'</span>
+  <span class="na">workflow_dispatch</span><span class="pi">:</span>
+<span class="na">jobs</span><span class="pi">:</span>
+  <span class="na">update_articles</span><span class="pi">:</span>
+    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span> 
+    <span class="c1"># Python3がプリインストールされており、バージョンも特に気にしないため、actions/setup-pythonは今回は使わない</span>
+    <span class="na">name</span><span class="pi">:</span> <span class="s">Update constants/articles.ts and marge</span>
+    <span class="na">steps</span><span class="pi">:</span>
+      <span class="c1"># デフォルトブランチをチェックアウトする</span>
+      <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/checkout@v3</span>
+      <span class="c1"># pythonモジュールをGithub Actionsコンテナ内に復元する</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Setup python modules</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="s">pip3 install -r requirements.txt</span>
+      <span class="c1"># QiitaApiから記事を取得し、コードを自動生成するスクリプトを実行</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Generate articles.ts</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="s">python3 -B scripts/articles_generator.py constants/articles.ts</span>
+      <span class="c1"># コミットしてプッシュ</span>
+      <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">EndBug/add-and-commit@v9</span>
+        <span class="na">with</span><span class="pi">:</span>
+          <span class="na">message</span><span class="pi">:</span> <span class="s1">'</span><span class="s">Update</span><span class="nv"> </span><span class="s">constants/articles.ts'</span>
+  <span class="na">deploy</span><span class="pi">:</span>
+    <span class="c1"># 上のjobが終わってから実行（設定しない場合並列に実行される）</span>
+    <span class="na">needs</span><span class="pi">:</span> <span class="s">update_articles</span>
+
+    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
+    <span class="na">name</span><span class="pi">:</span> <span class="s">Checkout, build, deploy</span>
+    <span class="na">steps</span><span class="pi">:</span>
+      <span class="c1"># jobごとにコンテナが異なるのでチェックアウトし直す</span>
+      <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/checkout@v3</span>
+      <span class="c1"># yarn (またはyarn install)でパッケージを取得</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Restore packages</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="s">yarn</span>
+      <span class="c1"># ビルド（中身は環境変数の指定とnuxt build）</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Build</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="s">yarn generate:gh-pages</span>
+      <span class="c1"># Github Pagesのブランチ(gh-pages)へdistフォルダの中身をデプロイ</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Deploy (puth dist dir to gh-pages branch)</span>
+        <span class="na">uses</span><span class="pi">:</span> <span class="s">peaceiris/actions-gh-pages@v3</span>
+        <span class="na">with</span><span class="pi">:</span>
+          <span class="na">github_token</span><span class="pi">:</span> <span class="s">${{ secrets.GITHUB_TOKEN }}</span>
+          <span class="na">publish_dir</span><span class="pi">:</span> <span class="s">./dist</span>
+          <span class="na">publish_branch</span><span class="pi">:</span> <span class="s">gh-pages</span>
+</code></pre></div>
+</div>
+<h2>
+<span id="結果" class="fragment"></span><a href="#%E7%B5%90%E6%9E%9C"><i class="fa fa-link"></i></a>結果</h2>
+<p>今日の3時ごろに実行されていたようなのでOKです</p>
+<p><qiita-embed-ogp src="https://github.com/sYamaz/website-nuxt/actions/runs/2379795524"></qiita-embed-ogp></p>
+`,body: `PythonでQiitaApiから自分の記事一覧を取得し、コードを自動生成できるようになりました。
+今回はGitHub Actionsを用いて、
+
+1. QiitaApiから記事一覧を取得し、コードを自動生成
+2. コミット、プッシュ
+3. GitHub Pagesにデプロイ
+
+の一連の作業を毎日朝の３時に実行できるようにします。ということで以下のworkflowを作成しました。
+
+\`\`\`~/github/workflows/update_articles.yaml
+name: GitHub Pages cron deploy
+
+on:
+  schedule:
+    # 分 時 日 月 曜日 コマンド  UTC時間
+    # 毎日日本時間3時に実行(設定時間の9時間後が日本時間になる)
+    - cron: '0 18 * * *'
+  workflow_dispatch:
+jobs:
+  update_articles:
+    runs-on: ubuntu-latest 
+    # Python3がプリインストールされており、バージョンも特に気にしないため、actions/setup-pythonは今回は使わない
+    name: Update constants/articles.ts and marge
+    steps:
+      # デフォルトブランチをチェックアウトする
+      - uses: actions/checkout@v3
+      # pythonモジュールをGithub Actionsコンテナ内に復元する
+      - name: Setup python modules
+        run: pip3 install -r requirements.txt
+      # QiitaApiから記事を取得し、コードを自動生成するスクリプトを実行
+      - name: Generate articles.ts
+        run: python3 -B scripts/articles_generator.py constants/articles.ts
+      # コミットしてプッシュ
+      - uses: EndBug/add-and-commit@v9
+        with:
+          message: 'Update constants/articles.ts'
+  deploy:
+    # 上のjobが終わってから実行（設定しない場合並列に実行される）
+    needs: update_articles
+
+    runs-on: ubuntu-latest
+    name: Checkout, build, deploy
+    steps:
+      # jobごとにコンテナが異なるのでチェックアウトし直す
+      - uses: actions/checkout@v3
+      # yarn (またはyarn install)でパッケージを取得
+      - name: Restore packages
+        run: yarn
+      # ビルド（中身は環境変数の指定とnuxt build）
+      - name: Build
+        run: yarn generate:gh-pages
+      # Github Pagesのブランチ(gh-pages)へdistフォルダの中身をデプロイ
+      - name: Deploy (puth dist dir to gh-pages branch)
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: gh-pages
+\`\`\`
+
+## 結果
+
+今日の3時ごろに実行されていたようなのでOKです
+
+https://github.com/sYamaz/website-nuxt/actions/runs/2379795524
+`,coediting: false,comments_count: 0,created_at: '2022-05-25T20:28:51+09:00',group: '{ }',id: '4a647ad0fafbf0e1e6c0',likes_count: 1,private: false,tags: [{name: 'QiitaAPI',versions: [  ]},{name: 'githubpages',versions: [  ]},{name: 'GitHubActions',versions: [  ]}],title: 'GitHubPagesの内容をGitHubActionsを使って自動更新する',updated_at: '2022-05-25T20:28:51+09:00',url: 'https://qiita.com/sYamaz/items/4a647ad0fafbf0e1e6c0',user: {description: `職業Web (フロント、バック）開発者。
+
+過去dotnetプログラマもしていました。
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 15,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>先日@nuxt/axiosを使ってQiitaApiから自分の記事一覧を取得しました</p>
 <p><qiita-embed-ogp src="https://qiita.com/sYamaz/items/10c8c9db83e5dad62b90"></qiita-embed-ogp></p>
 <p>ただ、この記事の最後に書いたようにスクリプトでコードを自動生成する方が目的に会っていると思っていたのでPythonでQiitaApiにアクセスしようと思います</p>
 <h3>
@@ -423,7 +555,7 @@ pythonでQiitaApiから自分の記事一覧を取得、tsファイルを生成�
 `,coediting: false,comments_count: 0,created_at: '2022-05-24T22:58:05+09:00',group: '{ }',id: '2e5facc0032ed0801a26',likes_count: 0,private: false,tags: [{name: 'Python',versions: [  ]},{name: 'QiitaAPI',versions: [  ]},{name: 'Python3',versions: [  ]}],title: 'PythonでもQiitaApiから自分の記事一覧を取得したい',updated_at: '2022-05-24T23:15:23+09:00',url: 'https://qiita.com/sYamaz/items/2e5facc0032ed0801a26',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 14,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>GitHubpagesに自己紹介サイトを立てて少しずつ拡張しています。<br>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 15,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>GitHubpagesに自己紹介サイトを立てて少しずつ拡張しています。<br>
 今回、サイトにQiita記事へのリンクを貼りたい、けどリンクをペタペタ貼るのもつまらないということで、QiitaApiから私が書いた記事を取得しサイトに表示することにしました。</p>
 <h3>
 <span id="準備" class="fragment"></span><a href="#%E6%BA%96%E5%82%99"><i class="fa fa-link"></i></a>準備</h3>
@@ -776,7 +908,7 @@ Github Actionを使って定期的にApiアクセス＆コード自動生成→�
 `,coediting: false,comments_count: 0,created_at: '2022-05-23T22:46:08+09:00',group: '{ }',id: '10c8c9db83e5dad62b90',likes_count: 1,private: false,tags: [{name: 'QiitaAPI',versions: [  ]},{name: 'Vue.js',versions: [  ]},{name: 'axios',versions: [  ]},{name: 'nuxt.js',versions: [  ]}],title: '@nuxt/axiosを使ってQiita Apiから記事一覧を取得する',updated_at: '2022-05-23T22:46:08+09:00',url: 'https://qiita.com/sYamaz/items/10c8c9db83e5dad62b90',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 14,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>2022年5月2日に初めてアプリをリリースしました。</p>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 15,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>2022年5月2日に初めてアプリをリリースしました。</p>
 <p>今回は提出からリリースに至るまでの審査の過程やリジェクト内容などをサクッと共有できればと思います。</p>
 <h2>
 <span id="2021年12月15日アプリ提出" class="fragment"></span><a href="#2021%E5%B9%B412%E6%9C%8815%E6%97%A5%E3%82%A2%E3%83%97%E3%83%AA%E6%8F%90%E5%87%BA"><i class="fa fa-link"></i></a>2021年12月15日：アプリ提出</h2>
@@ -875,7 +1007,7 @@ https://apps.apple.com/jp/app/routinetree/id1600469504
 `,coediting: false,comments_count: 0,created_at: '2022-05-11T21:35:51+09:00',group: '{ }',id: '6f6985cc71cd96dfdb4f',likes_count: 0,private: false,tags: [{name: 'AppStore',versions: [  ]},{name: 'AppStoreConnect',versions: [  ]}],title: '初めてAppStoreにアプリを出した話（ほぼ日記）',updated_at: '2022-05-11T21:35:51+09:00',url: 'https://qiita.com/sYamaz/items/6f6985cc71cd96dfdb4f',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 14,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>タイトルの通りのことをやってみました。</p>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 15,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>タイトルの通りのことをやってみました。</p>
 
 <p>結論から言うと、Blazorをやっているとvueの学習コストが下がるので「dotnetしかやったことないよ！」という人にはVueはお勧めできるかと思います。</p>
 
@@ -1478,7 +1610,7 @@ dotnet開発者が→Webに手を広げていく際の一つの道が、「WinFo
 `,coediting: false,comments_count: 0,created_at: '2022-01-09T17:48:02+09:00',group: '{ }',id: '86f574ec54a1e23ea527',likes_count: 0,private: false,tags: [{name: 'C#',versions: [  ]},{name: 'github-pages',versions: [  ]},{name: 'Vue.js',versions: [  ]},{name: 'Blazor',versions: [  ]}],title: 'C# Blazorで作ったサイトをVue.jsで作り直してみた',updated_at: '2022-01-09T17:48:02+09:00',url: 'https://qiita.com/sYamaz/items/86f574ec54a1e23ea527',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 14,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>本日で今年の仕事納めなので、2021/10/18から続けていた朝活について共有しようかと思います。<br>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 15,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>本日で今年の仕事納めなので、2021/10/18から続けていた朝活について共有しようかと思います。<br>
 （この記事も2021/12/29の朝活中に書いてます）</p>
 
 <h2>
@@ -1639,7 +1771,7 @@ iOSアプリやBlazorホームページはdotnet開発という仕事での経�
 `,coediting: false,comments_count: 0,created_at: '2021-12-29T20:55:34+09:00',group: '{ }',id: '664b898221f7fef2b384',likes_count: 1,private: false,tags: [{name: '朝活',versions: [  ]}],title: '朝活開発を約２カ月半行った結果',updated_at: '2021-12-29T20:55:34+09:00',url: 'https://qiita.com/sYamaz/items/664b898221f7fef2b384',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 14,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>GitHub Pagesで自分のポートフォリオサイト作りたいなと思い立ちましたが</p>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 15,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>GitHub Pagesで自分のポートフォリオサイト作りたいなと思い立ちましたが</p>
 
 <ul>
 <li>markdownで作るのはちょっと味気ない</li>
@@ -2205,7 +2337,7 @@ https://qiita.com/nobu17/items/116a0d1c949885e21d70
 `,coediting: false,comments_count: 0,created_at: '2021-12-25T20:01:57+09:00',group: '{ }',id: 'd0b12043f5b25a36d8e6',likes_count: 2,private: false,tags: [{name: 'github-pages',versions: [  ]},{name: 'dotnet',versions: [  ]},{name: 'Blazor',versions: [  ]},{name: 'BlazorWebAssembly',versions: [  ]},{name: 'Skclusive-UI',versions: [  ]}],title: 'BlazorでSkclusive-UIを使った話',updated_at: '2021-12-25T20:01:57+09:00',url: 'https://qiita.com/sYamaz/items/d0b12043f5b25a36d8e6',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 14,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>Human Interface Guidelinesに沿った使い回しが効くようなTextFieldを検討しました</p>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 15,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>Human Interface Guidelinesに沿った使い回しが効くようなTextFieldを検討しました</p>
 
 <ul>
 <li>Swift5</li>
@@ -2516,7 +2648,7 @@ extension HIGTextField{
 `,coediting: false,comments_count: 0,created_at: '2021-12-07T22:48:48+09:00',group: '{ }',id: 'cafa6a4e13db71d54eea',likes_count: 1,private: false,tags: [{name: 'Swift',versions: [  ]},{name: 'textField',versions: [  ]},{name: 'SwiftUI',versions: [  ]},{name: 'HumanInterfaceGuidelines',versions: [  ]}],title: 'SwiftUI: Human Interface Guidelinesに沿ったTextField',updated_at: '2021-12-07T22:51:23+09:00',url: 'https://qiita.com/sYamaz/items/cafa6a4e13db71d54eea',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 14,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>仕事ではdotnet（C#）アプリ開発、プライベートでSwift/SwiftUIでiOSアプリの開発をしています。<br>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 15,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>仕事ではdotnet（C#）アプリ開発、プライベートでSwift/SwiftUIでiOSアプリの開発をしています。<br>
 現在AppStoreへの初リリースを目標に黙々と手を動かしている途中ですが、その際に得られた感覚について共有できればと思います。<br>
 万人に共通するわけではないと思いますが誰かの気づきの一助になれば幸いです。</p>
 
@@ -2552,7 +2684,7 @@ Swift/SwiftUIについては見習いレベルですが、dotnet(C#)開発をそ
 `,coediting: false,comments_count: 0,created_at: '2021-11-27T23:44:02+09:00',group: '{ }',id: 'cfc3f1bbd0b3cb512a19',likes_count: 4,private: false,tags: [{name: '初心者',versions: [  ]},{name: '考え方',versions: [  ]}],title: '新たなプログラミング言語に挑戦するときは見栄を捨てようという話',updated_at: '2021-11-27T23:44:02+09:00',url: 'https://qiita.com/sYamaz/items/cfc3f1bbd0b3cb512a19',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 14,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>趣味でSwiftをいじっている私ですが<code>@Published</code>プロパティラッパーとかを見て、「dotnetアプリ開発でお世話になっているReactivePropertyっぽいな...」と思ってました。</p>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 15,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>趣味でSwiftをいじっている私ですが<code>@Published</code>プロパティラッパーとかを見て、「dotnetアプリ開発でお世話になっているReactivePropertyっぽいな...」と思ってました。</p>
 
 <p><qiita-embed-ogp src="https://github.com/runceel/ReactiveProperty"></qiita-embed-ogp></p>
 
@@ -2922,7 +3054,7 @@ OK！
 `,coediting: false,comments_count: 0,created_at: '2021-10-30T20:27:51+09:00',group: '{ }',id: '56e943c2536397cc41d4',likes_count: 0,private: false,tags: [{name: 'Swift',versions: [  ]},{name: 'ReactiveProperty',versions: [  ]},{name: 'dotnet',versions: [  ]},{name: 'Combine',versions: [  ]},{name: 'dotnetcore',versions: [  ]}],title: 'dotnet慣れした私がSwift CombineのAnyCancellableの取り扱いでハマった話',updated_at: '2021-10-30T20:27:51+09:00',url: 'https://qiita.com/sYamaz/items/56e943c2536397cc41d4',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 14,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p><a href="https://qiita.com/sYamaz/items/9ef8fceb5650fc7b7ad8" id="reference-6995fde8c3fa0eb25fc5">体温を最速で入力するためのユーザーインターフェースの検討(その1) - Qiita</a>で体温入力のユーザーインターフェースを考えていました。</p>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 15,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p><a href="https://qiita.com/sYamaz/items/9ef8fceb5650fc7b7ad8" id="reference-6995fde8c3fa0eb25fc5">体温を最速で入力するためのユーザーインターフェースの検討(その1) - Qiita</a>で体温入力のユーザーインターフェースを考えていました。</p>
 
 <p><a href="https://camo.qiitausercontent.com/46e7710c56e7d2ff88ce9381adc1d37869379798/68747470733a2f2f71696974612d696d6167652d73746f72652e73332e61702d6e6f727468656173742d312e616d617a6f6e6177732e636f6d2f302f323038383339392f38383238326330322d613538642d636566342d326132382d3333343131656166656433302e676966" target="_blank" rel="nofollow noopener"><img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F2088399%2F88282c02-a58d-cef4-2a28-33411eafed30.gif?ixlib=rb-4.0.0&amp;auto=format&amp;gif-q=60&amp;q=75&amp;s=b10cc6dae9aaf1acec2aa284de125c66" alt="タイトルなし.gif" data-canonical-src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/88282c02-a58d-cef4-2a28-33411eafed30.gif" srcset="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F2088399%2F88282c02-a58d-cef4-2a28-33411eafed30.gif?ixlib=rb-4.0.0&amp;auto=format&amp;gif-q=60&amp;q=75&amp;w=1400&amp;fit=max&amp;s=9e42e486d8a5ded7e523a609cbfd64e3 1x" loading="lazy"></a></p>
 
@@ -3325,7 +3457,7 @@ Store-Value部分は使いやすいかどうか、テストしやすいかどう
 `,coediting: false,comments_count: 0,created_at: '2021-10-27T22:30:12+09:00',group: '{ }',id: '7b72e26ed48579eb814b',likes_count: 1,private: false,tags: [{name: 'MVVM',versions: [  ]},{name: 'Swift',versions: [  ]},{name: 'SwiftUI',versions: [  ]}],title: 'SwiftUI/Swift: 既存のプロジェクトをMVVMパターンに変更する',updated_at: '2021-10-27T22:40:45+09:00',url: 'https://qiita.com/sYamaz/items/7b72e26ed48579eb814b',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 14,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>体調管理（と会社での感染予防）のために毎朝体温を測るのが習慣化しています。<br>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 15,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>体調管理（と会社での感染予防）のために毎朝体温を測るのが習慣化しています。<br>
 しかし、朝の1分1秒は非常に貴重な時間です。できればiPhoneでの体温データ入力も極限まで無駄を減らしたいところです。</p>
 
 <p>そこで、体温を最速で入力するためにはどんな入力インターフェースがいいのかを検討してみようと思いました。</p>
@@ -3558,7 +3690,7 @@ https://github.com/sYamaz/BodyTempLogger
 `,coediting: false,comments_count: 0,created_at: '2021-10-17T22:22:01+09:00',group: '{ }',id: '9ef8fceb5650fc7b7ad8',likes_count: 1,private: false,tags: [{name: 'UI',versions: [  ]},{name: 'Swift',versions: [  ]},{name: 'HealthKit',versions: [  ]},{name: 'ユーザーインターフェース',versions: [  ]},{name: 'SwiftUI',versions: [  ]}],title: '体温を最速で入力するためのユーザーインターフェースの検討（その1）',updated_at: '2021-10-28T22:25:02+09:00',url: 'https://qiita.com/sYamaz/items/9ef8fceb5650fc7b7ad8',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 14,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>まずは公式ドキュメントをちゃんと読む人間になろうと思いたち、Apple公式ドキュメント<strong>だけ</strong>を元にHealthKitにアクセスを試みました。</p>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 15,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>まずは公式ドキュメントをちゃんと読む人間になろうと思いたち、Apple公式ドキュメント<strong>だけ</strong>を元にHealthKitにアクセスを試みました。</p>
 
 <h1>
 <span id="環境" class="fragment"></span><a href="#%E7%92%B0%E5%A2%83"><i class="fa fa-link"></i></a>環境</h1>
@@ -3901,7 +4033,7 @@ class HealthCareRepository{
 `,coediting: false,comments_count: 1,created_at: '2021-10-14T22:26:17+09:00',group: '{ }',id: 'cedfd869f74f14b4b25b',likes_count: 0,private: false,tags: [{name: 'Swift',versions: [  ]},{name: 'HealthKit',versions: [  ]}],title: 'Swift: HealthKitに体温データを入力する。できるだけ公式ドキュメントだけを見て。',updated_at: '2021-12-30T15:59:37+09:00',url: 'https://qiita.com/sYamaz/items/cedfd869f74f14b4b25b',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 14,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>前回、<a href="https://qiita.com/sYamaz/items/1a29a2cb5b3207ad87dc" id="reference-b37a8931e3901955ed10">SwiftでMarkdownを解析してオブジェクトツリーに変換する</a>という記事を作成しましたが、今回はその続きです。</p>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 15,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>前回、<a href="https://qiita.com/sYamaz/items/1a29a2cb5b3207ad87dc" id="reference-b37a8931e3901955ed10">SwiftでMarkdownを解析してオブジェクトツリーに変換する</a>という記事を作成しましたが、今回はその続きです。</p>
 
 <p>尚、前回記事で「レンダリングはしてくれるけどオブジェクトツリーにしてくれるパッケージあまりないな...」と言いましたが大抵のSwiftのMarkdownレンダリング系パッケージは</p>
 
@@ -4131,7 +4263,7 @@ https://github.com/sYamaz/MarkdownAnalyzer
 `,coediting: false,comments_count: 0,created_at: '2021-10-03T22:30:32+09:00',group: '{ }',id: '31ef5374ad7c9a0dfde4',likes_count: 0,private: false,tags: [{name: 'test',versions: [  ]},{name: 'Markdown',versions: [  ]},{name: '構文解析',versions: [  ]},{name: 'Swift',versions: [  ]}],title: 'Swift：開発中のMarkdown解析パッケージをもう少しテストしやすくする',updated_at: '2021-10-03T22:30:32+09:00',url: 'https://qiita.com/sYamaz/items/31ef5374ad7c9a0dfde4',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 14,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>Markdownをレンダリングしてくれるパッケージはあるけど、オブジェクトツリーにしてくれるものは無いなと思ったのでやってみてます。</p>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 15,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>Markdownをレンダリングしてくれるパッケージはあるけど、オブジェクトツリーにしてくれるものは無いなと思ったのでやってみてます。</p>
 
 <p>オブジェクトツリーに変換できるとコードからMarkdownを扱いやすくなるんじゃないかと思ってます。</p>
 
@@ -5558,4 +5690,4 @@ struct MDTableRow{
 `,coediting: false,comments_count: 0,created_at: '2021-09-26T22:19:57+09:00',group: '{ }',id: '1a29a2cb5b3207ad87dc',likes_count: 3,private: false,tags: [{name: 'Markdown',versions: [  ]},{name: '構文解析',versions: [  ]},{name: 'Swift',versions: [  ]}],title: 'SwiftでMarkdownを解析してオブジェクトツリーに変換する',updated_at: '2021-10-06T07:54:17+09:00',url: 'https://qiita.com/sYamaz/items/1a29a2cb5b3207ad87dc',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 14,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }}]
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 15,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }}]
