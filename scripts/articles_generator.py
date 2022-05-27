@@ -7,9 +7,9 @@ import os
 def escape(input:str) -> str:
   return input.replace('\\', '\\\\')\
               .replace('`', '\`')\
-              .replace('{', '\{')\
-              .replace('}', '\}')\
-              .replace('$', '$')
+              .replace('{', '${"{"}')\
+              .replace('}', '${"}"}')\
+              .replace('$', '${"$"}')
 
 def Empty() -> str:
   return '{ }'
