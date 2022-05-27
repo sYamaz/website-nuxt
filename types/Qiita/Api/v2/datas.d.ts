@@ -34,7 +34,7 @@ export interface PostData{
   /** 記事のurl */
   url:string
   /** Qiita上のユーザーを表します。 */
-  page_views_count:number | undefined
+  page_views_count?:number
   /** Qiita Teamのチームメンバー情報を表します */
   team_membership: any
 }
