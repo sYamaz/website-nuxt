@@ -53,7 +53,7 @@ export const articles = [{rendered_body: `<p>PythonでQiitaApiから自分の記
       <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Deploy (puth dist dir to gh-pages branch)</span>
         <span class="na">uses</span><span class="pi">:</span> <span class="s">peaceiris/actions-gh-pages@v3</span>
         <span class="na">with</span><span class="pi">:</span>
-          <span class="na">github_token</span><span class="pi">:</span> <span class="s">$\{\{ secrets.GITHUB_TOKEN \}\}</span>
+          <span class="na">github_token</span><span class="pi">:</span> <span class="s">${"$"}${"$"}{"{"${"$"}{"}"}${"$"}{"{"${"$"}{"}"} secrets.GITHUB_TOKEN ${"$"}{"}"}${"$"}{"}"}</span>
           <span class="na">publish_dir</span><span class="pi">:</span> <span class="s">./dist</span>
           <span class="na">publish_branch</span><span class="pi">:</span> <span class="s">gh-pages</span>
 </code></pre></div>
@@ -117,7 +117,7 @@ jobs:
       - name: Deploy (puth dist dir to gh-pages branch)
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: $\{\{ secrets.GITHUB_TOKEN \}\}
+          github_token: ${"$"}${"$"}{"{"${"$"}{"}"}${"$"}{"{"${"$"}{"}"} secrets.GITHUB_TOKEN ${"$"}{"}"}${"$"}{"}"}
           publish_dir: ./dist
           publish_branch: gh-pages
 \`\`\`
@@ -160,12 +160,12 @@ https://github.com/sYamaz/website-nuxt/actions/runs/2379795524
 <div class="code-frame" data-lang="typescript">
 <div class="code-lang"><span class="bold">constants/articles.ts</span></div>
 <div class="highlight"><pre><code><span class="k">export</span> <span class="kd">const</span> <span class="nx">articles</span> <span class="o">=</span> <span class="p">[</span>
-  <span class="p">\{</span>
+  <span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="na">rendered_body</span><span class="p">:</span> <span class="dl">'</span><span class="s1">........</span><span class="dl">'</span>
     <span class="na">body</span><span class="p">:</span> <span class="dl">'</span><span class="s1">.......</span><span class="dl">'</span>
     <span class="p">...</span> <span class="nx">略</span>
-  <span class="p">\},</span>
-  <span class="p">\{</span> <span class="p">...</span> <span class="p">\}</span>
+  <span class="p">${"$"}{"}"},</span>
+  <span class="p">${"$"}{"{"${"$"}{"}"}</span> <span class="p">...</span> <span class="p">${"$"}{"}"}</span>
   <span class="p">...</span><span class="nx">略</span>
 <span class="p">]</span>
 </code></pre></div>
@@ -178,7 +178,7 @@ https://github.com/sYamaz/website-nuxt/actions/runs/2379795524
 <span class="kn">import</span> <span class="nn">os</span>
 
 <span class="k">def</span> <span class="nf">Empty</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-  <span class="k">return</span> <span class="s">'\{ \}'</span>
+  <span class="k">return</span> <span class="s">'${"$"}{"{"${"$"}{"}"} ${"$"}{"}"}'</span>
 
 <span class="k">def</span> <span class="nf">Group</span><span class="p">(</span><span class="n">grp</span><span class="p">:</span><span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
   <span class="k">if</span><span class="p">(</span><span class="n">grp</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">):</span>
@@ -192,23 +192,23 @@ https://github.com/sYamaz/website-nuxt/actions/runs/2379795524
   <span class="n">url_name</span> <span class="o">=</span> <span class="n">grp</span><span class="p">[</span><span class="s">'url_name'</span><span class="p">]</span>
 
   <span class="n">arr</span> <span class="o">=</span> <span class="p">[]</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'created_at: </span><span class="se">\\'</span><span class="si">\{</span><span class="n">created_at</span><span class="si">\}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'description: </span><span class="se">\\'</span><span class="si">\{</span><span class="n">description</span><span class="si">\}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'name: </span><span class="se">\\'</span><span class="si">\{</span><span class="n">name</span><span class="si">\}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'private: </span><span class="si">\{</span><span class="nb">str</span><span class="p">(</span><span class="n">private</span><span class="p">).</span><span class="n">lower</span><span class="si">\}</span><span class="s">'</span><span class="p">)</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'updated_at: </span><span class="se">\\'</span><span class="si">\{</span><span class="n">updated_at</span><span class="si">\}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'url_name: </span><span class="se">\\'</span><span class="si">\{</span><span class="n">url_name</span><span class="si">\}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
-  <span class="k">return</span> <span class="s">'\{'</span> <span class="o">+</span> <span class="s">',</span><span class="se">\\n</span><span class="s">'</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">+</span>  <span class="s">'\}'</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'created_at: </span><span class="se">\\'</span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="n">created_at</span><span class="si">${"$"}{"}"}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'description: </span><span class="se">\\'</span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="n">description</span><span class="si">${"$"}{"}"}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'name: </span><span class="se">\\'</span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="n">name</span><span class="si">${"$"}{"}"}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'private: </span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="nb">str</span><span class="p">(</span><span class="n">private</span><span class="p">).</span><span class="n">lower</span><span class="si">${"$"}{"}"}</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'updated_at: </span><span class="se">\\'</span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="n">updated_at</span><span class="si">${"$"}{"}"}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'url_name: </span><span class="se">\\'</span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="n">url_name</span><span class="si">${"$"}{"}"}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="k">return</span> <span class="s">'${"$"}{"{"${"$"}{"}"}'</span> <span class="o">+</span> <span class="s">',</span><span class="se">\\n</span><span class="s">'</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">+</span>  <span class="s">'${"$"}{"}"}'</span>
 
 <span class="k">def</span> <span class="nf">Tag</span><span class="p">(</span><span class="n">tag</span><span class="p">:</span><span class="nb">dict</span><span class="p">):</span>
   <span class="n">name</span> <span class="o">=</span> <span class="n">tag</span><span class="p">[</span><span class="s">'name'</span><span class="p">]</span>
   <span class="n">versions</span> <span class="o">=</span> <span class="n">tag</span><span class="p">[</span><span class="s">'versions'</span><span class="p">]</span>
   <span class="n">arr</span> <span class="o">=</span> <span class="p">[]</span>
   <span class="n">delimiter</span> <span class="o">=</span> <span class="s">','</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'name: </span><span class="se">\\'</span><span class="si">\{</span><span class="n">name</span><span class="si">\}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
-  <span class="n">vals</span> <span class="o">=</span> <span class="n">delimiter</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="sa">f</span><span class="s">'</span><span class="se">\\'</span><span class="si">\{</span><span class="n">v</span><span class="si">\}</span><span class="se">\\'</span><span class="s">'</span> <span class="p">,</span><span class="n">versions</span><span class="p">))</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'versions: [ </span><span class="si">\{</span><span class="n">vals</span><span class="si">\}</span><span class="s"> ]'</span><span class="p">)</span>
-  <span class="k">return</span> <span class="s">'\{'</span> <span class="o">+</span> <span class="n">delimiter</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">+</span> <span class="s">'\}'</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'name: </span><span class="se">\\'</span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="n">name</span><span class="si">${"$"}{"}"}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">vals</span> <span class="o">=</span> <span class="n">delimiter</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="sa">f</span><span class="s">'</span><span class="se">\\'</span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="n">v</span><span class="si">${"$"}{"}"}</span><span class="se">\\'</span><span class="s">'</span> <span class="p">,</span><span class="n">versions</span><span class="p">))</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'versions: [ </span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="n">vals</span><span class="si">${"$"}{"}"}</span><span class="s"> ]'</span><span class="p">)</span>
+  <span class="k">return</span> <span class="s">'${"$"}{"{"${"$"}{"}"}'</span> <span class="o">+</span> <span class="n">delimiter</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">+</span> <span class="s">'${"$"}{"}"}'</span>
 
 
 <span class="k">def</span> <span class="nf">Tags</span><span class="p">(</span><span class="n">tags</span><span class="p">):</span>
@@ -238,24 +238,24 @@ https://github.com/sYamaz/website-nuxt/actions/runs/2379795524
   <span class="n">website_url</span> <span class="o">=</span> <span class="n">user</span><span class="p">[</span><span class="s">'website_url'</span><span class="p">]</span>
 
   <span class="n">arr</span> <span class="o">=</span> <span class="p">[]</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'description: \`</span><span class="si">\{</span><span class="n">description</span><span class="si">\}</span><span class="s">\`'</span><span class="p">)</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'facebook_id: </span><span class="se">\\'</span><span class="si">\{</span><span class="n">facebook_id</span><span class="si">\}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'followees_count: </span><span class="si">\{</span><span class="n">followees_count</span><span class="si">\}</span><span class="s">'</span><span class="p">)</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'followers_count: </span><span class="si">\{</span><span class="n">followers_count</span><span class="si">\}</span><span class="s">'</span><span class="p">)</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'github_login_name: </span><span class="se">\\'</span><span class="si">\{</span><span class="n">github_login_name</span><span class="si">\}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'id: </span><span class="se">\\'</span><span class="si">\{</span><span class="nb">id</span><span class="si">\}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'items_count: </span><span class="si">\{</span><span class="n">items_count</span><span class="si">\}</span><span class="s">'</span><span class="p">)</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'linkedin_id: </span><span class="se">\\'</span><span class="si">\{</span><span class="n">linkedin_id</span><span class="si">\}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'location: </span><span class="se">\\'</span><span class="si">\{</span><span class="n">location</span><span class="si">\}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'name: </span><span class="se">\\'</span><span class="si">\{</span><span class="n">name</span><span class="si">\}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'organization: </span><span class="se">\\'</span><span class="si">\{</span><span class="n">organization</span><span class="si">\}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'permanent_id: </span><span class="se">\\'</span><span class="si">\{</span><span class="n">permanent_id</span><span class="si">\}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'profile_image_url: </span><span class="se">\\'</span><span class="si">\{</span><span class="n">profile_image_url</span><span class="si">\}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'team_only: </span><span class="si">\{</span><span class="nb">str</span><span class="p">(</span><span class="n">team_only</span><span class="p">).</span><span class="n">lower</span><span class="p">()</span><span class="si">\}</span><span class="s">'</span><span class="p">)</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'twitter_screen_name: </span><span class="se">\\'</span><span class="si">\{</span><span class="n">twitter_screen_name</span><span class="si">\}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'website_url: </span><span class="se">\\'</span><span class="si">\{</span><span class="n">website_url</span><span class="si">\}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'description: \`</span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="n">description</span><span class="si">${"$"}{"}"}</span><span class="s">\`'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'facebook_id: </span><span class="se">\\'</span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="n">facebook_id</span><span class="si">${"$"}{"}"}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'followees_count: </span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="n">followees_count</span><span class="si">${"$"}{"}"}</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'followers_count: </span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="n">followers_count</span><span class="si">${"$"}{"}"}</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'github_login_name: </span><span class="se">\\'</span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="n">github_login_name</span><span class="si">${"$"}{"}"}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'id: </span><span class="se">\\'</span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="nb">id</span><span class="si">${"$"}{"}"}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'items_count: </span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="n">items_count</span><span class="si">${"$"}{"}"}</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'linkedin_id: </span><span class="se">\\'</span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="n">linkedin_id</span><span class="si">${"$"}{"}"}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'location: </span><span class="se">\\'</span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="n">location</span><span class="si">${"$"}{"}"}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'name: </span><span class="se">\\'</span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="n">name</span><span class="si">${"$"}{"}"}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'organization: </span><span class="se">\\'</span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="n">organization</span><span class="si">${"$"}{"}"}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'permanent_id: </span><span class="se">\\'</span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="n">permanent_id</span><span class="si">${"$"}{"}"}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'profile_image_url: </span><span class="se">\\'</span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="n">profile_image_url</span><span class="si">${"$"}{"}"}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'team_only: </span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="nb">str</span><span class="p">(</span><span class="n">team_only</span><span class="p">).</span><span class="n">lower</span><span class="p">()</span><span class="si">${"$"}{"}"}</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'twitter_screen_name: </span><span class="se">\\'</span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="n">twitter_screen_name</span><span class="si">${"$"}{"}"}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'website_url: </span><span class="se">\\'</span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="n">website_url</span><span class="si">${"$"}{"}"}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
 
-  <span class="k">return</span> <span class="s">'\{'</span> <span class="o">+</span> <span class="s">','</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">+</span> <span class="s">'\}'</span>
+  <span class="k">return</span> <span class="s">'${"$"}{"{"${"$"}{"}"}'</span> <span class="o">+</span> <span class="s">','</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">+</span> <span class="s">'${"$"}{"}"}'</span>
 
 <span class="k">def</span> <span class="nf">TeamMembership</span><span class="p">(</span><span class="n">tm</span><span class="p">:</span><span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
   <span class="k">if</span><span class="p">(</span><span class="n">tm</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">):</span>
@@ -263,8 +263,8 @@ https://github.com/sYamaz/website-nuxt/actions/runs/2379795524
 
   <span class="n">arr</span> <span class="o">=</span> <span class="p">[]</span>
   <span class="n">name</span> <span class="o">=</span> <span class="n">tm</span><span class="p">[</span><span class="s">'name'</span><span class="p">]</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'name: </span><span class="se">\\'</span><span class="si">\{</span><span class="n">name</span><span class="si">\}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
-  <span class="k">return</span> <span class="s">'\{'</span> <span class="o">+</span> <span class="s">','</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">+</span> <span class="s">'\}'</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'name: </span><span class="se">\\'</span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="n">name</span><span class="si">${"$"}{"}"}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="k">return</span> <span class="s">'${"$"}{"{"${"$"}{"}"}'</span> <span class="o">+</span> <span class="s">','</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">+</span> <span class="s">'${"$"}{"}"}'</span>
 
 <span class="k">def</span> <span class="nf">Item</span><span class="p">(</span><span class="n">item</span><span class="p">:</span><span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
   <span class="n">arr</span> <span class="o">=</span> <span class="p">[]</span>
@@ -285,24 +285,24 @@ https://github.com/sYamaz/website-nuxt/actions/runs/2379795524
   <span class="n">page_views_count</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s">'page_views_count'</span><span class="p">]</span>
   <span class="n">team_membership</span> <span class="o">=</span> <span class="n">TeamMembership</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s">'team_membership'</span><span class="p">])</span> <span class="k">if</span> <span class="s">'team_membership'</span> <span class="ow">in</span> <span class="n">item</span> <span class="k">else</span> <span class="n">Empty</span><span class="p">()</span>
 
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'rendered_body: \`</span><span class="si">\{</span><span class="n">rendered_body</span><span class="si">\}</span><span class="s">\`'</span><span class="p">)</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'body: \`</span><span class="si">\{</span><span class="n">body</span><span class="si">\}</span><span class="s">\`'</span><span class="p">)</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'coediting: </span><span class="si">\{</span><span class="nb">str</span><span class="p">(</span><span class="n">coediting</span><span class="p">).</span><span class="n">lower</span><span class="p">()</span><span class="si">\}</span><span class="s">'</span><span class="p">)</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'comments_count: </span><span class="si">\{</span><span class="n">comments_count</span><span class="si">\}</span><span class="s">'</span><span class="p">)</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'created_at: </span><span class="se">\\'</span><span class="si">\{</span><span class="n">created_at</span><span class="si">\}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'group: </span><span class="se">\\'</span><span class="si">\{</span><span class="n">group</span><span class="si">\}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'id: </span><span class="se">\\'</span><span class="si">\{</span><span class="nb">id</span><span class="si">\}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'likes_count: </span><span class="si">\{</span><span class="n">likes_count</span><span class="si">\}</span><span class="s">'</span><span class="p">)</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'private: </span><span class="si">\{</span><span class="nb">str</span><span class="p">(</span><span class="n">private</span><span class="p">).</span><span class="n">lower</span><span class="p">()</span><span class="si">\}</span><span class="s">'</span><span class="p">)</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'tags: </span><span class="si">\{</span><span class="n">tags</span><span class="si">\}</span><span class="s">'</span><span class="p">)</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'title: </span><span class="se">\\'</span><span class="si">\{</span><span class="n">title</span><span class="si">\}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'updated_at: </span><span class="se">\\'</span><span class="si">\{</span><span class="n">updated_at</span><span class="si">\}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'url: </span><span class="se">\\'</span><span class="si">\{</span><span class="n">url</span><span class="si">\}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'user: </span><span class="si">\{</span><span class="n">user</span><span class="si">\}</span><span class="s">'</span><span class="p">)</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'page_views_count: </span><span class="si">\{</span><span class="s">"null"</span> <span class="k">if</span> <span class="n">page_views_count</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">page_views_count</span><span class="si">\}</span><span class="s">'</span><span class="p">)</span>
-  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'team_membership: </span><span class="si">\{</span><span class="n">team_membership</span><span class="si">\}</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'rendered_body: \`</span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="n">rendered_body</span><span class="si">${"$"}{"}"}</span><span class="s">\`'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'body: \`</span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="n">body</span><span class="si">${"$"}{"}"}</span><span class="s">\`'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'coediting: </span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="nb">str</span><span class="p">(</span><span class="n">coediting</span><span class="p">).</span><span class="n">lower</span><span class="p">()</span><span class="si">${"$"}{"}"}</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'comments_count: </span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="n">comments_count</span><span class="si">${"$"}{"}"}</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'created_at: </span><span class="se">\\'</span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="n">created_at</span><span class="si">${"$"}{"}"}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'group: </span><span class="se">\\'</span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="n">group</span><span class="si">${"$"}{"}"}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'id: </span><span class="se">\\'</span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="nb">id</span><span class="si">${"$"}{"}"}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'likes_count: </span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="n">likes_count</span><span class="si">${"$"}{"}"}</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'private: </span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="nb">str</span><span class="p">(</span><span class="n">private</span><span class="p">).</span><span class="n">lower</span><span class="p">()</span><span class="si">${"$"}{"}"}</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'tags: </span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="n">tags</span><span class="si">${"$"}{"}"}</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'title: </span><span class="se">\\'</span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="n">title</span><span class="si">${"$"}{"}"}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'updated_at: </span><span class="se">\\'</span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="n">updated_at</span><span class="si">${"$"}{"}"}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'url: </span><span class="se">\\'</span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="n">url</span><span class="si">${"$"}{"}"}</span><span class="se">\\'</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'user: </span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="n">user</span><span class="si">${"$"}{"}"}</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'page_views_count: </span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="s">"null"</span> <span class="k">if</span> <span class="n">page_views_count</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">page_views_count</span><span class="si">${"$"}{"}"}</span><span class="s">'</span><span class="p">)</span>
+  <span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s">'team_membership: </span><span class="si">${"$"}{"{"${"$"}{"}"}</span><span class="n">team_membership</span><span class="si">${"$"}{"}"}</span><span class="s">'</span><span class="p">)</span>
 
-  <span class="k">return</span> <span class="s">'\{'</span> <span class="o">+</span> <span class="s">','</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">+</span> <span class="s">'\}'</span>
+  <span class="k">return</span> <span class="s">'${"$"}{"{"${"$"}{"}"}'</span> <span class="o">+</span> <span class="s">','</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">+</span> <span class="s">'${"$"}{"}"}'</span>
 
 
 <span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">out_path</span><span class="p">):</span>
@@ -370,12 +370,12 @@ for item in items:
 
 \`\`\`constants/articles.ts
 export const articles = [
-  \{
+  ${"$"}{"{"${"$"}{"}"}
     rendered_body: '........'
     body: '.......'
     ... 略
-  \},
-  \{ ... \}
+  ${"$"}{"}"},
+  ${"$"}{"{"${"$"}{"}"} ... ${"$"}{"}"}
   ...略
 ]
 \`\`\`
@@ -390,7 +390,7 @@ import requests
 import os
 
 def Empty() -> str:
-  return '\{ \}'
+  return '${"$"}{"{"${"$"}{"}"} ${"$"}{"}"}'
 
 def Group(grp:dict) -> str:
   if(grp is None):
@@ -404,23 +404,23 @@ def Group(grp:dict) -> str:
   url_name = grp['url_name']
 
   arr = []
-  arr.append(f'created_at: \\'\{created_at\}\\'')
-  arr.append(f'description: \\'\{description\}\\'')
-  arr.append(f'name: \\'\{name\}\\'')
-  arr.append(f'private: \{str(private).lower\}')
-  arr.append(f'updated_at: \\'\{updated_at\}\\'')
-  arr.append(f'url_name: \\'\{url_name\}\\'')
-  return '\{' + ',\\n'.join(arr) +  '\}'
+  arr.append(f'created_at: \\'${"$"}{"{"${"$"}{"}"}created_at${"$"}{"}"}\\'')
+  arr.append(f'description: \\'${"$"}{"{"${"$"}{"}"}description${"$"}{"}"}\\'')
+  arr.append(f'name: \\'${"$"}{"{"${"$"}{"}"}name${"$"}{"}"}\\'')
+  arr.append(f'private: ${"$"}{"{"${"$"}{"}"}str(private).lower${"$"}{"}"}')
+  arr.append(f'updated_at: \\'${"$"}{"{"${"$"}{"}"}updated_at${"$"}{"}"}\\'')
+  arr.append(f'url_name: \\'${"$"}{"{"${"$"}{"}"}url_name${"$"}{"}"}\\'')
+  return '${"$"}{"{"${"$"}{"}"}' + ',\\n'.join(arr) +  '${"$"}{"}"}'
 
 def Tag(tag:dict):
   name = tag['name']
   versions = tag['versions']
   arr = []
   delimiter = ','
-  arr.append(f'name: \\'\{name\}\\'')
-  vals = delimiter.join(map(lambda v: f'\\'\{v\}\\'' ,versions))
-  arr.append(f'versions: [ \{vals\} ]')
-  return '\{' + delimiter.join(arr) + '\}'
+  arr.append(f'name: \\'${"$"}{"{"${"$"}{"}"}name${"$"}{"}"}\\'')
+  vals = delimiter.join(map(lambda v: f'\\'${"$"}{"{"${"$"}{"}"}v${"$"}{"}"}\\'' ,versions))
+  arr.append(f'versions: [ ${"$"}{"{"${"$"}{"}"}vals${"$"}{"}"} ]')
+  return '${"$"}{"{"${"$"}{"}"}' + delimiter.join(arr) + '${"$"}{"}"}'
 
 
 def Tags(tags):
@@ -450,24 +450,24 @@ def User(user:dict) -> str:
   website_url = user['website_url']
 
   arr = []
-  arr.append(f'description: \`\{description\}\`')
-  arr.append(f'facebook_id: \\'\{facebook_id\}\\'')
-  arr.append(f'followees_count: \{followees_count\}')
-  arr.append(f'followers_count: \{followers_count\}')
-  arr.append(f'github_login_name: \\'\{github_login_name\}\\'')
-  arr.append(f'id: \\'\{id\}\\'')
-  arr.append(f'items_count: \{items_count\}')
-  arr.append(f'linkedin_id: \\'\{linkedin_id\}\\'')
-  arr.append(f'location: \\'\{location\}\\'')
-  arr.append(f'name: \\'\{name\}\\'')
-  arr.append(f'organization: \\'\{organization\}\\'')
-  arr.append(f'permanent_id: \\'\{permanent_id\}\\'')
-  arr.append(f'profile_image_url: \\'\{profile_image_url\}\\'')
-  arr.append(f'team_only: \{str(team_only).lower()\}')
-  arr.append(f'twitter_screen_name: \\'\{twitter_screen_name\}\\'')
-  arr.append(f'website_url: \\'\{website_url\}\\'')
+  arr.append(f'description: \`${"$"}{"{"${"$"}{"}"}description${"$"}{"}"}\`')
+  arr.append(f'facebook_id: \\'${"$"}{"{"${"$"}{"}"}facebook_id${"$"}{"}"}\\'')
+  arr.append(f'followees_count: ${"$"}{"{"${"$"}{"}"}followees_count${"$"}{"}"}')
+  arr.append(f'followers_count: ${"$"}{"{"${"$"}{"}"}followers_count${"$"}{"}"}')
+  arr.append(f'github_login_name: \\'${"$"}{"{"${"$"}{"}"}github_login_name${"$"}{"}"}\\'')
+  arr.append(f'id: \\'${"$"}{"{"${"$"}{"}"}id${"$"}{"}"}\\'')
+  arr.append(f'items_count: ${"$"}{"{"${"$"}{"}"}items_count${"$"}{"}"}')
+  arr.append(f'linkedin_id: \\'${"$"}{"{"${"$"}{"}"}linkedin_id${"$"}{"}"}\\'')
+  arr.append(f'location: \\'${"$"}{"{"${"$"}{"}"}location${"$"}{"}"}\\'')
+  arr.append(f'name: \\'${"$"}{"{"${"$"}{"}"}name${"$"}{"}"}\\'')
+  arr.append(f'organization: \\'${"$"}{"{"${"$"}{"}"}organization${"$"}{"}"}\\'')
+  arr.append(f'permanent_id: \\'${"$"}{"{"${"$"}{"}"}permanent_id${"$"}{"}"}\\'')
+  arr.append(f'profile_image_url: \\'${"$"}{"{"${"$"}{"}"}profile_image_url${"$"}{"}"}\\'')
+  arr.append(f'team_only: ${"$"}{"{"${"$"}{"}"}str(team_only).lower()${"$"}{"}"}')
+  arr.append(f'twitter_screen_name: \\'${"$"}{"{"${"$"}{"}"}twitter_screen_name${"$"}{"}"}\\'')
+  arr.append(f'website_url: \\'${"$"}{"{"${"$"}{"}"}website_url${"$"}{"}"}\\'')
 
-  return '\{' + ','.join(arr) + '\}'
+  return '${"$"}{"{"${"$"}{"}"}' + ','.join(arr) + '${"$"}{"}"}'
 
 def TeamMembership(tm:dict) -> str:
   if(tm is None):
@@ -475,8 +475,8 @@ def TeamMembership(tm:dict) -> str:
 
   arr = []
   name = tm['name']
-  arr.append(f'name: \\'\{name\}\\'')
-  return '\{' + ','.join(arr) + '\}'
+  arr.append(f'name: \\'${"$"}{"{"${"$"}{"}"}name${"$"}{"}"}\\'')
+  return '${"$"}{"{"${"$"}{"}"}' + ','.join(arr) + '${"$"}{"}"}'
 
 def Item(item:dict) -> str:
   arr = []
@@ -497,24 +497,24 @@ def Item(item:dict) -> str:
   page_views_count = item['page_views_count']
   team_membership = TeamMembership(item['team_membership']) if 'team_membership' in item else Empty()
 
-  arr.append(f'rendered_body: \`\{rendered_body\}\`')
-  arr.append(f'body: \`\{body\}\`')
-  arr.append(f'coediting: \{str(coediting).lower()\}')
-  arr.append(f'comments_count: \{comments_count\}')
-  arr.append(f'created_at: \\'\{created_at\}\\'')
-  arr.append(f'group: \\'\{group\}\\'')
-  arr.append(f'id: \\'\{id\}\\'')
-  arr.append(f'likes_count: \{likes_count\}')
-  arr.append(f'private: \{str(private).lower()\}')
-  arr.append(f'tags: \{tags\}')
-  arr.append(f'title: \\'\{title\}\\'')
-  arr.append(f'updated_at: \\'\{updated_at\}\\'')
-  arr.append(f'url: \\'\{url\}\\'')
-  arr.append(f'user: \{user\}')
-  arr.append(f'page_views_count: \{"null" if page_views_count is None else page_views_count\}')
-  arr.append(f'team_membership: \{team_membership\}')
+  arr.append(f'rendered_body: \`${"$"}{"{"${"$"}{"}"}rendered_body${"$"}{"}"}\`')
+  arr.append(f'body: \`${"$"}{"{"${"$"}{"}"}body${"$"}{"}"}\`')
+  arr.append(f'coediting: ${"$"}{"{"${"$"}{"}"}str(coediting).lower()${"$"}{"}"}')
+  arr.append(f'comments_count: ${"$"}{"{"${"$"}{"}"}comments_count${"$"}{"}"}')
+  arr.append(f'created_at: \\'${"$"}{"{"${"$"}{"}"}created_at${"$"}{"}"}\\'')
+  arr.append(f'group: \\'${"$"}{"{"${"$"}{"}"}group${"$"}{"}"}\\'')
+  arr.append(f'id: \\'${"$"}{"{"${"$"}{"}"}id${"$"}{"}"}\\'')
+  arr.append(f'likes_count: ${"$"}{"{"${"$"}{"}"}likes_count${"$"}{"}"}')
+  arr.append(f'private: ${"$"}{"{"${"$"}{"}"}str(private).lower()${"$"}{"}"}')
+  arr.append(f'tags: ${"$"}{"{"${"$"}{"}"}tags${"$"}{"}"}')
+  arr.append(f'title: \\'${"$"}{"{"${"$"}{"}"}title${"$"}{"}"}\\'')
+  arr.append(f'updated_at: \\'${"$"}{"{"${"$"}{"}"}updated_at${"$"}{"}"}\\'')
+  arr.append(f'url: \\'${"$"}{"{"${"$"}{"}"}url${"$"}{"}"}\\'')
+  arr.append(f'user: ${"$"}{"{"${"$"}{"}"}user${"$"}{"}"}')
+  arr.append(f'page_views_count: ${"$"}{"{"${"$"}{"}"}"null" if page_views_count is None else page_views_count${"$"}{"}"}')
+  arr.append(f'team_membership: ${"$"}{"{"${"$"}{"}"}team_membership${"$"}{"}"}')
 
-  return '\{' + ','.join(arr) + '\}'
+  return '${"$"}{"{"${"$"}{"}"}' + ','.join(arr) + '${"$"}{"}"}'
 
 
 def main(out_path):
@@ -568,41 +568,41 @@ pythonでQiitaApiから自分の記事一覧を取得、tsファイルを生成�
 （ここでは型定義の紹介は省きます）</p>
 <div class="code-frame" data-lang="typescript">
 <div class="code-lang"><span class="bold">~/plugins/apiPlugins.ts</span></div>
-<div class="highlight"><pre><code><span class="k">import</span> <span class="p">\{</span> <span class="nx">Plugin</span> <span class="p">\}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@nuxt/types</span><span class="dl">'</span>
+<div class="highlight"><pre><code><span class="k">import</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span> <span class="nx">Plugin</span> <span class="p">${"$"}{"}"}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@nuxt/types</span><span class="dl">'</span>
 <span class="k">import</span> <span class="nx">QiitaApi</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">~/api/QiitaApi</span><span class="dl">'</span>
-<span class="k">import</span> <span class="p">\{</span> <span class="nx">QiitaApi</span> <span class="k">as</span> <span class="nx">MockApi</span> <span class="p">\}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">~/mock/QiitaApi</span><span class="dl">'</span> <span class="c1">// テストとかではモックに切り替えたい願望</span>
+<span class="k">import</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span> <span class="nx">QiitaApi</span> <span class="k">as</span> <span class="nx">MockApi</span> <span class="p">${"$"}{"}"}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">~/mock/QiitaApi</span><span class="dl">'</span> <span class="c1">// テストとかではモックに切り替えたい願望</span>
 <span class="k">import</span> <span class="nx">IApi</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">~/types/Qiita/Api/v2/IApi</span><span class="dl">'</span>
 
-<span class="c1">// vueインスタンスから$qiitaApiを使用可能にする</span>
-<span class="kr">declare</span> <span class="kr">module</span> <span class="dl">'</span><span class="s1">vue/types/vue</span><span class="dl">'</span> <span class="p">\{</span>
-  <span class="kr">interface</span> <span class="nx">Vue</span> <span class="p">\{</span>
-    <span class="nl">$qiitaApi</span><span class="p">:</span> <span class="nx">IApi</span>
-  <span class="p">\}</span>
-<span class="p">\}</span>
+<span class="c1">// vueインスタンスから${"$"}qiitaApiを使用可能にする</span>
+<span class="kr">declare</span> <span class="kr">module</span> <span class="dl">'</span><span class="s1">vue/types/vue</span><span class="dl">'</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
+  <span class="kr">interface</span> <span class="nx">Vue</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
+    <span class="nl">${"$"}qiitaApi</span><span class="p">:</span> <span class="nx">IApi</span>
+  <span class="p">${"$"}{"}"}</span>
+<span class="p">${"$"}{"}"}</span>
 
-<span class="c1">// this.$nuxt.contextから$qiitaApiを使用可能にする</span>
-<span class="kr">declare</span> <span class="kr">module</span> <span class="dl">'</span><span class="s1">@nuxt/types</span><span class="dl">'</span> <span class="p">\{</span>
-  <span class="kr">interface</span> <span class="nx">NuxtAppOptions</span> <span class="p">\{</span>
-    <span class="nl">$qiitaApi</span><span class="p">:</span> <span class="nx">IApi</span>
-  <span class="p">\}</span>
+<span class="c1">// this.${"$"}nuxt.contextから${"$"}qiitaApiを使用可能にする</span>
+<span class="kr">declare</span> <span class="kr">module</span> <span class="dl">'</span><span class="s1">@nuxt/types</span><span class="dl">'</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
+  <span class="kr">interface</span> <span class="nx">NuxtAppOptions</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
+    <span class="nl">${"$"}qiitaApi</span><span class="p">:</span> <span class="nx">IApi</span>
+  <span class="p">${"$"}{"}"}</span>
 
-  <span class="kr">interface</span> <span class="nx">Context</span> <span class="p">\{</span>
-    <span class="nl">$qiitaApi</span><span class="p">:</span> <span class="nx">IApi</span>
-  <span class="p">\}</span>
-<span class="p">\}</span>
+  <span class="kr">interface</span> <span class="nx">Context</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
+    <span class="nl">${"$"}qiitaApi</span><span class="p">:</span> <span class="nx">IApi</span>
+  <span class="p">${"$"}{"}"}</span>
+<span class="p">${"$"}{"}"}</span>
 
-<span class="k">export</span> <span class="kd">const</span> <span class="nx">apiPlugin</span><span class="p">:</span> <span class="nx">Plugin</span> <span class="o">=</span> <span class="p">(</span><span class="nx">context</span><span class="p">,</span> <span class="nx">inject</span><span class="p">):</span> <span class="k">void</span> <span class="o">=&gt;</span> <span class="p">\{</span>
-  <span class="kd">const</span> <span class="nx">qiitaAxios</span> <span class="o">=</span> <span class="nx">context</span><span class="p">.</span><span class="nx">$axios</span><span class="p">.</span><span class="nx">create</span><span class="p">(\{</span>
-    <span class="c1">// baseURL: context.$config.baseURL</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">apiPlugin</span><span class="p">:</span> <span class="nx">Plugin</span> <span class="o">=</span> <span class="p">(</span><span class="nx">context</span><span class="p">,</span> <span class="nx">inject</span><span class="p">):</span> <span class="k">void</span> <span class="o">=&gt;</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
+  <span class="kd">const</span> <span class="nx">qiitaAxios</span> <span class="o">=</span> <span class="nx">context</span><span class="p">.</span><span class="nx">${"$"}axios</span><span class="p">.</span><span class="nx">create</span><span class="p">(${"$"}{"{"${"$"}{"}"}</span>
+    <span class="c1">// baseURL: context.${"$"}config.baseURL</span>
     <span class="na">baseURL</span><span class="p">:</span> <span class="dl">'</span><span class="s1">https://qiita.com/api/v2/</span><span class="dl">'</span><span class="p">,</span>
-    <span class="na">headers</span><span class="p">:</span> <span class="p">\{</span> 
+    <span class="na">headers</span><span class="p">:</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span> 
       <span class="c1">// 環境変数に設定したQiita PATを登録</span>
       <span class="na">Authorization</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Bearer </span><span class="dl">'</span> <span class="o">+</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">PAT</span>
-    <span class="p">\}</span>
-  <span class="p">\})</span>
+    <span class="p">${"$"}{"}"}</span>
+  <span class="p">${"$"}{"}"})</span>
 
   <span class="nx">inject</span><span class="p">(</span><span class="dl">'</span><span class="s1">qiitaApi</span><span class="dl">'</span><span class="p">,</span> <span class="k">new</span> <span class="nx">QiitaApi</span><span class="p">(</span><span class="nx">qiitaAxios</span><span class="p">))</span>
-<span class="p">\}</span>
+<span class="p">${"$"}{"}"}</span>
 
 <span class="k">export</span> <span class="k">default</span> <span class="nx">apiPlugin</span>
 </code></pre></div>
@@ -610,27 +610,27 @@ pythonでQiitaApiから自分の記事一覧を取得、tsファイルを生成�
 <p><code>GET /api/v2/authenticated_user/items</code>を使用することで、PATを設定したユーザーの記事を取得できます。</p>
 <div class="code-frame" data-lang="typescript">
 <div class="code-lang"><span class="bold">~/api/QiitaApi.ts</span></div>
-<div class="highlight"><pre><code><span class="k">import</span> <span class="p">\{</span> <span class="nx">NuxtAxiosInstance</span> <span class="p">\}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@nuxtjs/axios</span><span class="dl">'</span>
-<span class="k">import</span> <span class="p">\{</span> <span class="nx">PostData</span> <span class="p">\}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">~/types/Qiita/Api/v2/datas</span><span class="dl">'</span>
+<div class="highlight"><pre><code><span class="k">import</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span> <span class="nx">NuxtAxiosInstance</span> <span class="p">${"$"}{"}"}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@nuxtjs/axios</span><span class="dl">'</span>
+<span class="k">import</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span> <span class="nx">PostData</span> <span class="p">${"$"}{"}"}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">~/types/Qiita/Api/v2/datas</span><span class="dl">'</span>
 <span class="k">import</span> <span class="nx">IApi</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">~/types/Qiita/Api/v2/IApi</span><span class="dl">'</span>
 
-<span class="k">export</span> <span class="k">default</span> <span class="kd">class</span> <span class="nx">QiitaApi</span> <span class="k">implements</span> <span class="nx">IApi</span> <span class="p">\{</span>
+<span class="k">export</span> <span class="k">default</span> <span class="kd">class</span> <span class="nx">QiitaApi</span> <span class="k">implements</span> <span class="nx">IApi</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
   <span class="k">private</span> <span class="k">readonly</span> <span class="nx">axios</span><span class="p">:</span> <span class="nx">NuxtAxiosInstance</span>
 
-  <span class="kd">constructor</span> <span class="p">(</span><span class="nx">axios</span><span class="p">:</span> <span class="nx">NuxtAxiosInstance</span><span class="p">)</span> <span class="p">\{</span>
+  <span class="kd">constructor</span> <span class="p">(</span><span class="nx">axios</span><span class="p">:</span> <span class="nx">NuxtAxiosInstance</span><span class="p">)</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">axios</span> <span class="o">=</span> <span class="nx">axios</span>
-  <span class="p">\}</span>
+  <span class="p">${"$"}{"}"}</span>
 
-  <span class="k">public</span> <span class="k">async</span> <span class="nx">getMyQiitaItems</span> <span class="p">():</span> <span class="nb">Promise</span><span class="o">&lt;</span><span class="nx">PostData</span><span class="p">[]</span><span class="o">&gt;</span> <span class="p">\{</span>
+  <span class="k">public</span> <span class="k">async</span> <span class="nx">getMyQiitaItems</span> <span class="p">():</span> <span class="nb">Promise</span><span class="o">&lt;</span><span class="nx">PostData</span><span class="p">[]</span><span class="o">&gt;</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
      <span class="kd">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">authenticated_user/items</span><span class="dl">'</span>
-     <span class="k">try</span> <span class="p">\{</span>
-       <span class="kd">const</span> <span class="na">response</span> <span class="p">:</span> <span class="nx">PostData</span><span class="p">[]</span> <span class="o">=</span> <span class="k">await</span> <span class="k">this</span><span class="p">.</span><span class="nx">axios</span><span class="p">.</span><span class="nx">$get</span><span class="p">(</span><span class="nx">url</span><span class="p">)</span>
+     <span class="k">try</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
+       <span class="kd">const</span> <span class="na">response</span> <span class="p">:</span> <span class="nx">PostData</span><span class="p">[]</span> <span class="o">=</span> <span class="k">await</span> <span class="k">this</span><span class="p">.</span><span class="nx">axios</span><span class="p">.</span><span class="nx">${"$"}get</span><span class="p">(</span><span class="nx">url</span><span class="p">)</span>
        <span class="k">return</span> <span class="nx">response</span>
-     <span class="p">\}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">\{</span>
+     <span class="p">${"$"}{"}"}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
        <span class="k">return</span> <span class="nb">Promise</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span>
-     <span class="p">\}</span>
-  <span class="p">\}</span>
-<span class="p">\}</span>
+     <span class="p">${"$"}{"}"}</span>
+  <span class="p">${"$"}{"}"}</span>
+<span class="p">${"$"}{"}"}</span>
 </code></pre></div>
 </div>
 <p>APIから取得する記事のタイプ</p>
@@ -640,7 +640,7 @@ pythonでQiitaApiから自分の記事一覧を取得、tsファイルを生成�
  * 投稿データ
  * https://qiita.com/api/v2/docs#%E6%8A%95%E7%A8%BF
  * */</span>
-<span class="k">export</span> <span class="kr">interface</span> <span class="nx">PostData</span><span class="p">\{</span>
+<span class="k">export</span> <span class="kr">interface</span> <span class="nx">PostData</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
   <span class="cm">/** HTML形式の本文 */</span>
   <span class="nl">rendered_body</span><span class="p">:</span><span class="kr">string</span>
   <span class="cm">/** Markdown形式の本文 */</span>
@@ -675,7 +675,7 @@ pythonでQiitaApiから自分の記事一覧を取得、tsファイルを生成�
   <span class="nx">page_views_count</span><span class="p">:</span><span class="kr">number</span> <span class="o">|</span> <span class="kc">undefined</span>
   <span class="cm">/** Qiita Teamのチームメンバー情報を表します */</span>
   <span class="nx">team_membership</span><span class="p">:</span> <span class="kr">any</span>
-<span class="p">\}</span>
+<span class="p">${"$"}{"}"}</span>
 </code></pre></div>
 </div>
 <h2>
@@ -685,31 +685,31 @@ pythonでQiitaApiから自分の記事一覧を取得、tsファイルを生成�
 まだ、大した記事数ではないので<code>page</code>や<code>per_page</code>パラメータは使用せず、検索クエリパラメータ<code>query</code>のみ使用します</p>
 <div class="code-frame" data-lang="typescript">
 <div class="code-lang"><span class="bold">~/api/QiitaApi.ts</span></div>
-<div class="highlight"><pre><code><span class="k">import</span> <span class="p">\{</span> <span class="nx">NuxtAxiosInstance</span> <span class="p">\}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@nuxtjs/axios</span><span class="dl">'</span>
-<span class="k">import</span> <span class="p">\{</span> <span class="nx">PostData</span> <span class="p">\}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">~/types/Qiita/Api/v2/datas</span><span class="dl">'</span>
+<div class="highlight"><pre><code><span class="k">import</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span> <span class="nx">NuxtAxiosInstance</span> <span class="p">${"$"}{"}"}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@nuxtjs/axios</span><span class="dl">'</span>
+<span class="k">import</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span> <span class="nx">PostData</span> <span class="p">${"$"}{"}"}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">~/types/Qiita/Api/v2/datas</span><span class="dl">'</span>
 <span class="k">import</span> <span class="nx">IApi</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">~/types/Qiita/Api/v2/IApi</span><span class="dl">'</span>
 
-<span class="k">export</span> <span class="k">default</span> <span class="kd">class</span> <span class="nx">QiitaApi</span> <span class="k">implements</span> <span class="nx">IApi</span> <span class="p">\{</span>
+<span class="k">export</span> <span class="k">default</span> <span class="kd">class</span> <span class="nx">QiitaApi</span> <span class="k">implements</span> <span class="nx">IApi</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
   <span class="k">private</span> <span class="k">readonly</span> <span class="nx">axios</span><span class="p">:</span> <span class="nx">NuxtAxiosInstance</span>
 
-  <span class="kd">constructor</span> <span class="p">(</span><span class="nx">axios</span><span class="p">:</span> <span class="nx">NuxtAxiosInstance</span><span class="p">)</span> <span class="p">\{</span>
+  <span class="kd">constructor</span> <span class="p">(</span><span class="nx">axios</span><span class="p">:</span> <span class="nx">NuxtAxiosInstance</span><span class="p">)</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">axios</span> <span class="o">=</span> <span class="nx">axios</span>
-  <span class="p">\}</span>
+  <span class="p">${"$"}{"}"}</span>
 
-  <span class="k">public</span> <span class="k">async</span> <span class="nx">getMyQiitaItems</span> <span class="p">():</span> <span class="nb">Promise</span><span class="o">&lt;</span><span class="nx">PostData</span><span class="p">[]</span><span class="o">&gt;</span> <span class="p">\{</span>
+  <span class="k">public</span> <span class="k">async</span> <span class="nx">getMyQiitaItems</span> <span class="p">():</span> <span class="nb">Promise</span><span class="o">&lt;</span><span class="nx">PostData</span><span class="p">[]</span><span class="o">&gt;</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="kd">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">items</span><span class="dl">'</span>
-    <span class="k">try</span> <span class="p">\{</span>
-      <span class="kd">const</span> <span class="na">response</span><span class="p">:</span> <span class="nx">PostData</span><span class="p">[]</span> <span class="o">=</span> <span class="k">await</span> <span class="k">this</span><span class="p">.</span><span class="nx">axios</span><span class="p">.</span><span class="nx">$get</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="p">\{</span>
-        <span class="na">params</span><span class="p">:</span> <span class="p">\{</span>
+    <span class="k">try</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
+      <span class="kd">const</span> <span class="na">response</span><span class="p">:</span> <span class="nx">PostData</span><span class="p">[]</span> <span class="o">=</span> <span class="k">await</span> <span class="k">this</span><span class="p">.</span><span class="nx">axios</span><span class="p">.</span><span class="nx">${"$"}get</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
+        <span class="na">params</span><span class="p">:</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
           <span class="na">query</span><span class="p">:</span> <span class="dl">'</span><span class="s1">user:sYamaz</span><span class="dl">'</span><span class="c1">//ユーザー名でフィルタリング</span>
-        <span class="p">\}</span>
-      <span class="p">\})</span>
+        <span class="p">${"$"}{"}"}</span>
+      <span class="p">${"$"}{"}"})</span>
       <span class="k">return</span> <span class="nx">response</span>
-    <span class="p">\}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">\{</span>
+    <span class="p">${"$"}{"}"}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
       <span class="k">return</span> <span class="nb">Promise</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span>
-    <span class="p">\}</span>
-  <span class="p">\}</span>
-<span class="p">\}</span>
+    <span class="p">${"$"}{"}"}</span>
+  <span class="p">${"$"}{"}"}</span>
+<span class="p">${"$"}{"}"}</span>
 </code></pre></div>
 </div>
 <h2>
@@ -743,41 +743,41 @@ Qiitaの設定でPATを生成、axiosのヘッダーに登録します。
 （ここでは型定義の紹介は省きます）
 
 \`\`\`~/plugins/apiPlugins.ts
-import \{ Plugin \} from '@nuxt/types'
+import ${"$"}{"{"${"$"}{"}"} Plugin ${"$"}{"}"} from '@nuxt/types'
 import QiitaApi from '~/api/QiitaApi'
-import \{ QiitaApi as MockApi \} from '~/mock/QiitaApi' // テストとかではモックに切り替えたい願望
+import ${"$"}{"{"${"$"}{"}"} QiitaApi as MockApi ${"$"}{"}"} from '~/mock/QiitaApi' // テストとかではモックに切り替えたい願望
 import IApi from '~/types/Qiita/Api/v2/IApi'
 
-// vueインスタンスから$qiitaApiを使用可能にする
-declare module 'vue/types/vue' \{
-  interface Vue \{
-    $qiitaApi: IApi
-  \}
-\}
+// vueインスタンスから${"$"}qiitaApiを使用可能にする
+declare module 'vue/types/vue' ${"$"}{"{"${"$"}{"}"}
+  interface Vue ${"$"}{"{"${"$"}{"}"}
+    ${"$"}qiitaApi: IApi
+  ${"$"}{"}"}
+${"$"}{"}"}
 
-// this.$nuxt.contextから$qiitaApiを使用可能にする
-declare module '@nuxt/types' \{
-  interface NuxtAppOptions \{
-    $qiitaApi: IApi
-  \}
+// this.${"$"}nuxt.contextから${"$"}qiitaApiを使用可能にする
+declare module '@nuxt/types' ${"$"}{"{"${"$"}{"}"}
+  interface NuxtAppOptions ${"$"}{"{"${"$"}{"}"}
+    ${"$"}qiitaApi: IApi
+  ${"$"}{"}"}
 
-  interface Context \{
-    $qiitaApi: IApi
-  \}
-\}
+  interface Context ${"$"}{"{"${"$"}{"}"}
+    ${"$"}qiitaApi: IApi
+  ${"$"}{"}"}
+${"$"}{"}"}
 
-export const apiPlugin: Plugin = (context, inject): void => \{
-  const qiitaAxios = context.$axios.create(\{
-    // baseURL: context.$config.baseURL
+export const apiPlugin: Plugin = (context, inject): void => ${"$"}{"{"${"$"}{"}"}
+  const qiitaAxios = context.${"$"}axios.create(${"$"}{"{"${"$"}{"}"}
+    // baseURL: context.${"$"}config.baseURL
     baseURL: 'https://qiita.com/api/v2/',
-    headers: \{ 
+    headers: ${"$"}{"{"${"$"}{"}"} 
       // 環境変数に設定したQiita PATを登録
       Authorization: 'Bearer ' + process.env.PAT
-    \}
-  \})
+    ${"$"}{"}"}
+  ${"$"}{"}"})
 
   inject('qiitaApi', new QiitaApi(qiitaAxios))
-\}
+${"$"}{"}"}
 
 export default apiPlugin
 \`\`\`
@@ -785,27 +785,27 @@ export default apiPlugin
 \`GET /api/v2/authenticated_user/items\`を使用することで、PATを設定したユーザーの記事を取得できます。
 
 \`\`\`~/api/QiitaApi.ts
-import \{ NuxtAxiosInstance \} from '@nuxtjs/axios'
-import \{ PostData \} from '~/types/Qiita/Api/v2/datas'
+import ${"$"}{"{"${"$"}{"}"} NuxtAxiosInstance ${"$"}{"}"} from '@nuxtjs/axios'
+import ${"$"}{"{"${"$"}{"}"} PostData ${"$"}{"}"} from '~/types/Qiita/Api/v2/datas'
 import IApi from '~/types/Qiita/Api/v2/IApi'
 
-export default class QiitaApi implements IApi \{
+export default class QiitaApi implements IApi ${"$"}{"{"${"$"}{"}"}
   private readonly axios: NuxtAxiosInstance
 
-  constructor (axios: NuxtAxiosInstance) \{
+  constructor (axios: NuxtAxiosInstance) ${"$"}{"{"${"$"}{"}"}
     this.axios = axios
-  \}
+  ${"$"}{"}"}
 
-  public async getMyQiitaItems (): Promise<PostData[]> \{
+  public async getMyQiitaItems (): Promise<PostData[]> ${"$"}{"{"${"$"}{"}"}
      const url = 'authenticated_user/items'
-     try \{
-       const response : PostData[] = await this.axios.$get(url)
+     try ${"$"}{"{"${"$"}{"}"}
+       const response : PostData[] = await this.axios.${"$"}get(url)
        return response
-     \} catch (e) \{
+     ${"$"}{"}"} catch (e) ${"$"}{"{"${"$"}{"}"}
        return Promise.reject(e)
-     \}
-  \}
-\}
+     ${"$"}{"}"}
+  ${"$"}{"}"}
+${"$"}{"}"}
 \`\`\`
 
 APIから取得する記事のタイプ
@@ -815,7 +815,7 @@ APIから取得する記事のタイプ
  * 投稿データ
  * https://qiita.com/api/v2/docs#%E6%8A%95%E7%A8%BF
  * */
-export interface PostData\{
+export interface PostData${"$"}{"{"${"$"}{"}"}
   /** HTML形式の本文 */
   rendered_body:string
   /** Markdown形式の本文 */
@@ -850,7 +850,7 @@ export interface PostData\{
   page_views_count:number | undefined
   /** Qiita Teamのチームメンバー情報を表します */
   team_membership: any
-\}
+${"$"}{"}"}
 \`\`\`
 
 ## QiitaのPATを使用しない
@@ -861,31 +861,31 @@ publicリポジトリでGithub pages使うとenvファイルに書いたPATが�
 まだ、大した記事数ではないので\`page\`や\`per_page\`パラメータは使用せず、検索クエリパラメータ\`query\`のみ使用します
 
 \`\`\`~/api/QiitaApi.ts
-import \{ NuxtAxiosInstance \} from '@nuxtjs/axios'
-import \{ PostData \} from '~/types/Qiita/Api/v2/datas'
+import ${"$"}{"{"${"$"}{"}"} NuxtAxiosInstance ${"$"}{"}"} from '@nuxtjs/axios'
+import ${"$"}{"{"${"$"}{"}"} PostData ${"$"}{"}"} from '~/types/Qiita/Api/v2/datas'
 import IApi from '~/types/Qiita/Api/v2/IApi'
 
-export default class QiitaApi implements IApi \{
+export default class QiitaApi implements IApi ${"$"}{"{"${"$"}{"}"}
   private readonly axios: NuxtAxiosInstance
 
-  constructor (axios: NuxtAxiosInstance) \{
+  constructor (axios: NuxtAxiosInstance) ${"$"}{"{"${"$"}{"}"}
     this.axios = axios
-  \}
+  ${"$"}{"}"}
 
-  public async getMyQiitaItems (): Promise<PostData[]> \{
+  public async getMyQiitaItems (): Promise<PostData[]> ${"$"}{"{"${"$"}{"}"}
     const url = 'items'
-    try \{
-      const response: PostData[] = await this.axios.$get(url, \{
-        params: \{
+    try ${"$"}{"{"${"$"}{"}"}
+      const response: PostData[] = await this.axios.${"$"}get(url, ${"$"}{"{"${"$"}{"}"}
+        params: ${"$"}{"{"${"$"}{"}"}
           query: 'user:sYamaz'//ユーザー名でフィルタリング
-        \}
-      \})
+        ${"$"}{"}"}
+      ${"$"}{"}"})
       return response
-    \} catch (e) \{
+    ${"$"}{"}"} catch (e) ${"$"}{"{"${"$"}{"}"}
       return Promise.reject(e)
-    \}
-  \}
-\}
+    ${"$"}{"}"}
+  ${"$"}{"}"}
+${"$"}{"}"}
 \`\`\`
 
 ## 終わりに
@@ -1056,15 +1056,15 @@ https://apps.apple.com/jp/app/routinetree/id1600469504
   <span class="nt">&lt;h1&gt;</span>Works<span class="nt">&lt;/h1&gt;</span>
   <span class="nt">&lt;v-container</span> <span class="na">v-for=</span><span class="s">"app in apps"</span> <span class="na">v-bind:key=</span><span class="s">"app"</span><span class="nt">&gt;</span>
     <span class="nt">&lt;v-card&gt;</span>
-      <span class="nt">&lt;v-card-title&gt;</span><span class="si">\{\{</span><span class="nx">app</span><span class="p">.</span><span class="nx">name</span><span class="si">\}\}</span><span class="nt">&lt;/v-card-title&gt;</span>
+      <span class="nt">&lt;v-card-title&gt;</span><span class="si">${"$"}{"{"${"$"}{"}"}${"$"}{"{"${"$"}{"}"}</span><span class="nx">app</span><span class="p">.</span><span class="nx">name</span><span class="si">${"$"}{"}"}${"$"}{"}"}</span><span class="nt">&lt;/v-card-title&gt;</span>
       <span class="nt">&lt;v-card-media&gt;</span>
         <span class="nt">&lt;v-img</span> <span class="na">:src=</span><span class="s">"app.img"</span><span class="nt">&gt;&lt;/v-img&gt;</span>
       <span class="nt">&lt;/v-card-media&gt;</span>
-      <span class="nt">&lt;v-card-text&gt;</span><span class="si">\{\{</span> <span class="nx">app</span><span class="p">.</span><span class="nx">text</span> <span class="si">\}\}</span><span class="nt">&lt;/v-card-text&gt;</span>
+      <span class="nt">&lt;v-card-text&gt;</span><span class="si">${"$"}{"{"${"$"}{"}"}${"$"}{"{"${"$"}{"}"}</span> <span class="nx">app</span><span class="p">.</span><span class="nx">text</span> <span class="si">${"$"}{"}"}${"$"}{"}"}</span><span class="nt">&lt;/v-card-text&gt;</span>
 
 
-      <span class="nt">&lt;v-card-subtitle&gt;</span>Platform <span class="si">\{\{</span> <span class="nx">app</span><span class="p">.</span><span class="nx">platform</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="dl">"</span><span class="s2">, </span><span class="dl">"</span><span class="p">)</span> <span class="si">\}\}</span><span class="nt">&lt;/v-card-subtitle&gt;</span>
-      <span class="nt">&lt;v-card-subtitle&gt;</span>Status <span class="si">\{\{</span><span class="nx">app</span><span class="p">.</span><span class="nx">status</span><span class="si">\}\}</span><span class="nt">&lt;/v-card-subtitle&gt;</span>
+      <span class="nt">&lt;v-card-subtitle&gt;</span>Platform <span class="si">${"$"}{"{"${"$"}{"}"}${"$"}{"{"${"$"}{"}"}</span> <span class="nx">app</span><span class="p">.</span><span class="nx">platform</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="dl">"</span><span class="s2">, </span><span class="dl">"</span><span class="p">)</span> <span class="si">${"$"}{"}"}${"$"}{"}"}</span><span class="nt">&lt;/v-card-subtitle&gt;</span>
+      <span class="nt">&lt;v-card-subtitle&gt;</span>Status <span class="si">${"$"}{"{"${"$"}{"}"}${"$"}{"{"${"$"}{"}"}</span><span class="nx">app</span><span class="p">.</span><span class="nx">status</span><span class="si">${"$"}{"}"}${"$"}{"}"}</span><span class="nt">&lt;/v-card-subtitle&gt;</span>
       <span class="nt">&lt;v-card-text&gt;&lt;/v-card-text&gt;</span>
       <span class="nt">&lt;v-divider&gt;&lt;/v-divider&gt;</span>
       <span class="nt">&lt;v-card-actions&gt;</span>
@@ -1079,7 +1079,7 @@ https://apps.apple.com/jp/app/routinetree/id1600469504
 <span class="nt">&lt;</span><span class="k">script</span> <span class="na">setup</span><span class="nt">&gt;</span>
 <span class="k">import</span> <span class="nx">routineTreeImg</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">../assets/RoutineTree.png</span><span class="dl">"</span>
 <span class="kd">const</span> <span class="nx">apps</span> <span class="o">=</span> <span class="p">[</span>
-  <span class="p">\{</span>
+  <span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="na">name</span><span class="p">:</span> <span class="dl">"</span><span class="s2">RoutineTree</span><span class="dl">"</span><span class="p">,</span>
     <span class="na">img</span><span class="p">:</span> <span class="nx">routineTreeImg</span><span class="p">,</span>
     <span class="na">text</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Task management application that helps you accomplish your daily routine tasks.</span><span class="dl">"</span><span class="p">,</span>
@@ -1087,8 +1087,8 @@ https://apps.apple.com/jp/app/routinetree/id1600469504
     <span class="na">status</span><span class="p">:</span> <span class="dl">"</span><span class="s2">In Review</span><span class="dl">"</span><span class="p">,</span>
     <span class="na">url</span><span class="p">:</span> <span class="dl">""</span><span class="p">,</span>
     <span class="na">outerurl</span><span class="p">:</span> <span class="dl">"</span><span class="s2">https://syamaz.github.io/RoutineTree/</span><span class="dl">"</span>
-  <span class="p">\},</span>
-  <span class="p">\{</span>
+  <span class="p">${"$"}{"}"},</span>
+  <span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="na">name</span><span class="p">:</span> <span class="dl">"</span><span class="s2">My homepage</span><span class="dl">"</span><span class="p">,</span>
     <span class="na">img</span><span class="p">:</span> <span class="dl">""</span><span class="p">,</span>
     <span class="na">text</span><span class="p">:</span> <span class="dl">"</span><span class="s2">This website.</span><span class="dl">"</span><span class="p">,</span>
@@ -1096,7 +1096,7 @@ https://apps.apple.com/jp/app/routinetree/id1600469504
     <span class="na">status</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Released</span><span class="dl">"</span><span class="p">,</span>
     <span class="na">url</span><span class="p">:</span> <span class="dl">"</span><span class="s2">/</span><span class="dl">"</span><span class="p">,</span>
     <span class="na">outerurl</span><span class="p">:</span> <span class="dl">""</span>
-  <span class="p">\}</span>
+  <span class="p">${"$"}{"}"}</span>
 <span class="p">]</span>
 <span class="nt">&lt;/</span><span class="k">script</span><span class="nt">&gt;</span>
 
@@ -1121,15 +1121,15 @@ https://apps.apple.com/jp/app/routinetree/id1600469504
 @using website.Pages.Works.Parts
 @using website.Pages.Works.Datas
 &lt;style&gt;
-    .styled-linkbutton \{
+    .styled-linkbutton ${"$"}{"{"${"$"}{"}"}
         @*縦並び*@
         display: block;
         text-transform:none;
-    \}
+    ${"$"}{"}"}
 
-        .styled-linkbutton:is(:hover) \{
+        .styled-linkbutton:is(:hover) ${"$"}{"{"${"$"}{"}"}
             text-decoration: underline;
-        \}
+        ${"$"}{"}"}
 &lt;/style&gt;
 
 &lt;PageTitle&gt;Works - sYamaz&lt;/PageTitle&gt;
@@ -1141,60 +1141,60 @@ https://apps.apple.com/jp/app/routinetree/id1600469504
 
 
 @foreach (var item in Datas)
-\{
+${"$"}{"{"${"$"}{"}"}
     &lt;Box Padding="2" Margin="2"&gt;
         &lt;WorkCardView WorkData="@item" /&gt;
     &lt;/Box&gt;
-\}
+${"$"}{"}"}
 
 
 
-@code \{
+@code ${"$"}{"{"${"$"}{"}"}
 
 
 
     private IEnumerable&lt;AnyWorkData&gt; Datas
-    \{
+    ${"$"}{"{"${"$"}{"}"}
         get
-        \{
+        ${"$"}{"{"${"$"}{"}"}
 
 
             yield return new AnyWorkData
-            \{
+            ${"$"}{"{"${"$"}{"}"}
                 Title = "RoutineTree",
                 Description = "Task management application that helps you accomplish your daily routine tasks.",
                 ReadMoreURL = "https://syamaz.github.io/RoutineTree/",
                 ImagePath = "images/RoutineTree.png",
                 Status = WorkStatus.inReview,
                 SupportPlatform = SupportPlatform.iOS
-            \};
+            ${"$"}{"}"};
 
             yield return new AnyWorkData
-            \{
+            ${"$"}{"{"${"$"}{"}"}
                 Title = "Some web app/service",
                 Description = "My practice project using Vue and AWS",
                 ReadMoreURL = "",
                 ImagePath = "images/Noimage.png",
                 Status = WorkStatus.underDevelop,
                 SupportPlatform = SupportPlatform.web
-            \};
+            ${"$"}{"}"};
 
             // --- end ---
 
             yield return new AnyWorkData
-            \{
+            ${"$"}{"{"${"$"}{"}"}
                 Title = "My homepage",
                 Description = "This website.",
                 ReadMoreURL = "",
                 ImagePath = "images/Noimage.png",
                 Status = WorkStatus.release,
                 SupportPlatform = SupportPlatform.web
-            \};
-        \}
-    \}
+            ${"$"}{"}"};
+        ${"$"}{"}"}
+    ${"$"}{"}"}
 
 
-\}
+${"$"}{"}"}
 
 </code></pre></div></div>
 
@@ -1206,7 +1206,7 @@ https://apps.apple.com/jp/app/routinetree/id1600469504
 
 <p>Blazorの場合、デフォルトでルーティング機能が付いてます。</p>
 
-<p><code>@page "/\{url\}"</code>をコンポーネント内で宣言することで他ページから遷移することができます。</p>
+<p><code>@page "/${"$"}{"{"${"$"}{"}"}url${"$"}{"}"}"</code>をコンポーネント内で宣言することで他ページから遷移することができます。</p>
 
 <p>vueでvue-routerを使う場合はコンポーネントで宣言というよりは一括で宣言することになります。（ドキュメントを十分に読み込めてないだけで、別の方法があるかもしれません）</p>
 
@@ -1217,7 +1217,7 @@ https://apps.apple.com/jp/app/routinetree/id1600469504
 
 <p><details><summary>コード</summary><div>
 
-<div class="code-frame" data-lang="js"><div class="highlight"><pre><code><span class="k">import</span> <span class="p">\{</span> <span class="nx">createRouter</span><span class="p">,</span> <span class="nx">createWebHistory</span> <span class="p">\}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">vue-router</span><span class="dl">'</span>
+<div class="code-frame" data-lang="js"><div class="highlight"><pre><code><span class="k">import</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span> <span class="nx">createRouter</span><span class="p">,</span> <span class="nx">createWebHistory</span> <span class="p">${"$"}{"}"}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">vue-router</span><span class="dl">'</span>
 <span class="c1">// ページのコンポーネントをインポート</span>
 <span class="k">import</span> <span class="nx">AboutVue</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">../components/About.vue</span><span class="dl">'</span>
 <span class="k">import</span> <span class="nx">WorksVue</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">../components/Works.vue</span><span class="dl">'</span>
@@ -1225,31 +1225,31 @@ https://apps.apple.com/jp/app/routinetree/id1600469504
 
 
 <span class="kd">const</span> <span class="nx">routes</span> <span class="o">=</span> <span class="p">[</span>
-  <span class="p">\{</span>
+  <span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="na">path</span><span class="p">:</span> <span class="dl">'</span><span class="s1">/</span><span class="dl">'</span><span class="p">,</span>
     <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">About</span><span class="dl">'</span><span class="p">,</span>
     <span class="na">component</span><span class="p">:</span> <span class="nx">AboutVue</span>
-  <span class="p">\},</span>
-  <span class="p">\{</span>
+  <span class="p">${"$"}{"}"},</span>
+  <span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="na">path</span><span class="p">:</span> <span class="dl">'</span><span class="s1">/works</span><span class="dl">'</span><span class="p">,</span>
     <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Works</span><span class="dl">'</span><span class="p">,</span>
     <span class="na">component</span><span class="p">:</span> <span class="nx">WorksVue</span>
-  <span class="p">\},</span>
-  <span class="p">\{</span>
+  <span class="p">${"$"}{"}"},</span>
+  <span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="na">path</span><span class="p">:</span> <span class="dl">'</span><span class="s1">/posts</span><span class="dl">'</span><span class="p">,</span>
     <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Posts</span><span class="dl">'</span><span class="p">,</span>
     <span class="na">component</span><span class="p">:</span> <span class="nx">PostsVue</span>
-  <span class="p">\},</span>
+  <span class="p">${"$"}{"}"},</span>
 <span class="p">]</span>
 
 
 <span class="kd">const</span> <span class="nx">baseURL</span> <span class="o">=</span> <span class="k">import</span><span class="p">.</span><span class="nx">meta</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">BASE_URL</span><span class="p">;</span>
 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">base : </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">baseURL</span><span class="p">)</span>
 
-<span class="kd">const</span> <span class="nx">router</span> <span class="o">=</span> <span class="nx">createRouter</span><span class="p">(\{</span>
+<span class="kd">const</span> <span class="nx">router</span> <span class="o">=</span> <span class="nx">createRouter</span><span class="p">(${"$"}{"{"${"$"}{"}"}</span>
   <span class="na">history</span><span class="p">:</span> <span class="nx">createWebHistory</span><span class="p">(</span><span class="nx">baseURL</span><span class="p">),</span>
   <span class="nx">routes</span>
-<span class="p">\})</span>
+<span class="p">${"$"}{"}"})</span>
 
 <span class="k">export</span> <span class="k">default</span> <span class="nx">router</span>
 </code></pre></div></div>
@@ -1265,25 +1265,25 @@ https://apps.apple.com/jp/app/routinetree/id1600469504
 <p>vite.config.jsにデバッグ時と公開時でBaseURLをスイッチする定義を追加</p>
 
 <div class="code-frame" data-lang="js"><div class="highlight"><pre><code><span class="c1">// vite.config.js</span>
-<span class="k">import</span> <span class="p">\{</span> <span class="nx">defineConfig</span> <span class="p">\}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">vite</span><span class="dl">'</span>
+<span class="k">import</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span> <span class="nx">defineConfig</span> <span class="p">${"$"}{"}"}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">vite</span><span class="dl">'</span>
 <span class="k">import</span> <span class="nx">vue</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@vitejs/plugin-vue</span><span class="dl">'</span>
 <span class="k">import</span> <span class="nx">vuetify</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@vuetify/vite-plugin</span><span class="dl">'</span>
 
 <span class="k">import</span> <span class="nx">path</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">path</span><span class="dl">'</span>
 
 <span class="c1">// https://vitejs.dev/config/</span>
-<span class="k">export</span> <span class="k">default</span> <span class="nx">defineConfig</span><span class="p">(\{</span>
+<span class="k">export</span> <span class="k">default</span> <span class="nx">defineConfig</span><span class="p">(${"$"}{"{"${"$"}{"}"}</span>
   <span class="c1">// 略</span>
-  <span class="na">resolve</span><span class="p">:</span> <span class="p">\{</span>
-    <span class="na">alias</span><span class="p">:</span> <span class="p">\{</span>
+  <span class="na">resolve</span><span class="p">:</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
+    <span class="na">alias</span><span class="p">:</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
       <span class="dl">'</span><span class="s1">@</span><span class="dl">'</span><span class="p">:</span> <span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">__dirname</span><span class="p">,</span> <span class="dl">'</span><span class="s1">src</span><span class="dl">'</span><span class="p">),</span>
-    <span class="p">\},</span>
-  <span class="p">\},</span>
-  <span class="c1">// この一行を追加　'/\{Githubリポジトリ名\}'とか'/'とか</span>
-  <span class="na">base</span><span class="p">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">NODE_ENV</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">production</span><span class="dl">'</span> <span class="p">?</span> <span class="dl">'</span><span class="s1">\{公開時\}</span><span class="dl">'</span> <span class="p">:</span> <span class="dl">'</span><span class="s1">\{デバッグ時\}</span><span class="dl">'</span><span class="p">,</span>
+    <span class="p">${"$"}{"}"},</span>
+  <span class="p">${"$"}{"}"},</span>
+  <span class="c1">// この一行を追加　'/${"$"}{"{"${"$"}{"}"}Githubリポジトリ名${"$"}{"}"}'とか'/'とか</span>
+  <span class="na">base</span><span class="p">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">NODE_ENV</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">production</span><span class="dl">'</span> <span class="p">?</span> <span class="dl">'</span><span class="s1">${"$"}{"{"${"$"}{"}"}公開時${"$"}{"}"}</span><span class="dl">'</span> <span class="p">:</span> <span class="dl">'</span><span class="s1">${"$"}{"{"${"$"}{"}"}デバッグ時${"$"}{"}"}</span><span class="dl">'</span><span class="p">,</span>
 
   <span class="c1">// 略</span>
-<span class="p">\})</span>
+<span class="p">${"$"}{"}"})</span>
 
 </code></pre></div></div>
 
@@ -1292,7 +1292,7 @@ https://apps.apple.com/jp/app/routinetree/id1600469504
 <p><qiita-embed-ogp src="https://ja.vitejs.dev/guide/env-and-mode.html"></qiita-embed-ogp></p>
 
 <blockquote>
-<p>import.meta.env.BASE_URL: \{string\} アプリが配信されているベース URL。これは base 設定オプション によって決まります。</p>
+<p>import.meta.env.BASE_URL: ${"$"}{"{"${"$"}{"}"}string${"$"}{"}"} アプリが配信されているベース URL。これは base 設定オプション によって決まります。</p>
 </blockquote>
 
 <p><qiita-embed-ogp src="https://github.com/sYamaz/website-vue/blob/main/src/router/index.js"></qiita-embed-ogp></p>
@@ -1301,10 +1301,10 @@ https://apps.apple.com/jp/app/routinetree/id1600469504
 
 <span class="kd">const</span> <span class="nx">baseURL</span> <span class="o">=</span> <span class="k">import</span><span class="p">.</span><span class="nx">meta</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">BASE_URL</span><span class="p">;</span>
 
-<span class="kd">const</span> <span class="nx">router</span> <span class="o">=</span> <span class="nx">createRouter</span><span class="p">(\{</span>
+<span class="kd">const</span> <span class="nx">router</span> <span class="o">=</span> <span class="nx">createRouter</span><span class="p">(${"$"}{"{"${"$"}{"}"}</span>
   <span class="na">history</span><span class="p">:</span> <span class="nx">createWebHistory</span><span class="p">(</span><span class="nx">baseURL</span><span class="p">),</span>
   <span class="nx">routes</span>
-<span class="p">\})</span>
+<span class="p">${"$"}{"}"})</span>
 
 <span class="k">export</span> <span class="k">default</span> <span class="nx">router</span>
 </code></pre></div></div>
@@ -1352,15 +1352,15 @@ https://github.com/sYamaz/website-vue/blob/main/src/components/Works.vue
   <h1>Works</h1>
   <v-container v-for="app in apps" v-bind:key="app">
     <v-card>
-      <v-card-title>\{\{app.name\}\}</v-card-title>
+      <v-card-title>${"$"}{"{"${"$"}{"}"}${"$"}{"{"${"$"}{"}"}app.name${"$"}{"}"}${"$"}{"}"}</v-card-title>
       <v-card-media>
         <v-img :src="app.img"></v-img>
       </v-card-media>
-      <v-card-text>\{\{ app.text \}\}</v-card-text>
+      <v-card-text>${"$"}{"{"${"$"}{"}"}${"$"}{"{"${"$"}{"}"} app.text ${"$"}{"}"}${"$"}{"}"}</v-card-text>
 
       
-      <v-card-subtitle>Platform \{\{ app.platform.join(", ") \}\}</v-card-subtitle>
-      <v-card-subtitle>Status \{\{app.status\}\}</v-card-subtitle>
+      <v-card-subtitle>Platform ${"$"}{"{"${"$"}{"}"}${"$"}{"{"${"$"}{"}"} app.platform.join(", ") ${"$"}{"}"}${"$"}{"}"}</v-card-subtitle>
+      <v-card-subtitle>Status ${"$"}{"{"${"$"}{"}"}${"$"}{"{"${"$"}{"}"}app.status${"$"}{"}"}${"$"}{"}"}</v-card-subtitle>
       <v-card-text></v-card-text>
       <v-divider></v-divider>
       <v-card-actions>
@@ -1375,7 +1375,7 @@ https://github.com/sYamaz/website-vue/blob/main/src/components/Works.vue
 <script setup>
 import routineTreeImg from "../assets/RoutineTree.png"
 const apps = [
-  \{
+  ${"$"}{"{"${"$"}{"}"}
     name: "RoutineTree",
     img: routineTreeImg,
     text: "Task management application that helps you accomplish your daily routine tasks.",
@@ -1383,8 +1383,8 @@ const apps = [
     status: "In Review",
     url: "",
     outerurl: "https://syamaz.github.io/RoutineTree/"
-  \},
-  \{
+  ${"$"}{"}"},
+  ${"$"}{"{"${"$"}{"}"}
     name: "My homepage",
     img: "",
     text: "This website.",
@@ -1392,7 +1392,7 @@ const apps = [
     status: "Released",
     url: "/",
     outerurl: ""
-  \}
+  ${"$"}{"}"}
 ]
 </script>
 
@@ -1417,15 +1417,15 @@ https://github.com/sYamaz/website/blob/main/website/Pages/Works/WorksPage.razor
 @using website.Pages.Works.Parts
 @using website.Pages.Works.Datas
 <style>
-    .styled-linkbutton \{
+    .styled-linkbutton ${"$"}{"{"${"$"}{"}"}
         @*縦並び*@
         display: block;
         text-transform:none;
-    \}
+    ${"$"}{"}"}
 
-        .styled-linkbutton:is(:hover) \{
+        .styled-linkbutton:is(:hover) ${"$"}{"{"${"$"}{"}"}
             text-decoration: underline;
-        \}
+        ${"$"}{"}"}
 </style>
 
 <PageTitle>Works - sYamaz</PageTitle>
@@ -1437,60 +1437,60 @@ https://github.com/sYamaz/website/blob/main/website/Pages/Works/WorksPage.razor
 
 
 @foreach (var item in Datas)
-\{
+${"$"}{"{"${"$"}{"}"}
     <Box Padding="2" Margin="2">
         <WorkCardView WorkData="@item" />
     </Box>
-\}
+${"$"}{"}"}
 
 
 
-@code \{
+@code ${"$"}{"{"${"$"}{"}"}
 
 
 
     private IEnumerable<AnyWorkData> Datas
-    \{
+    ${"$"}{"{"${"$"}{"}"}
         get
-        \{
+        ${"$"}{"{"${"$"}{"}"}
 
 
             yield return new AnyWorkData
-            \{
+            ${"$"}{"{"${"$"}{"}"}
                 Title = "RoutineTree",
                 Description = "Task management application that helps you accomplish your daily routine tasks.",
                 ReadMoreURL = "https://syamaz.github.io/RoutineTree/",
                 ImagePath = "images/RoutineTree.png",
                 Status = WorkStatus.inReview,
                 SupportPlatform = SupportPlatform.iOS
-            \};
+            ${"$"}{"}"};
 
             yield return new AnyWorkData
-            \{
+            ${"$"}{"{"${"$"}{"}"}
                 Title = "Some web app/service",
                 Description = "My practice project using Vue and AWS",
                 ReadMoreURL = "",
                 ImagePath = "images/Noimage.png",
                 Status = WorkStatus.underDevelop,
                 SupportPlatform = SupportPlatform.web
-            \};
+            ${"$"}{"}"};
 
             // --- end ---
 
             yield return new AnyWorkData
-            \{
+            ${"$"}{"{"${"$"}{"}"}
                 Title = "My homepage",
                 Description = "This website.",
                 ReadMoreURL = "",
                 ImagePath = "images/Noimage.png",
                 Status = WorkStatus.release,
                 SupportPlatform = SupportPlatform.web
-            \};
-        \}
-    \}
+            ${"$"}{"}"};
+        ${"$"}{"}"}
+    ${"$"}{"}"}
 
 
-\}
+${"$"}{"}"}
 
 \`\`\`
 
@@ -1501,7 +1501,7 @@ https://github.com/sYamaz/website/blob/main/website/Pages/Works/WorksPage.razor
 
 Blazorの場合、デフォルトでルーティング機能が付いてます。
 
-\`@page "/\{url\}"\`をコンポーネント内で宣言することで他ページから遷移することができます。
+\`@page "/${"$"}{"{"${"$"}{"}"}url${"$"}{"}"}"\`をコンポーネント内で宣言することで他ページから遷移することができます。
 
 vueでvue-routerを使う場合はコンポーネントで宣言というよりは一括で宣言することになります。（ドキュメントを十分に読み込めてないだけで、別の方法があるかもしれません）
 
@@ -1512,7 +1512,7 @@ https://github.com/sYamaz/website-vue/blob/main/src/router/index.js
 <details><summary>コード</summary><div>
 
 \`\`\`js
-import \{ createRouter, createWebHistory \} from 'vue-router'
+import ${"$"}{"{"${"$"}{"}"} createRouter, createWebHistory ${"$"}{"}"} from 'vue-router'
 // ページのコンポーネントをインポート
 import AboutVue from '../components/About.vue'
 import WorksVue from '../components/Works.vue'
@@ -1520,31 +1520,31 @@ import PostsVue from '../components/Posts.vue'
 
 
 const routes = [
-  \{
+  ${"$"}{"{"${"$"}{"}"}
     path: '/',
     name: 'About',
     component: AboutVue
-  \},
-  \{
+  ${"$"}{"}"},
+  ${"$"}{"{"${"$"}{"}"}
     path: '/works',
     name: 'Works',
     component: WorksVue
-  \},
-  \{
+  ${"$"}{"}"},
+  ${"$"}{"{"${"$"}{"}"}
     path: '/posts',
     name: 'Posts',
     component: PostsVue
-  \},
+  ${"$"}{"}"},
 ]
 
 
 const baseURL = import.meta.env.BASE_URL;
 console.log("base : " + baseURL)
 
-const router = createRouter(\{
+const router = createRouter(${"$"}{"{"${"$"}{"}"}
   history: createWebHistory(baseURL),
   routes
-\})
+${"$"}{"}"})
 
 export default router
 \`\`\`
@@ -1559,25 +1559,25 @@ vite.config.jsにデバッグ時と公開時でBaseURLをスイッチする定�
 
 \`\`\`js
 // vite.config.js
-import \{ defineConfig \} from 'vite'
+import ${"$"}{"{"${"$"}{"}"} defineConfig ${"$"}{"}"} from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vuetify from '@vuetify/vite-plugin'
 
 import path from 'path'
 
 // https://vitejs.dev/config/
-export default defineConfig(\{
+export default defineConfig(${"$"}{"{"${"$"}{"}"}
   // 略
-  resolve: \{
-    alias: \{
+  resolve: ${"$"}{"{"${"$"}{"}"}
+    alias: ${"$"}{"{"${"$"}{"}"}
       '@': path.resolve(__dirname, 'src'),
-    \},
-  \},
-  // この一行を追加　'/\{Githubリポジトリ名\}'とか'/'とか
-  base: process.env.NODE_ENV === 'production' ? '\{公開時\}' : '\{デバッグ時\}',
+    ${"$"}{"}"},
+  ${"$"}{"}"},
+  // この一行を追加　'/${"$"}{"{"${"$"}{"}"}Githubリポジトリ名${"$"}{"}"}'とか'/'とか
+  base: process.env.NODE_ENV === 'production' ? '${"$"}{"{"${"$"}{"}"}公開時${"$"}{"}"}' : '${"$"}{"{"${"$"}{"}"}デバッグ時${"$"}{"}"}',
 
   // 略
-\})
+${"$"}{"}"})
 
 \`\`\`
 
@@ -1585,7 +1585,7 @@ export default defineConfig(\{
 
 https://ja.vitejs.dev/guide/env-and-mode.html
 
->import.meta.env.BASE_URL: \{string\} アプリが配信されているベース URL。これは base 設定オプション によって決まります。
+>import.meta.env.BASE_URL: ${"$"}{"{"${"$"}{"}"}string${"$"}{"}"} アプリが配信されているベース URL。これは base 設定オプション によって決まります。
 
 
 
@@ -1596,10 +1596,10 @@ https://github.com/sYamaz/website-vue/blob/main/src/router/index.js
 
 const baseURL = import.meta.env.BASE_URL;
 
-const router = createRouter(\{
+const router = createRouter(${"$"}{"{"${"$"}{"}"}
   history: createWebHistory(baseURL),
   routes
-\})
+${"$"}{"}"})
 
 export default router
 \`\`\`
@@ -1847,71 +1847,71 @@ iOSアプリやBlazorホームページはdotnet開発という仕事での経�
     <span class="nt">&lt;RouterLayout</span> <span class="na">Default=</span><span class="s">"@typeof(AppLayout)"</span><span class="nt">/&gt;</span>
 <span class="nt">&lt;/ThemeProvider&gt;</span>
 
-@code\{
+@code${"$"}{"{"${"$"}{"}"}
     public static ThemeValue Light = ThemeFactory.CreateTheme(new ThemeConfig
-    \{
+    ${"$"}{"{"${"$"}{"}"}
         Palette = new PaletteConfig
-        \{
+        ${"$"}{"{"${"$"}{"}"}
             Type = PaletteType.Light,
 
             Primary = new PaletteColorConfig
-            \{
+            ${"$"}{"{"${"$"}{"}"}
                 Main = PaletteColors.Blue.X700
-            \},
+            ${"$"}{"}"},
 
             Secondary = new PaletteColorConfig
-            \{
+            ${"$"}{"{"${"$"}{"}"}
                 Main = PaletteColors.Pink.A400.Darken(0.1m)
-            \},
+            ${"$"}{"}"},
 
             Background = new PaletteBackground
-            \{
+            ${"$"}{"{"${"$"}{"}"}
                 Default = "#fff",
 
                 Custom = new Dictionary<span class="nt">&lt;string</span><span class="err">,</span> <span class="na">string</span><span class="nt">&gt;</span>
-                \{
-                    \{ "level1", "#fff" \},
-                    \{ "level2", PaletteColors.Grey.X100 \},
-                    \{ "appbar-color", "var(--theme-palette-primary-contrast-text)" \},
-                    \{ "appbar-background-color", "var(--theme-palette-primary-main)" \},
-                \},
-            \}
-        \}
-    \});
+                ${"$"}{"{"${"$"}{"}"}
+                    ${"$"}{"{"${"$"}{"}"} "level1", "#fff" ${"$"}{"}"},
+                    ${"$"}{"{"${"$"}{"}"} "level2", PaletteColors.Grey.X100 ${"$"}{"}"},
+                    ${"$"}{"{"${"$"}{"}"} "appbar-color", "var(--theme-palette-primary-contrast-text)" ${"$"}{"}"},
+                    ${"$"}{"{"${"$"}{"}"} "appbar-background-color", "var(--theme-palette-primary-main)" ${"$"}{"}"},
+                ${"$"}{"}"},
+            ${"$"}{"}"}
+        ${"$"}{"}"}
+    ${"$"}{"}"});
 
     public static ThemeValue Dark = ThemeFactory.CreateTheme(new ThemeConfig
-    \{
+    ${"$"}{"{"${"$"}{"}"}
         Palette = new PaletteConfig
-        \{
+        ${"$"}{"{"${"$"}{"}"}
             Type = PaletteType.Dark,
 
             Primary = new PaletteColorConfig
-            \{
+            ${"$"}{"{"${"$"}{"}"}
                 Main = PaletteColors.Blue.X200
-            \},
+            ${"$"}{"}"},
 
             Secondary = new PaletteColorConfig
-            \{
+            ${"$"}{"{"${"$"}{"}"}
                 Main = PaletteColors.Pink.X200
-            \},
+            ${"$"}{"}"},
 
 
 
             Background = new PaletteBackground
-            \{
+            ${"$"}{"{"${"$"}{"}"}
                 Default = "#121212",
 
                 Custom = new Dictionary<span class="nt">&lt;string</span><span class="err">,</span> <span class="na">string</span><span class="nt">&gt;</span>
-                \{
-                    \{ "level1", PaletteColors.Grey.X900 \},
-                    \{ "level2", "#333" \},
-                    \{ "appbar-color", "#fff" \},
-                    \{ "appbar-background-color", "#333" \},
-                \},
-            \}
-        \}
-    \});
-\}
+                ${"$"}{"{"${"$"}{"}"}
+                    ${"$"}{"{"${"$"}{"}"} "level1", PaletteColors.Grey.X900 ${"$"}{"}"},
+                    ${"$"}{"{"${"$"}{"}"} "level2", "#333" ${"$"}{"}"},
+                    ${"$"}{"{"${"$"}{"}"} "appbar-color", "#fff" ${"$"}{"}"},
+                    ${"$"}{"{"${"$"}{"}"} "appbar-background-color", "#333" ${"$"}{"}"},
+                ${"$"}{"}"},
+            ${"$"}{"}"}
+        ${"$"}{"}"}
+    ${"$"}{"}"});
+${"$"}{"}"}
 </code></pre></div></div>
 
 <h3>
@@ -1933,23 +1933,23 @@ iOSアプリやBlazorホームページはdotnet開発という仕事での経�
 @using website.Components
 
 <span class="nt">&lt;style&gt;</span>
-    <span class="nc">.styled-menu-item</span><span class="nd">:not</span><span class="o">(</span><span class="nd">:active</span><span class="o">)</span><span class="nd">:is</span><span class="o">(</span><span class="nd">:hover</span><span class="o">)</span> <span class="p">\{</span>
+    <span class="nc">.styled-menu-item</span><span class="nd">:not</span><span class="o">(</span><span class="nd">:active</span><span class="o">)</span><span class="nd">:is</span><span class="o">(</span><span class="nd">:hover</span><span class="o">)</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
         <span class="c">/*カーソル当てた時の強調*/</span>
         <span class="nl">background-color</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="n">--theme-palette-primary-main</span><span class="p">,</span> <span class="m">#90caf9</span><span class="p">);</span>
         <span class="nl">text-decoration</span><span class="p">:</span> <span class="nb">underline</span><span class="p">;</span>
         <span class="nl">color</span><span class="p">:</span> <span class="no">white</span><span class="p">;</span>
-    <span class="p">\}</span>
-    <span class="nc">.styled-menu-item</span><span class="nd">:active</span> <span class="p">\{</span>
+    <span class="p">${"$"}{"}"}</span>
+    <span class="nc">.styled-menu-item</span><span class="nd">:active</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
         <span class="c">/*現在表示しているページのMenuItemの色変更*/</span>
         <span class="nl">background-color</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="n">--theme-palette-primary-main</span><span class="p">,</span> <span class="m">#fff</span><span class="p">)</span>
-    <span class="p">\}</span>
-    <span class="nc">.styled-nav-item</span><span class="nd">:is</span><span class="o">(</span><span class="nd">:hover</span><span class="o">)</span> <span class="p">\{</span>
+    <span class="p">${"$"}{"}"}</span>
+    <span class="nc">.styled-nav-item</span><span class="nd">:is</span><span class="o">(</span><span class="nd">:hover</span><span class="o">)</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
         <span class="nl">background-color</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="n">--theme-palette-primary-main</span><span class="p">,</span> <span class="m">#90caf9</span><span class="p">);</span>
         <span class="nl">text-decoration</span><span class="p">:</span> <span class="nb">underline</span><span class="p">;</span>
-    <span class="p">\}</span>
-    <span class="nc">.styled-nav-item__active</span> <span class="p">\{</span>
+    <span class="p">${"$"}{"}"}</span>
+    <span class="nc">.styled-nav-item__active</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
         <span class="nl">background-color</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="n">--theme-palette-primary-main</span><span class="p">,</span> <span class="m">#fff</span><span class="p">)</span>
-    <span class="p">\}</span>
+    <span class="p">${"$"}{"}"}</span>
 <span class="nt">&lt;/style&gt;</span>
 
 <span class="nt">&lt;MainLayout</span> <span class="na">TopbarClass=</span><span class="s">"App-Topbar"</span> <span class="nt">&gt;</span>
@@ -1967,14 +1967,14 @@ iOSアプリやBlazorホームページはdotnet開発という仕事での経�
         <span class="nt">&lt;Hidden</span> <span class="na">ExtraSmallDown</span> <span class="na">Context=</span><span class="s">"HiddenContext"</span><span class="nt">&gt;</span>
             <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"@HiddenContext.Class"</span><span class="nt">&gt;</span>
                 @foreach (var navItem in navigationItems)
-                \{
+                ${"$"}{"{"${"$"}{"}"}
                     <span class="nt">&lt;Button</span> <span class="na">Style=</span><span class="s">"text-transform:none;"</span>
                             <span class="na">Color=</span><span class="s">"Color.Inherit"</span>
                             <span class="na">Class=</span><span class="s">"@("</span><span class="na">styled-nav-item</span><span class="err">"</span> <span class="err">+</span> <span class="na">ClassActive</span><span class="err">(</span><span class="na">navItem.Path</span><span class="err">))"</span>
                             <span class="na">OnClick=</span><span class="s">"@(s =&gt; NavTo(navItem.Path))"</span><span class="nt">&gt;</span>
                         <span class="nt">&lt;Typography</span> <span class="na">NoWrap</span> <span class="na">Variant=</span><span class="s">"TypographyVariant.Body1"</span><span class="nt">&gt;</span>@navItem.Title<span class="nt">&lt;/Typography&gt;</span>
                     <span class="nt">&lt;/Button&gt;</span>
-                \}
+                ${"$"}{"}"}
 
             <span class="nt">&lt;/div&gt;</span>
         <span class="nt">&lt;/Hidden&gt;</span>
@@ -1991,56 +1991,56 @@ iOSアプリやBlazorホームページはdotnet開発という仕事での経�
     <span class="nt">&lt;/SidebarContent&gt;</span>
 <span class="nt">&lt;/MainLayout&gt;</span>
 
-@code \{
+@code ${"$"}{"{"${"$"}{"}"}
     private void NavTo(string page)
-    \{
+    ${"$"}{"{"${"$"}{"}"}
         navman.NavigateTo(page);
         HandleClose(MenuCloseReason.BackdropClick);
-    \}
+    ${"$"}{"}"}
 
-    private bool Open \{ set; get; \}
+    private bool Open ${"$"}{"{"${"$"}{"}"} set; get; ${"$"}{"}"}
 
-    private IReference ButtonRef \{ set; get; \} = new Reference();
+    private IReference ButtonRef ${"$"}{"{"${"$"}{"}"} set; get; ${"$"}{"}"} = new Reference();
 
     private List<span class="nt">&lt;NavigationItem&gt;</span> navigationItems = new List<span class="nt">&lt;NavigationItem&gt;</span>
-    \{
-        new NavigationItem\{Path = "", Title = "About"\},
-        new NavigationItem\{Path = "apps", Title = "Apps"\},
-        new NavigationItem\{Path = "posts", Title = "Posts"\},
-        new NavigationItem\{Path = "https://github.com/sYamaz/website", Title = "Source", Icon=@<span class="nt">&lt;GitHubIcon</span> <span class="nt">/&gt;</span>\},
-    \};
+    ${"$"}{"{"${"$"}{"}"}
+        new NavigationItem${"$"}{"{"${"$"}{"}"}Path = "", Title = "About"${"$"}{"}"},
+        new NavigationItem${"$"}{"{"${"$"}{"}"}Path = "apps", Title = "Apps"${"$"}{"}"},
+        new NavigationItem${"$"}{"{"${"$"}{"}"}Path = "posts", Title = "Posts"${"$"}{"}"},
+        new NavigationItem${"$"}{"{"${"$"}{"}"}Path = "https://github.com/sYamaz/website", Title = "Source", Icon=@<span class="nt">&lt;GitHubIcon</span> <span class="nt">/&gt;</span>${"$"}{"}"},
+    ${"$"}{"}"};
 
     private void HandleClose(EventArgs args)
-    \{
+    ${"$"}{"{"${"$"}{"}"}
 
         Open = false;
 
         StateHasChanged();
-    \}
+    ${"$"}{"}"}
 
     private void HandleClose(MenuCloseReason reason)
-    \{
+    ${"$"}{"{"${"$"}{"}"}
         Open = false;
 
         StateHasChanged();
-    \}
+    ${"$"}{"}"}
 
     private void OnOpen()
-    \{
+    ${"$"}{"{"${"$"}{"}"}
 
 
         Open = true;
 
         StateHasChanged();
-    \}
+    ${"$"}{"}"}
 
     private string ClassActive(string page)
-    \{
+    ${"$"}{"{"${"$"}{"}"}
         System.Diagnostics.Debug.WriteLine(page);
         return navman.BaseUri + page == navman.Uri ? " styled-nav-item__active" : "";
 
-    \}
-\}
+    ${"$"}{"}"}
+${"$"}{"}"}
 </code></pre></div></div>
 
 <h2>
@@ -2125,71 +2125,71 @@ VisualStudioで新規Blazorプロジェクトと共に作成される\`MainLayou
     <RouterLayout Default="@typeof(AppLayout)"/>
 </ThemeProvider>
 
-@code\{
+@code${"$"}{"{"${"$"}{"}"}
     public static ThemeValue Light = ThemeFactory.CreateTheme(new ThemeConfig
-    \{
+    ${"$"}{"{"${"$"}{"}"}
         Palette = new PaletteConfig
-        \{
+        ${"$"}{"{"${"$"}{"}"}
             Type = PaletteType.Light,
 
             Primary = new PaletteColorConfig
-            \{
+            ${"$"}{"{"${"$"}{"}"}
                 Main = PaletteColors.Blue.X700
-            \},
+            ${"$"}{"}"},
 
             Secondary = new PaletteColorConfig
-            \{
+            ${"$"}{"{"${"$"}{"}"}
                 Main = PaletteColors.Pink.A400.Darken(0.1m)
-            \},
+            ${"$"}{"}"},
 
             Background = new PaletteBackground
-            \{
+            ${"$"}{"{"${"$"}{"}"}
                 Default = "#fff",
 
                 Custom = new Dictionary<string, string>
-                \{
-                    \{ "level1", "#fff" \},
-                    \{ "level2", PaletteColors.Grey.X100 \},
-                    \{ "appbar-color", "var(--theme-palette-primary-contrast-text)" \},
-                    \{ "appbar-background-color", "var(--theme-palette-primary-main)" \},
-                \},
-            \}
-        \}
-    \});
+                ${"$"}{"{"${"$"}{"}"}
+                    ${"$"}{"{"${"$"}{"}"} "level1", "#fff" ${"$"}{"}"},
+                    ${"$"}{"{"${"$"}{"}"} "level2", PaletteColors.Grey.X100 ${"$"}{"}"},
+                    ${"$"}{"{"${"$"}{"}"} "appbar-color", "var(--theme-palette-primary-contrast-text)" ${"$"}{"}"},
+                    ${"$"}{"{"${"$"}{"}"} "appbar-background-color", "var(--theme-palette-primary-main)" ${"$"}{"}"},
+                ${"$"}{"}"},
+            ${"$"}{"}"}
+        ${"$"}{"}"}
+    ${"$"}{"}"});
 
     public static ThemeValue Dark = ThemeFactory.CreateTheme(new ThemeConfig
-    \{
+    ${"$"}{"{"${"$"}{"}"}
         Palette = new PaletteConfig
-        \{
+        ${"$"}{"{"${"$"}{"}"}
             Type = PaletteType.Dark,
 
             Primary = new PaletteColorConfig
-            \{
+            ${"$"}{"{"${"$"}{"}"}
                 Main = PaletteColors.Blue.X200
-            \},
+            ${"$"}{"}"},
 
             Secondary = new PaletteColorConfig
-            \{
+            ${"$"}{"{"${"$"}{"}"}
                 Main = PaletteColors.Pink.X200
-            \},
+            ${"$"}{"}"},
 
            
 
             Background = new PaletteBackground
-            \{
+            ${"$"}{"{"${"$"}{"}"}
                 Default = "#121212",
 
                 Custom = new Dictionary<string, string>
-                \{
-                    \{ "level1", PaletteColors.Grey.X900 \},
-                    \{ "level2", "#333" \},
-                    \{ "appbar-color", "#fff" \},
-                    \{ "appbar-background-color", "#333" \},
-                \},
-            \}
-        \}
-    \});
-\}
+                ${"$"}{"{"${"$"}{"}"}
+                    ${"$"}{"{"${"$"}{"}"} "level1", PaletteColors.Grey.X900 ${"$"}{"}"},
+                    ${"$"}{"{"${"$"}{"}"} "level2", "#333" ${"$"}{"}"},
+                    ${"$"}{"{"${"$"}{"}"} "appbar-color", "#fff" ${"$"}{"}"},
+                    ${"$"}{"{"${"$"}{"}"} "appbar-background-color", "#333" ${"$"}{"}"},
+                ${"$"}{"}"},
+            ${"$"}{"}"}
+        ${"$"}{"}"}
+    ${"$"}{"}"});
+${"$"}{"}"}
 \`\`\`
 
 ### AppLayout.razor
@@ -2209,23 +2209,23 @@ Skclusive.Material.LayoutではMainLayoutコンポーネントが定義済みに
 @using website.Components
 
 <style>
-    .styled-menu-item:not(:active):is(:hover) \{
+    .styled-menu-item:not(:active):is(:hover) ${"$"}{"{"${"$"}{"}"}
         /*カーソル当てた時の強調*/
         background-color: var(--theme-palette-primary-main, #90caf9);
         text-decoration: underline;
         color: white;
-    \}
-    .styled-menu-item:active \{
+    ${"$"}{"}"}
+    .styled-menu-item:active ${"$"}{"{"${"$"}{"}"}
         /*現在表示しているページのMenuItemの色変更*/
         background-color: var(--theme-palette-primary-main, #fff)
-    \}
-    .styled-nav-item:is(:hover) \{
+    ${"$"}{"}"}
+    .styled-nav-item:is(:hover) ${"$"}{"{"${"$"}{"}"}
         background-color: var(--theme-palette-primary-main, #90caf9);
         text-decoration: underline;
-    \}
-    .styled-nav-item__active \{
+    ${"$"}{"}"}
+    .styled-nav-item__active ${"$"}{"{"${"$"}{"}"}
         background-color: var(--theme-palette-primary-main, #fff)
-    \}
+    ${"$"}{"}"}
 </style>
 
 <MainLayout TopbarClass="App-Topbar" >
@@ -2243,14 +2243,14 @@ Skclusive.Material.LayoutではMainLayoutコンポーネントが定義済みに
         <Hidden ExtraSmallDown Context="HiddenContext">
             <div class="@HiddenContext.Class">
                 @foreach (var navItem in navigationItems)
-                \{
+                ${"$"}{"{"${"$"}{"}"}
                     <Button Style="text-transform:none;"
                             Color="Color.Inherit"
                             Class="@("styled-nav-item" + ClassActive(navItem.Path))"
                             OnClick="@(s => NavTo(navItem.Path))">
                         <Typography NoWrap Variant="TypographyVariant.Body1">@navItem.Title</Typography>
                     </Button>
-                \}
+                ${"$"}{"}"}
               
             </div>
         </Hidden>
@@ -2267,56 +2267,56 @@ Skclusive.Material.LayoutではMainLayoutコンポーネントが定義済みに
     </SidebarContent>
 </MainLayout>
 
-@code \{
+@code ${"$"}{"{"${"$"}{"}"}
     private void NavTo(string page)
-    \{
+    ${"$"}{"{"${"$"}{"}"}
         navman.NavigateTo(page);
         HandleClose(MenuCloseReason.BackdropClick);
-    \}
+    ${"$"}{"}"}
 
-    private bool Open \{ set; get; \}
+    private bool Open ${"$"}{"{"${"$"}{"}"} set; get; ${"$"}{"}"}
 
-    private IReference ButtonRef \{ set; get; \} = new Reference();
+    private IReference ButtonRef ${"$"}{"{"${"$"}{"}"} set; get; ${"$"}{"}"} = new Reference();
 
     private List<NavigationItem> navigationItems = new List<NavigationItem>
-    \{
-        new NavigationItem\{Path = "", Title = "About"\},
-        new NavigationItem\{Path = "apps", Title = "Apps"\},
-        new NavigationItem\{Path = "posts", Title = "Posts"\},
-        new NavigationItem\{Path = "https://github.com/sYamaz/website", Title = "Source", Icon=@<GitHubIcon />\},
-    \};
+    ${"$"}{"{"${"$"}{"}"}
+        new NavigationItem${"$"}{"{"${"$"}{"}"}Path = "", Title = "About"${"$"}{"}"},
+        new NavigationItem${"$"}{"{"${"$"}{"}"}Path = "apps", Title = "Apps"${"$"}{"}"},
+        new NavigationItem${"$"}{"{"${"$"}{"}"}Path = "posts", Title = "Posts"${"$"}{"}"},
+        new NavigationItem${"$"}{"{"${"$"}{"}"}Path = "https://github.com/sYamaz/website", Title = "Source", Icon=@<GitHubIcon />${"$"}{"}"},
+    ${"$"}{"}"};
 
     private void HandleClose(EventArgs args)
-    \{
+    ${"$"}{"{"${"$"}{"}"}
 
         Open = false;
 
         StateHasChanged();
-    \}
+    ${"$"}{"}"}
 
     private void HandleClose(MenuCloseReason reason)
-    \{
+    ${"$"}{"{"${"$"}{"}"}
         Open = false;
 
         StateHasChanged();
-    \}
+    ${"$"}{"}"}
 
     private void OnOpen()
-    \{
+    ${"$"}{"{"${"$"}{"}"}
 
 
         Open = true;
 
         StateHasChanged();
-    \}
+    ${"$"}{"}"}
 
     private string ClassActive(string page)
-    \{
+    ${"$"}{"{"${"$"}{"}"}
         System.Diagnostics.Debug.WriteLine(page);
         return navman.BaseUri + page == navman.Uri ? " styled-nav-item__active" : "";
 
-    \}
-\}
+    ${"$"}{"}"}
+${"$"}{"}"}
 \`\`\`
 
 ## できたもの
@@ -2375,32 +2375,32 @@ https://qiita.com/nobu17/items/116a0d1c949885e21d70
 
 <div class="code-frame" data-lang="swift"><div class="highlight"><pre><code><span class="kd">import</span> <span class="kt">SwiftUI</span>
 
-<span class="kd">struct</span> <span class="kt">HIGTextField</span><span class="o">&lt;</span><span class="kt">Leading</span><span class="p">:</span><span class="kt">View</span><span class="p">,</span> <span class="kt">Trailing</span><span class="p">:</span><span class="kt">View</span><span class="o">&gt;</span><span class="p">:</span> <span class="kt">View</span> <span class="p">\{</span>
+<span class="kd">struct</span> <span class="kt">HIGTextField</span><span class="o">&lt;</span><span class="kt">Leading</span><span class="p">:</span><span class="kt">View</span><span class="p">,</span> <span class="kt">Trailing</span><span class="p">:</span><span class="kt">View</span><span class="o">&gt;</span><span class="p">:</span> <span class="kt">View</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="kd">@Binding</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span>
     <span class="k">let</span> <span class="nv">prompt</span><span class="p">:</span><span class="kt">String</span>
 
     <span class="kd">@State</span> <span class="kd">private</span> <span class="k">var</span> <span class="nv">editing</span><span class="p">:</span><span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span>
 
-    <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">\{</span>
-        <span class="kt">HStack</span><span class="p">(</span><span class="nv">alignment</span><span class="p">:</span> <span class="o">.</span><span class="n">center</span><span class="p">,</span> <span class="nv">spacing</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">content</span><span class="p">:</span> <span class="p">\{</span>
+    <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
+        <span class="kt">HStack</span><span class="p">(</span><span class="nv">alignment</span><span class="p">:</span> <span class="o">.</span><span class="n">center</span><span class="p">,</span> <span class="nv">spacing</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">content</span><span class="p">:</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
             <span class="c1">// for future iOS</span>
-            <span class="c1">// TextField("title", text: $task.title, prompt:Text("Routine name"))</span>
-            <span class="c1">//                            .focused($titleFocused)</span>
+            <span class="c1">// TextField("title", text: ${"$"}task.title, prompt:Text("Routine name"))</span>
+            <span class="c1">//                            .focused(${"$"}titleFocused)</span>
             <span class="c1">//</span>
-            <span class="kt">TextField</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="nv">text</span><span class="p">:</span> <span class="err">$</span><span class="n">text</span><span class="p">,</span> <span class="nv">onEditingChanged</span><span class="p">:</span> <span class="p">\{</span><span class="n">editing</span> <span class="k">in</span>
+            <span class="kt">TextField</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="nv">text</span><span class="p">:</span> <span class="err">${"$"}</span><span class="n">text</span><span class="p">,</span> <span class="nv">onEditingChanged</span><span class="p">:</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span><span class="n">editing</span> <span class="k">in</span>
                     <span class="k">self</span><span class="o">.</span><span class="n">editing</span> <span class="o">=</span> <span class="n">editing</span>
-            <span class="p">\},</span> <span class="nv">onCommit</span><span class="p">:</span> <span class="p">\{\})</span>
-            <span class="k">if</span><span class="p">(</span><span class="n">editing</span><span class="p">)\{</span>
-                <span class="kt">Button</span><span class="p">(</span><span class="nv">action</span><span class="p">:</span> <span class="p">\{</span>
+            <span class="p">${"$"}{"}"},</span> <span class="nv">onCommit</span><span class="p">:</span> <span class="p">${"$"}{"{"${"$"}{"}"}${"$"}{"}"})</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">editing</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
+                <span class="kt">Button</span><span class="p">(</span><span class="nv">action</span><span class="p">:</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
                     <span class="n">text</span> <span class="o">=</span> <span class="s">""</span>
-                <span class="p">\},</span> <span class="nv">label</span><span class="p">:</span> <span class="p">\{</span>
+                <span class="p">${"$"}{"}"},</span> <span class="nv">label</span><span class="p">:</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
                     <span class="kt">Image</span><span class="p">(</span><span class="nv">systemName</span><span class="p">:</span> <span class="s">"xmark.circle.fill"</span><span class="p">)</span>
                         <span class="o">.</span><span class="nf">foregroundColor</span><span class="p">(</span><span class="o">.</span><span class="n">secondary</span><span class="p">)</span>
-                <span class="p">\})</span>
-            <span class="p">\}</span>
-        <span class="p">\})</span>
-    <span class="p">\}</span>
-<span class="p">\}</span>
+                <span class="p">${"$"}{"}"})</span>
+            <span class="p">${"$"}{"}"}</span>
+        <span class="p">${"$"}{"}"})</span>
+    <span class="p">${"$"}{"}"}</span>
+<span class="p">${"$"}{"}"}</span>
 </code></pre></div></div>
 
 <p>※onEditingChanged, onCommitを引数とするTextFieldのイニシャライザは将来的に非推奨となるため、後々はfocused()モディファイアを使った方法に変えた方が良さそうです。</p>
@@ -2423,7 +2423,7 @@ https://qiita.com/nobu17/items/116a0d1c949885e21d70
 
 <div class="code-frame" data-lang="swift"><div class="highlight"><pre><code><span class="kd">import</span> <span class="kt">SwiftUI</span>
 
-<span class="kd">struct</span> <span class="kt">HIGTextField</span><span class="o">&lt;</span><span class="kt">Leading</span><span class="p">:</span><span class="kt">View</span><span class="p">,</span> <span class="kt">Trailing</span><span class="p">:</span><span class="kt">View</span><span class="o">&gt;</span><span class="p">:</span> <span class="kt">View</span> <span class="p">\{</span>
+<span class="kd">struct</span> <span class="kt">HIGTextField</span><span class="o">&lt;</span><span class="kt">Leading</span><span class="p">:</span><span class="kt">View</span><span class="p">,</span> <span class="kt">Trailing</span><span class="p">:</span><span class="kt">View</span><span class="o">&gt;</span><span class="p">:</span> <span class="kt">View</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="kd">typealias</span> <span class="kt">Focused</span> <span class="o">=</span> <span class="kt">Bool</span>
     <span class="kd">@Binding</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span>
     <span class="k">let</span> <span class="nv">prompt</span><span class="p">:</span><span class="kt">String</span>
@@ -2438,56 +2438,56 @@ https://qiita.com/nobu17/items/116a0d1c949885e21d70
     <span class="nf">init</span><span class="p">(</span><span class="nv">text</span><span class="p">:</span><span class="kt">Binding</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">,</span>
          <span class="nv">prompt</span><span class="p">:</span><span class="kt">String</span><span class="p">,</span>
          <span class="nv">leading</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Binding</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">,</span> <span class="kt">Focused</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Leading</span><span class="p">,</span>
-         <span class="nv">trailing</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Binding</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">,</span> <span class="kt">Focused</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Trailing</span><span class="p">)\{</span>
+         <span class="nv">trailing</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Binding</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">,</span> <span class="kt">Focused</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Trailing</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
         <span class="k">self</span><span class="o">.</span><span class="n">_text</span> <span class="o">=</span> <span class="n">text</span>
         <span class="k">self</span><span class="o">.</span><span class="n">prompt</span> <span class="o">=</span> <span class="n">prompt</span>
         <span class="k">self</span><span class="o">.</span><span class="n">leading</span> <span class="o">=</span> <span class="n">leading</span>
         <span class="k">self</span><span class="o">.</span><span class="n">trailing</span> <span class="o">=</span> <span class="n">trailing</span>
-    <span class="p">\}</span>
+    <span class="p">${"$"}{"}"}</span>
 
-    <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">\{</span>
-        <span class="kt">HStack</span><span class="p">(</span><span class="nv">alignment</span><span class="p">:</span> <span class="o">.</span><span class="n">center</span><span class="p">,</span> <span class="nv">spacing</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">content</span><span class="p">:</span> <span class="p">\{</span>
-            <span class="nf">leading</span><span class="p">(</span><span class="err">$</span><span class="n">text</span><span class="p">,</span> <span class="k">self</span><span class="o">.</span><span class="n">editing</span><span class="p">)</span>
+    <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
+        <span class="kt">HStack</span><span class="p">(</span><span class="nv">alignment</span><span class="p">:</span> <span class="o">.</span><span class="n">center</span><span class="p">,</span> <span class="nv">spacing</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">content</span><span class="p">:</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
+            <span class="nf">leading</span><span class="p">(</span><span class="err">${"$"}</span><span class="n">text</span><span class="p">,</span> <span class="k">self</span><span class="o">.</span><span class="n">editing</span><span class="p">)</span>
             <span class="c1">// for future iOS</span>
-            <span class="c1">// TextField("title", text: $task.title, prompt:Text("Routine name"))</span>
-            <span class="c1">//                            .focused($titleFocused)</span>
+            <span class="c1">// TextField("title", text: ${"$"}task.title, prompt:Text("Routine name"))</span>
+            <span class="c1">//                            .focused(${"$"}titleFocused)</span>
             <span class="c1">//</span>
-            <span class="kt">TextField</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="nv">text</span><span class="p">:</span> <span class="err">$</span><span class="n">text</span><span class="p">,</span> <span class="nv">onEditingChanged</span><span class="p">:</span> <span class="p">\{</span><span class="n">editing</span> <span class="k">in</span>
+            <span class="kt">TextField</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="nv">text</span><span class="p">:</span> <span class="err">${"$"}</span><span class="n">text</span><span class="p">,</span> <span class="nv">onEditingChanged</span><span class="p">:</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span><span class="n">editing</span> <span class="k">in</span>
 
                     <span class="k">self</span><span class="o">.</span><span class="n">editing</span> <span class="o">=</span> <span class="n">editing</span>
 
-            <span class="p">\},</span> <span class="nv">onCommit</span><span class="p">:</span> <span class="p">\{\})</span>
+            <span class="p">${"$"}{"}"},</span> <span class="nv">onCommit</span><span class="p">:</span> <span class="p">${"$"}{"{"${"$"}{"}"}${"$"}{"}"})</span>
 
-            <span class="nf">trailing</span><span class="p">(</span><span class="err">$</span><span class="n">text</span><span class="p">,</span> <span class="k">self</span><span class="o">.</span><span class="n">editing</span><span class="p">)</span>
+            <span class="nf">trailing</span><span class="p">(</span><span class="err">${"$"}</span><span class="n">text</span><span class="p">,</span> <span class="k">self</span><span class="o">.</span><span class="n">editing</span><span class="p">)</span>
 
-            <span class="k">if</span><span class="p">(</span><span class="n">editing</span><span class="p">)\{</span>
-                <span class="kt">Button</span><span class="p">(</span><span class="nv">action</span><span class="p">:</span> <span class="p">\{</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">editing</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
+                <span class="kt">Button</span><span class="p">(</span><span class="nv">action</span><span class="p">:</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
                     <span class="n">text</span> <span class="o">=</span> <span class="s">""</span>
-                <span class="p">\},</span> <span class="nv">label</span><span class="p">:</span> <span class="p">\{</span>
+                <span class="p">${"$"}{"}"},</span> <span class="nv">label</span><span class="p">:</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
                     <span class="kt">Image</span><span class="p">(</span><span class="nv">systemName</span><span class="p">:</span> <span class="s">"xmark.circle.fill"</span><span class="p">)</span>
                         <span class="o">.</span><span class="nf">foregroundColor</span><span class="p">(</span><span class="o">.</span><span class="n">secondary</span><span class="p">)</span>
-                <span class="p">\})</span>
-            <span class="p">\}</span>
-        <span class="p">\})</span>
-    <span class="p">\}</span>
-<span class="p">\}</span>
+                <span class="p">${"$"}{"}"})</span>
+            <span class="p">${"$"}{"}"}</span>
+        <span class="p">${"$"}{"}"})</span>
+    <span class="p">${"$"}{"}"}</span>
+<span class="p">${"$"}{"}"}</span>
 
-<span class="kd">extension</span> <span class="kt">HIGTextField</span><span class="p">\{</span>
+<span class="kd">extension</span> <span class="kt">HIGTextField</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="c1">// 前後に何の機能もないパターン</span>
-    <span class="nf">init</span><span class="p">(</span><span class="nv">text</span><span class="p">:</span><span class="kt">Binding</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">,</span> <span class="nv">prompt</span><span class="p">:</span><span class="kt">String</span><span class="p">)</span> <span class="k">where</span> <span class="kt">Leading</span> <span class="o">==</span> <span class="kt">EmptyView</span><span class="p">,</span> <span class="kt">Trailing</span> <span class="o">==</span> <span class="kt">EmptyView</span><span class="p">\{</span>
-        <span class="k">self</span><span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">text</span><span class="p">:</span> <span class="n">text</span><span class="p">,</span> <span class="nv">prompt</span><span class="p">:</span> <span class="n">prompt</span><span class="p">,</span> <span class="nv">leading</span><span class="p">:</span> <span class="p">\{(</span><span class="n">b</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> <span class="k">in</span> <span class="kt">EmptyView</span><span class="p">()\},</span> <span class="nv">trailing</span><span class="p">:</span> <span class="p">\{(</span><span class="n">b</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> <span class="k">in</span> <span class="kt">EmptyView</span><span class="p">()\})</span>
-    <span class="p">\}</span>
+    <span class="nf">init</span><span class="p">(</span><span class="nv">text</span><span class="p">:</span><span class="kt">Binding</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">,</span> <span class="nv">prompt</span><span class="p">:</span><span class="kt">String</span><span class="p">)</span> <span class="k">where</span> <span class="kt">Leading</span> <span class="o">==</span> <span class="kt">EmptyView</span><span class="p">,</span> <span class="kt">Trailing</span> <span class="o">==</span> <span class="kt">EmptyView</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
+        <span class="k">self</span><span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">text</span><span class="p">:</span> <span class="n">text</span><span class="p">,</span> <span class="nv">prompt</span><span class="p">:</span> <span class="n">prompt</span><span class="p">,</span> <span class="nv">leading</span><span class="p">:</span> <span class="p">${"$"}{"{"${"$"}{"}"}(</span><span class="n">b</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> <span class="k">in</span> <span class="kt">EmptyView</span><span class="p">()${"$"}{"}"},</span> <span class="nv">trailing</span><span class="p">:</span> <span class="p">${"$"}{"{"${"$"}{"}"}(</span><span class="n">b</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> <span class="k">in</span> <span class="kt">EmptyView</span><span class="p">()${"$"}{"}"})</span>
+    <span class="p">${"$"}{"}"}</span>
 
     <span class="c1">// 先頭にUIを追加するパターン</span>
-    <span class="nf">init</span><span class="p">(</span><span class="nv">text</span><span class="p">:</span><span class="kt">Binding</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">,</span> <span class="nv">prompt</span><span class="p">:</span><span class="kt">String</span><span class="p">,</span> <span class="nv">leading</span><span class="p">:</span><span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Binding</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">,</span> <span class="kt">Focused</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Leading</span><span class="p">)</span> <span class="k">where</span> <span class="kt">Trailing</span> <span class="o">==</span> <span class="kt">EmptyView</span><span class="p">\{</span>
-        <span class="k">self</span><span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">text</span><span class="p">:</span> <span class="n">text</span><span class="p">,</span> <span class="nv">prompt</span><span class="p">:</span> <span class="n">prompt</span><span class="p">,</span> <span class="nv">leading</span><span class="p">:</span> <span class="n">leading</span><span class="p">,</span> <span class="nv">trailing</span><span class="p">:</span> <span class="p">\{(</span><span class="n">b</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> <span class="k">in</span> <span class="kt">EmptyView</span><span class="p">()\})</span>
-    <span class="p">\}</span>
+    <span class="nf">init</span><span class="p">(</span><span class="nv">text</span><span class="p">:</span><span class="kt">Binding</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">,</span> <span class="nv">prompt</span><span class="p">:</span><span class="kt">String</span><span class="p">,</span> <span class="nv">leading</span><span class="p">:</span><span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Binding</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">,</span> <span class="kt">Focused</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Leading</span><span class="p">)</span> <span class="k">where</span> <span class="kt">Trailing</span> <span class="o">==</span> <span class="kt">EmptyView</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
+        <span class="k">self</span><span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">text</span><span class="p">:</span> <span class="n">text</span><span class="p">,</span> <span class="nv">prompt</span><span class="p">:</span> <span class="n">prompt</span><span class="p">,</span> <span class="nv">leading</span><span class="p">:</span> <span class="n">leading</span><span class="p">,</span> <span class="nv">trailing</span><span class="p">:</span> <span class="p">${"$"}{"{"${"$"}{"}"}(</span><span class="n">b</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> <span class="k">in</span> <span class="kt">EmptyView</span><span class="p">()${"$"}{"}"})</span>
+    <span class="p">${"$"}{"}"}</span>
 
     <span class="c1">// 末尾にUIを追加するパターン</span>
-    <span class="nf">init</span><span class="p">(</span><span class="nv">text</span><span class="p">:</span><span class="kt">Binding</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">,</span> <span class="nv">prompt</span><span class="p">:</span><span class="kt">String</span><span class="p">,</span> <span class="nv">trailing</span><span class="p">:</span><span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Binding</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">,</span> <span class="kt">Focused</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Trailing</span><span class="p">)</span> <span class="k">where</span> <span class="kt">Leading</span> <span class="o">==</span> <span class="kt">EmptyView</span><span class="p">\{</span>
-        <span class="k">self</span><span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">text</span><span class="p">:</span> <span class="n">text</span><span class="p">,</span> <span class="nv">prompt</span><span class="p">:</span> <span class="n">prompt</span><span class="p">,</span> <span class="nv">leading</span><span class="p">:</span> <span class="p">\{(</span><span class="n">b</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> <span class="k">in</span> <span class="kt">EmptyView</span><span class="p">()\},</span> <span class="nv">trailing</span><span class="p">:</span> <span class="n">trailing</span><span class="p">)</span>
-    <span class="p">\}</span>
-<span class="p">\}</span>
+    <span class="nf">init</span><span class="p">(</span><span class="nv">text</span><span class="p">:</span><span class="kt">Binding</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">,</span> <span class="nv">prompt</span><span class="p">:</span><span class="kt">String</span><span class="p">,</span> <span class="nv">trailing</span><span class="p">:</span><span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Binding</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">,</span> <span class="kt">Focused</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Trailing</span><span class="p">)</span> <span class="k">where</span> <span class="kt">Leading</span> <span class="o">==</span> <span class="kt">EmptyView</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
+        <span class="k">self</span><span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">text</span><span class="p">:</span> <span class="n">text</span><span class="p">,</span> <span class="nv">prompt</span><span class="p">:</span> <span class="n">prompt</span><span class="p">,</span> <span class="nv">leading</span><span class="p">:</span> <span class="p">${"$"}{"{"${"$"}{"}"}(</span><span class="n">b</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> <span class="k">in</span> <span class="kt">EmptyView</span><span class="p">()${"$"}{"}"},</span> <span class="nv">trailing</span><span class="p">:</span> <span class="n">trailing</span><span class="p">)</span>
+    <span class="p">${"$"}{"}"}</span>
+<span class="p">${"$"}{"}"}</span>
 </code></pre></div></div>
 
 <h2>
@@ -2527,32 +2527,32 @@ SwiftUIのTextFieldを使う際には\`6.テキストのクリアボタンを末
 \`\`\`swift
 import SwiftUI
 
-struct HIGTextField<Leading:View, Trailing:View>: View \{
+struct HIGTextField<Leading:View, Trailing:View>: View ${"$"}{"{"${"$"}{"}"}
     @Binding public var text:String
     let prompt:String
 
     @State private var editing:Bool = false
 
-    var body: some View \{
-        HStack(alignment: .center, spacing: nil, content: \{
+    var body: some View ${"$"}{"{"${"$"}{"}"}
+        HStack(alignment: .center, spacing: nil, content: ${"$"}{"{"${"$"}{"}"}
             // for future iOS
-            // TextField("title", text: $task.title, prompt:Text("Routine name"))
-            //                            .focused($titleFocused)
+            // TextField("title", text: ${"$"}task.title, prompt:Text("Routine name"))
+            //                            .focused(${"$"}titleFocused)
             //
-            TextField(prompt, text: $text, onEditingChanged: \{editing in
+            TextField(prompt, text: ${"$"}text, onEditingChanged: ${"$"}{"{"${"$"}{"}"}editing in
                     self.editing = editing
-            \}, onCommit: \{\})
-            if(editing)\{
-                Button(action: \{
+            ${"$"}{"}"}, onCommit: ${"$"}{"{"${"$"}{"}"}${"$"}{"}"})
+            if(editing)${"$"}{"{"${"$"}{"}"}
+                Button(action: ${"$"}{"{"${"$"}{"}"}
                     text = ""
-                \}, label: \{
+                ${"$"}{"}"}, label: ${"$"}{"{"${"$"}{"}"}
                     Image(systemName: "xmark.circle.fill")
                         .foregroundColor(.secondary)
-                \})
-            \}
-        \})
-    \}
-\}
+                ${"$"}{"}"})
+            ${"$"}{"}"}
+        ${"$"}{"}"})
+    ${"$"}{"}"}
+${"$"}{"}"}
 \`\`\`
 
 ※onEditingChanged, onCommitを引数とするTextFieldのイニシャライザは将来的に非推奨となるため、後々はfocused()モディファイアを使った方法に変えた方が良さそうです。
@@ -2575,7 +2575,7 @@ struct HIGTextField<Leading:View, Trailing:View>: View \{
 \`\`\`swift
 import SwiftUI
 
-struct HIGTextField<Leading:View, Trailing:View>: View \{
+struct HIGTextField<Leading:View, Trailing:View>: View ${"$"}{"{"${"$"}{"}"}
     typealias Focused = Bool
     @Binding public var text:String
     let prompt:String
@@ -2590,56 +2590,56 @@ struct HIGTextField<Leading:View, Trailing:View>: View \{
     init(text:Binding<String>,
          prompt:String,
          leading: @escaping (Binding<String>, Focused) -> Leading,
-         trailing: @escaping (Binding<String>, Focused) -> Trailing)\{
+         trailing: @escaping (Binding<String>, Focused) -> Trailing)${"$"}{"{"${"$"}{"}"}
         self._text = text
         self.prompt = prompt
         self.leading = leading
         self.trailing = trailing
-    \}
+    ${"$"}{"}"}
     
-    var body: some View \{
-        HStack(alignment: .center, spacing: nil, content: \{
-            leading($text, self.editing)
+    var body: some View ${"$"}{"{"${"$"}{"}"}
+        HStack(alignment: .center, spacing: nil, content: ${"$"}{"{"${"$"}{"}"}
+            leading(${"$"}text, self.editing)
             // for future iOS
-            // TextField("title", text: $task.title, prompt:Text("Routine name"))
-            //                            .focused($titleFocused)
+            // TextField("title", text: ${"$"}task.title, prompt:Text("Routine name"))
+            //                            .focused(${"$"}titleFocused)
             //
-            TextField(prompt, text: $text, onEditingChanged: \{editing in
+            TextField(prompt, text: ${"$"}text, onEditingChanged: ${"$"}{"{"${"$"}{"}"}editing in
                 
                     self.editing = editing
                 
-            \}, onCommit: \{\})
+            ${"$"}{"}"}, onCommit: ${"$"}{"{"${"$"}{"}"}${"$"}{"}"})
             
-            trailing($text, self.editing)
+            trailing(${"$"}text, self.editing)
             
-            if(editing)\{
-                Button(action: \{
+            if(editing)${"$"}{"{"${"$"}{"}"}
+                Button(action: ${"$"}{"{"${"$"}{"}"}
                     text = ""
-                \}, label: \{
+                ${"$"}{"}"}, label: ${"$"}{"{"${"$"}{"}"}
                     Image(systemName: "xmark.circle.fill")
                         .foregroundColor(.secondary)
-                \})
-            \}
-        \})
-    \}
-\}
+                ${"$"}{"}"})
+            ${"$"}{"}"}
+        ${"$"}{"}"})
+    ${"$"}{"}"}
+${"$"}{"}"}
 
-extension HIGTextField\{
+extension HIGTextField${"$"}{"{"${"$"}{"}"}
     // 前後に何の機能もないパターン
-    init(text:Binding<String>, prompt:String) where Leading == EmptyView, Trailing == EmptyView\{
-        self.init(text: text, prompt: prompt, leading: \{(b, f) in EmptyView()\}, trailing: \{(b, f) in EmptyView()\})
-    \}
+    init(text:Binding<String>, prompt:String) where Leading == EmptyView, Trailing == EmptyView${"$"}{"{"${"$"}{"}"}
+        self.init(text: text, prompt: prompt, leading: ${"$"}{"{"${"$"}{"}"}(b, f) in EmptyView()${"$"}{"}"}, trailing: ${"$"}{"{"${"$"}{"}"}(b, f) in EmptyView()${"$"}{"}"})
+    ${"$"}{"}"}
     
     // 先頭にUIを追加するパターン
-    init(text:Binding<String>, prompt:String, leading:@escaping (Binding<String>, Focused) -> Leading) where Trailing == EmptyView\{
-        self.init(text: text, prompt: prompt, leading: leading, trailing: \{(b, f) in EmptyView()\})
-    \}
+    init(text:Binding<String>, prompt:String, leading:@escaping (Binding<String>, Focused) -> Leading) where Trailing == EmptyView${"$"}{"{"${"$"}{"}"}
+        self.init(text: text, prompt: prompt, leading: leading, trailing: ${"$"}{"{"${"$"}{"}"}(b, f) in EmptyView()${"$"}{"}"})
+    ${"$"}{"}"}
     
     // 末尾にUIを追加するパターン
-    init(text:Binding<String>, prompt:String, trailing:@escaping (Binding<String>, Focused) -> Trailing) where Leading == EmptyView\{
-        self.init(text: text, prompt: prompt, leading: \{(b, f) in EmptyView()\}, trailing: trailing)
-    \}
-\}
+    init(text:Binding<String>, prompt:String, trailing:@escaping (Binding<String>, Focused) -> Trailing) where Leading == EmptyView${"$"}{"{"${"$"}{"}"}
+        self.init(text: text, prompt: prompt, leading: ${"$"}{"{"${"$"}{"}"}(b, f) in EmptyView()${"$"}{"}"}, trailing: trailing)
+    ${"$"}{"}"}
+${"$"}{"}"}
 \`\`\`
 
 ## 結果
@@ -2728,39 +2728,39 @@ Swift/SwiftUIについては見習いレベルですが、dotnet(C#)開発をそ
 <p>今回論点となるViewModel。<code>Subscribe()</code>の戻り値であるIDisposableはクラスのフィールドとして参照を保持していなくてもカウントアップした結果はViewにまで到達します。</p>
 
 <div class="code-frame" data-lang="csharp"><div class="highlight"><pre><code>    <span class="k">public</span> <span class="k">class</span> <span class="nc">MainWindowViewModel</span>
-    <span class="p">\{</span>
+    <span class="p">${"$"}{"{"${"$"}{"}"}</span>
         <span class="c1">// model</span>
         <span class="k">private</span> <span class="n">CountStore</span> <span class="n">store</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">CountStore</span><span class="p">();</span>
 
         <span class="k">public</span> <span class="nf">MainWindowViewModel</span><span class="p">()</span>
-        <span class="p">\{</span>
+        <span class="p">${"$"}{"{"${"$"}{"}"}</span>
             <span class="k">this</span><span class="p">.</span><span class="n">CountUpCommand</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">RelayCommand</span><span class="p">(</span><span class="n">_</span> <span class="p">=&gt;</span> <span class="n">store</span><span class="p">.</span><span class="nf">CountUp</span><span class="p">());</span>
             <span class="n">Count</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ReactiveProperty</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;(</span><span class="n">store</span><span class="p">.</span><span class="n">Count</span><span class="p">.</span><span class="n">Value</span><span class="p">);</span>
 
             <span class="kt">var</span> <span class="n">_</span> <span class="p">=</span> <span class="n">store</span><span class="p">.</span><span class="n">Count</span><span class="p">.</span><span class="nf">Subscribe</span><span class="p">(</span><span class="n">onNext</span><span class="p">:</span> <span class="n">count</span> <span class="p">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="n">Count</span><span class="p">.</span><span class="n">Value</span> <span class="p">=</span> <span class="n">count</span><span class="p">);</span>
-        <span class="p">\}</span>
+        <span class="p">${"$"}{"}"}</span>
 
         <span class="c1">// ボタンクリック時に実行されるCommand</span>
-        <span class="k">public</span> <span class="n">ICommand</span> <span class="n">CountUpCommand</span> <span class="p">\{</span> <span class="k">get</span><span class="p">;</span> <span class="p">\}</span>
+        <span class="k">public</span> <span class="n">ICommand</span> <span class="n">CountUpCommand</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span> <span class="k">get</span><span class="p">;</span> <span class="p">${"$"}{"}"}</span>
         <span class="c1">// Modelの値が反映されるプロパティ</span>
-        <span class="k">public</span> <span class="n">ReactiveProperty</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">Count</span> <span class="p">\{</span> <span class="k">get</span><span class="p">;</span> <span class="k">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">\}</span>
-    <span class="p">\}</span>
+        <span class="k">public</span> <span class="n">ReactiveProperty</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">Count</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span> <span class="k">get</span><span class="p">;</span> <span class="k">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">${"$"}{"}"}</span>
+    <span class="p">${"$"}{"}"}</span>
 </code></pre></div></div>
 
 <p>CountStore.cs　カウントアップした値を保持するクラスです</p>
 
 <div class="code-frame" data-lang="csharp"><div class="highlight"><pre><code>    <span class="k">public</span> <span class="k">class</span> <span class="nc">CountStore</span>
-    <span class="p">\{</span>
+    <span class="p">${"$"}{"{"${"$"}{"}"}</span>
         <span class="k">public</span> <span class="nf">CountStore</span><span class="p">()</span>
-        <span class="p">\{</span>
+        <span class="p">${"$"}{"{"${"$"}{"}"}</span>
             <span class="n">Count</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ReactiveProperty</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;(</span><span class="m">0</span><span class="p">);</span>
-        <span class="p">\}</span>
-        <span class="k">public</span> <span class="n">ReactiveProperty</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">Count</span> <span class="p">\{</span> <span class="k">get</span><span class="p">;</span> <span class="k">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">\}</span>
+        <span class="p">${"$"}{"}"}</span>
+        <span class="k">public</span> <span class="n">ReactiveProperty</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">Count</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span> <span class="k">get</span><span class="p">;</span> <span class="k">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">${"$"}{"}"}</span>
         <span class="k">public</span> <span class="k">void</span> <span class="nf">CountUp</span><span class="p">()</span>
-        <span class="p">\{</span>
+        <span class="p">${"$"}{"{"${"$"}{"}"}</span>
             <span class="n">Count</span><span class="p">.</span><span class="n">Value</span><span class="p">++;</span>
-        <span class="p">\}</span>
-    <span class="p">\}</span>
+        <span class="p">${"$"}{"}"}</span>
+    <span class="p">${"$"}{"}"}</span>
 </code></pre></div></div>
 
 <p>View(コードビハインドは無し）</p>
@@ -2778,8 +2778,8 @@ Swift/SwiftUIについては見習いレベルですが、dotnet(C#)開発をそ
     <span class="nt">&lt;/Window.DataContext&gt;</span>
     <span class="nt">&lt;Grid&gt;</span>
         <span class="nt">&lt;StackPanel&gt;</span>
-            <span class="nt">&lt;TextBlock</span> <span class="na">Text=</span><span class="s">"\{Binding Count.Value\}"</span> <span class="na">TextAlignment=</span><span class="s">"Center"</span><span class="nt">/&gt;</span>
-            <span class="nt">&lt;Button</span> <span class="na">Command=</span><span class="s">"\{Binding CountUpCommand\}"</span> <span class="nt">&gt;</span>Count up<span class="nt">&lt;/Button&gt;</span>
+            <span class="nt">&lt;TextBlock</span> <span class="na">Text=</span><span class="s">"${"$"}{"{"${"$"}{"}"}Binding Count.Value${"$"}{"}"}"</span> <span class="na">TextAlignment=</span><span class="s">"Center"</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;Button</span> <span class="na">Command=</span><span class="s">"${"$"}{"{"${"$"}{"}"}Binding CountUpCommand${"$"}{"}"}"</span> <span class="nt">&gt;</span>Count up<span class="nt">&lt;/Button&gt;</span>
         <span class="nt">&lt;/StackPanel&gt;</span>
     <span class="nt">&lt;/Grid&gt;</span>
 <span class="nt">&lt;/Window&gt;</span>
@@ -2794,42 +2794,42 @@ Swift/SwiftUIについては見習いレベルですが、dotnet(C#)開発をそ
 
 <p>ViewModel</p>
 
-<div class="code-frame" data-lang="swift"><div class="highlight"><pre><code><span class="kd">class</span> <span class="kt">ContentViewModel</span><span class="p">:</span> <span class="kt">ObservableObject</span><span class="p">\{</span>
+<div class="code-frame" data-lang="swift"><div class="highlight"><pre><code><span class="kd">class</span> <span class="kt">ContentViewModel</span><span class="p">:</span> <span class="kt">ObservableObject</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="c1">// modelの値が反映されるプロパティ</span>
     <span class="kd">@Published</span> <span class="kd">private</span> <span class="p">(</span><span class="k">set</span><span class="p">)</span> <span class="k">var</span> <span class="nv">value</span><span class="p">:</span><span class="kt">Int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
     <span class="kd">private</span> <span class="k">let</span> <span class="nv">store</span><span class="p">:</span><span class="kt">CounterStore</span> <span class="o">=</span> <span class="o">.</span><span class="nf">init</span><span class="p">()</span>
-    <span class="nf">init</span><span class="p">()\{</span>
-        <span class="k">let</span> <span class="nv">_</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="err">$</span><span class="n">count</span><span class="o">.</span><span class="nf">sink</span><span class="p">(</span><span class="nv">receiveValue</span><span class="p">:</span> <span class="p">\{</span><span class="n">count</span> <span class="k">in</span> <span class="k">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">count</span><span class="p">\})</span>
-    <span class="p">\}</span>
+    <span class="nf">init</span><span class="p">()${"$"}{"{"${"$"}{"}"}</span>
+        <span class="k">let</span> <span class="nv">_</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="err">${"$"}</span><span class="n">count</span><span class="o">.</span><span class="nf">sink</span><span class="p">(</span><span class="nv">receiveValue</span><span class="p">:</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span><span class="n">count</span> <span class="k">in</span> <span class="k">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">count</span><span class="p">${"$"}{"}"})</span>
+    <span class="p">${"$"}{"}"}</span>
 
     <span class="c1">// ボタンクリック時に実行される関数</span>
-    <span class="kd">public</span> <span class="kd">func</span> <span class="nf">countUp</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">\{</span>
+    <span class="kd">public</span> <span class="kd">func</span> <span class="nf">countUp</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
         <span class="n">store</span><span class="o">.</span><span class="nf">countUp</span><span class="p">()</span>
-    <span class="p">\}</span>
-<span class="p">\}</span>
+    <span class="p">${"$"}{"}"}</span>
+<span class="p">${"$"}{"}"}</span>
 </code></pre></div></div>
 
 <p>CountStore</p>
 
-<div class="code-frame" data-lang="swift"><div class="highlight"><pre><code><span class="kd">class</span> <span class="kt">CounterStore</span><span class="p">:</span> <span class="kt">ObservableObject</span><span class="p">\{</span>
+<div class="code-frame" data-lang="swift"><div class="highlight"><pre><code><span class="kd">class</span> <span class="kt">CounterStore</span><span class="p">:</span> <span class="kt">ObservableObject</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="kd">@Published</span> <span class="kd">private</span> <span class="p">(</span><span class="k">set</span><span class="p">)</span> <span class="k">var</span> <span class="nv">count</span><span class="p">:</span><span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="kd">public</span> <span class="kd">func</span> <span class="nf">countUp</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">\{</span>
+    <span class="kd">public</span> <span class="kd">func</span> <span class="nf">countUp</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
         <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
-    <span class="p">\}</span>
-<span class="p">\}</span>
+    <span class="p">${"$"}{"}"}</span>
+<span class="p">${"$"}{"}"}</span>
 </code></pre></div></div>
 
 <p>View</p>
 
-<div class="code-frame" data-lang="swift"><div class="highlight"><pre><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">\{</span>
+<div class="code-frame" data-lang="swift"><div class="highlight"><pre><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="kd">@ObservedObject</span> <span class="k">var</span> <span class="nv">vm</span> <span class="o">=</span> <span class="kt">ContentViewModel</span><span class="p">()</span>
-    <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">\{</span>
-        <span class="kt">VStack</span><span class="p">(</span><span class="nv">alignment</span><span class="p">:</span> <span class="o">.</span><span class="n">center</span><span class="p">,</span> <span class="nv">spacing</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)\{</span>
+    <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
+        <span class="kt">VStack</span><span class="p">(</span><span class="nv">alignment</span><span class="p">:</span> <span class="o">.</span><span class="n">center</span><span class="p">,</span> <span class="nv">spacing</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
             <span class="kt">Text</span><span class="p">(</span><span class="s">"</span><span class="se">\\(</span><span class="n">vm</span><span class="o">.</span><span class="n">value</span><span class="se">)</span><span class="s">"</span><span class="p">)</span><span class="o">.</span><span class="nf">padding</span><span class="p">()</span>
-            <span class="kt">Button</span><span class="p">(</span><span class="s">"Count up"</span><span class="p">)\{</span><span class="n">vm</span><span class="o">.</span><span class="nf">countUp</span><span class="p">()\}</span>
-        <span class="p">\}</span>
-    <span class="p">\}</span>
-<span class="p">\}</span>
+            <span class="kt">Button</span><span class="p">(</span><span class="s">"Count up"</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span><span class="n">vm</span><span class="o">.</span><span class="nf">countUp</span><span class="p">()${"$"}{"}"}</span>
+        <span class="p">${"$"}{"}"}</span>
+    <span class="p">${"$"}{"}"}</span>
+<span class="p">${"$"}{"}"}</span>
 </code></pre></div></div>
 
 <p>結果、カウントアップしないです。ボタンをクリックしてもずっと０のまま。</p>
@@ -2849,22 +2849,22 @@ Swift/SwiftUIについては見習いレベルですが、dotnet(C#)開発をそ
 
 <p>つまり、今回の場合ViewModelを次のようにしてAnyCancellableの参照をキープしておく必要があるわけです。</p>
 
-<div class="code-frame" data-lang="swift"><div class="highlight"><pre><code><span class="kd">class</span> <span class="kt">ContentViewModel</span><span class="p">:</span> <span class="kt">ObservableObject</span><span class="p">\{</span>
+<div class="code-frame" data-lang="swift"><div class="highlight"><pre><code><span class="kd">class</span> <span class="kt">ContentViewModel</span><span class="p">:</span> <span class="kt">ObservableObject</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="kd">@Published</span> <span class="kd">private</span> <span class="p">(</span><span class="k">set</span><span class="p">)</span> <span class="k">var</span> <span class="nv">value</span><span class="p">:</span><span class="kt">Int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
     <span class="kd">private</span> <span class="k">let</span> <span class="nv">store</span><span class="p">:</span><span class="kt">CounterStore</span> <span class="o">=</span> <span class="o">.</span><span class="nf">init</span><span class="p">()</span>
     <span class="kd">private</span> <span class="k">var</span> <span class="nv">subscriptions</span> <span class="o">=</span> <span class="kt">Set</span><span class="o">&lt;</span><span class="kt">AnyCancellable</span><span class="o">&gt;</span><span class="p">()</span>
-    <span class="nf">init</span><span class="p">()\{</span>
+    <span class="nf">init</span><span class="p">()${"$"}{"{"${"$"}{"}"}</span>
         <span class="c1">// NG: init()のスコープを抜けると破棄される</span>
-        <span class="c1">//let _ = store.$count.sink(receiveValue: \{count in self.value = count\})</span>
+        <span class="c1">//let _ = store.${"$"}count.sink(receiveValue: ${"$"}{"{"${"$"}{"}"}count in self.value = count${"$"}{"}"})</span>
 
         <span class="c1">// OK: Set&lt;AnyCancellable&gt;に保持しておくことで参照が保たれる</span>
-        <span class="n">store</span><span class="o">.</span><span class="err">$</span><span class="n">count</span><span class="o">.</span><span class="nf">sink</span><span class="p">(</span><span class="nv">receiveValue</span><span class="p">:</span> <span class="p">\{</span><span class="n">count</span> <span class="k">in</span> <span class="k">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">count</span><span class="p">\})</span><span class="o">.</span><span class="nf">store</span><span class="p">(</span><span class="nv">in</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">subscriptions</span><span class="p">)</span>
-    <span class="p">\}</span>
+        <span class="n">store</span><span class="o">.</span><span class="err">${"$"}</span><span class="n">count</span><span class="o">.</span><span class="nf">sink</span><span class="p">(</span><span class="nv">receiveValue</span><span class="p">:</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span><span class="n">count</span> <span class="k">in</span> <span class="k">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">count</span><span class="p">${"$"}{"}"})</span><span class="o">.</span><span class="nf">store</span><span class="p">(</span><span class="nv">in</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">subscriptions</span><span class="p">)</span>
+    <span class="p">${"$"}{"}"}</span>
 
-    <span class="kd">public</span> <span class="kd">func</span> <span class="nf">countUp</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">\{</span>
+    <span class="kd">public</span> <span class="kd">func</span> <span class="nf">countUp</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
         <span class="n">store</span><span class="o">.</span><span class="nf">countUp</span><span class="p">()</span>
-    <span class="p">\}</span>
-<span class="p">\}</span>
+    <span class="p">${"$"}{"}"}</span>
+<span class="p">${"$"}{"}"}</span>
 </code></pre></div></div>
 
 <p>OK！</p>
@@ -2902,40 +2902,40 @@ C#でもSwiftでも、\`ボタンをクリックするとModelの値が＋１さ
 
 \`\`\`csharp
     public class MainWindowViewModel
-    \{
+    ${"$"}{"{"${"$"}{"}"}
         // model
         private CountStore store = new CountStore();
 
         public MainWindowViewModel()
-        \{
+        ${"$"}{"{"${"$"}{"}"}
             this.CountUpCommand = new RelayCommand(_ => store.CountUp());
             Count = new ReactiveProperty<int>(store.Count.Value);
 
             var _ = store.Count.Subscribe(onNext: count => this.Count.Value = count);
-        \}
+        ${"$"}{"}"}
 
         // ボタンクリック時に実行されるCommand
-        public ICommand CountUpCommand \{ get; \}
+        public ICommand CountUpCommand ${"$"}{"{"${"$"}{"}"} get; ${"$"}{"}"}
         // Modelの値が反映されるプロパティ
-        public ReactiveProperty<int> Count \{ get; private set; \}
-    \}
+        public ReactiveProperty<int> Count ${"$"}{"{"${"$"}{"}"} get; private set; ${"$"}{"}"}
+    ${"$"}{"}"}
 \`\`\`
 
 CountStore.cs　カウントアップした値を保持するクラスです
 
 \`\`\`csharp
     public class CountStore
-    \{
+    ${"$"}{"{"${"$"}{"}"}
         public CountStore()
-        \{
+        ${"$"}{"{"${"$"}{"}"}
             Count = new ReactiveProperty<int>(0);
-        \}
-        public ReactiveProperty<int> Count \{ get; private set; \}
+        ${"$"}{"}"}
+        public ReactiveProperty<int> Count ${"$"}{"{"${"$"}{"}"} get; private set; ${"$"}{"}"}
         public void CountUp()
-        \{
+        ${"$"}{"{"${"$"}{"}"}
             Count.Value++;
-        \}
-    \}
+        ${"$"}{"}"}
+    ${"$"}{"}"}
 \`\`\`
 
 View(コードビハインドは無し）
@@ -2954,8 +2954,8 @@ View(コードビハインドは無し）
     </Window.DataContext>
     <Grid>
         <StackPanel>
-            <TextBlock Text="\{Binding Count.Value\}" TextAlignment="Center"/>
-            <Button Command="\{Binding CountUpCommand\}" >Count up</Button>
+            <TextBlock Text="${"$"}{"{"${"$"}{"}"}Binding Count.Value${"$"}{"}"}" TextAlignment="Center"/>
+            <Button Command="${"$"}{"{"${"$"}{"}"}Binding CountUpCommand${"$"}{"}"}" >Count up</Button>
         </StackPanel>
     </Grid>
 </Window>
@@ -2972,44 +2972,44 @@ View(コードビハインドは無し）
 ViewModel
 
 \`\`\`swift
-class ContentViewModel: ObservableObject\{
+class ContentViewModel: ObservableObject${"$"}{"{"${"$"}{"}"}
     // modelの値が反映されるプロパティ
     @Published private (set) var value:Int = -1
     private let store:CounterStore = .init()
-    init()\{
-        let _ = store.$count.sink(receiveValue: \{count in self.value = count\})
-    \}
+    init()${"$"}{"{"${"$"}{"}"}
+        let _ = store.${"$"}count.sink(receiveValue: ${"$"}{"{"${"$"}{"}"}count in self.value = count${"$"}{"}"})
+    ${"$"}{"}"}
     
     // ボタンクリック時に実行される関数
-    public func countUp() -> Void\{
+    public func countUp() -> Void${"$"}{"{"${"$"}{"}"}
         store.countUp()
-    \}
-\}
+    ${"$"}{"}"}
+${"$"}{"}"}
 \`\`\`
 
 CountStore
 
 \`\`\`swift
-class CounterStore: ObservableObject\{
+class CounterStore: ObservableObject${"$"}{"{"${"$"}{"}"}
     @Published private (set) var count:Int = 0
-    public func countUp() -> Void\{
+    public func countUp() -> Void${"$"}{"{"${"$"}{"}"}
         count += 1
-    \}
-\}
+    ${"$"}{"}"}
+${"$"}{"}"}
 \`\`\`
 
 View
 
 \`\`\`swift
-struct ContentView: View \{
+struct ContentView: View ${"$"}{"{"${"$"}{"}"}
     @ObservedObject var vm = ContentViewModel()
-    var body: some View \{
-        VStack(alignment: .center, spacing: nil)\{
+    var body: some View ${"$"}{"{"${"$"}{"}"}
+        VStack(alignment: .center, spacing: nil)${"$"}{"{"${"$"}{"}"}
             Text("\\(vm.value)").padding()
-            Button("Count up")\{vm.countUp()\}
-        \}
-    \}
-\}
+            Button("Count up")${"$"}{"{"${"$"}{"}"}vm.countUp()${"$"}{"}"}
+        ${"$"}{"}"}
+    ${"$"}{"}"}
+${"$"}{"}"}
 \`\`\`
 
 結果、カウントアップしないです。ボタンをクリックしてもずっと０のまま。
@@ -3029,22 +3029,22 @@ SwiftではARCという名のメモリ管理が行われているらしく、こ
 つまり、今回の場合ViewModelを次のようにしてAnyCancellableの参照をキープしておく必要があるわけです。
 
 \`\`\`swift
-class ContentViewModel: ObservableObject\{
+class ContentViewModel: ObservableObject${"$"}{"{"${"$"}{"}"}
     @Published private (set) var value:Int = -1
     private let store:CounterStore = .init()
     private var subscriptions = Set<AnyCancellable>()
-    init()\{
+    init()${"$"}{"{"${"$"}{"}"}
         // NG: init()のスコープを抜けると破棄される
-        //let _ = store.$count.sink(receiveValue: \{count in self.value = count\})
+        //let _ = store.${"$"}count.sink(receiveValue: ${"$"}{"{"${"$"}{"}"}count in self.value = count${"$"}{"}"})
         
         // OK: Set<AnyCancellable>に保持しておくことで参照が保たれる
-        store.$count.sink(receiveValue: \{count in self.value = count\}).store(in: &subscriptions)
-    \}
+        store.${"$"}count.sink(receiveValue: ${"$"}{"{"${"$"}{"}"}count in self.value = count${"$"}{"}"}).store(in: &subscriptions)
+    ${"$"}{"}"}
     
-    public func countUp() -> Void\{
+    public func countUp() -> Void${"$"}{"{"${"$"}{"}"}
         store.countUp()
-    \}
-\}
+    ${"$"}{"}"}
+${"$"}{"}"}
 \`\`\`
 
 OK！
@@ -3134,47 +3134,47 @@ OK！
 
 <div class="code-frame" data-lang="swift"><div class="highlight"><pre><code><span class="kd">import</span> <span class="kt">SwiftUI</span>
 
-<span class="kd">extension</span> <span class="kt">DisplayView</span><span class="p">\{</span>
-    <span class="kd">private</span> <span class="nf">init</span><span class="p">(</span><span class="nv">vm</span><span class="p">:</span><span class="kt">DisplayViewModel</span><span class="p">,</span> <span class="nv">upperColor</span><span class="p">:</span><span class="kt">Color</span><span class="p">,</span> <span class="nv">lowerColor</span><span class="p">:</span><span class="kt">Color</span><span class="p">)\{</span>
+<span class="kd">extension</span> <span class="kt">DisplayView</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
+    <span class="kd">private</span> <span class="nf">init</span><span class="p">(</span><span class="nv">vm</span><span class="p">:</span><span class="kt">DisplayViewModel</span><span class="p">,</span> <span class="nv">upperColor</span><span class="p">:</span><span class="kt">Color</span><span class="p">,</span> <span class="nv">lowerColor</span><span class="p">:</span><span class="kt">Color</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
         <span class="k">self</span><span class="o">.</span><span class="n">vm</span> <span class="o">=</span> <span class="n">vm</span>
         <span class="k">self</span><span class="o">.</span><span class="n">upperValueColor</span> <span class="o">=</span> <span class="n">upperColor</span>
         <span class="k">self</span><span class="o">.</span><span class="n">lowerValueColor</span> <span class="o">=</span> <span class="n">lowerColor</span>
-    <span class="p">\}</span>
+    <span class="p">${"$"}{"}"}</span>
 
-    <span class="kd">func</span> <span class="nf">upperColor</span><span class="p">(</span><span class="n">_</span> <span class="nv">color</span><span class="p">:</span><span class="kt">Color</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span><span class="p">\{</span>
+    <span class="kd">func</span> <span class="nf">upperColor</span><span class="p">(</span><span class="n">_</span> <span class="nv">color</span><span class="p">:</span><span class="kt">Color</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
         <span class="k">return</span> <span class="kt">DisplayView</span><span class="p">(</span><span class="nv">vm</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">vm</span><span class="p">,</span> <span class="nv">upperColor</span><span class="p">:</span> <span class="n">color</span><span class="p">,</span> <span class="nv">lowerColor</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">lowerValueColor</span><span class="p">)</span>
-    <span class="p">\}</span>
+    <span class="p">${"$"}{"}"}</span>
 
-    <span class="kd">func</span> <span class="nf">lowerColor</span><span class="p">(</span><span class="n">_</span> <span class="nv">color</span><span class="p">:</span><span class="kt">Color</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span><span class="p">\{</span>
+    <span class="kd">func</span> <span class="nf">lowerColor</span><span class="p">(</span><span class="n">_</span> <span class="nv">color</span><span class="p">:</span><span class="kt">Color</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
         <span class="k">return</span> <span class="kt">DisplayView</span><span class="p">(</span><span class="nv">vm</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">vm</span><span class="p">,</span> <span class="nv">upperColor</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">upperValueColor</span><span class="p">,</span> <span class="nv">lowerColor</span><span class="p">:</span> <span class="n">color</span><span class="p">)</span>
-    <span class="p">\}</span>
-<span class="p">\}</span>
+    <span class="p">${"$"}{"}"}</span>
+<span class="p">${"$"}{"}"}</span>
 
-<span class="kd">struct</span> <span class="kt">DisplayView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">\{</span>
+<span class="kd">struct</span> <span class="kt">DisplayView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
 
     <span class="kd">private</span> <span class="k">let</span> <span class="nv">upperValueColor</span><span class="p">:</span><span class="kt">Color</span>
     <span class="kd">private</span> <span class="k">let</span> <span class="nv">lowerValueColor</span><span class="p">:</span><span class="kt">Color</span>
 
     <span class="kd">@ObservedObject</span> <span class="kd">private</span> <span class="k">var</span> <span class="nv">vm</span><span class="p">:</span><span class="kt">DisplayViewModel</span>
 
-    <span class="nf">init</span><span class="p">(</span><span class="nv">vm</span><span class="p">:</span><span class="kt">DisplayViewModel</span><span class="p">)\{</span>
+    <span class="nf">init</span><span class="p">(</span><span class="nv">vm</span><span class="p">:</span><span class="kt">DisplayViewModel</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
         <span class="k">self</span><span class="o">.</span><span class="n">vm</span> <span class="o">=</span> <span class="n">vm</span>
 
         <span class="k">self</span><span class="o">.</span><span class="n">upperValueColor</span> <span class="o">=</span> <span class="kt">Color</span><span class="o">.</span><span class="n">primary</span>
         <span class="k">self</span><span class="o">.</span><span class="n">lowerValueColor</span> <span class="o">=</span> <span class="kt">Color</span><span class="o">.</span><span class="n">primary</span>
-    <span class="p">\}</span>
+    <span class="p">${"$"}{"}"}</span>
 
-    <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">\{</span>
+    <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
         <span class="c1">// 表示</span>
-        <span class="kt">HStack</span><span class="p">(</span><span class="nv">alignment</span><span class="p">:</span> <span class="o">.</span><span class="n">firstTextBaseline</span><span class="p">,</span> <span class="nv">spacing</span><span class="p">:</span> <span class="mi">4</span><span class="p">)\{</span>
+        <span class="kt">HStack</span><span class="p">(</span><span class="nv">alignment</span><span class="p">:</span> <span class="o">.</span><span class="n">firstTextBaseline</span><span class="p">,</span> <span class="nv">spacing</span><span class="p">:</span> <span class="mi">4</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
             <span class="kt">Text</span><span class="p">(</span><span class="s">"</span><span class="se">\\(</span><span class="n">vm</span><span class="o">.</span><span class="n">temp</span><span class="o">.</span><span class="n">higher</span><span class="se">)</span><span class="s">."</span><span class="p">)</span>
                 <span class="o">.</span><span class="nf">foregroundColor</span><span class="p">(</span><span class="n">upperValueColor</span><span class="p">)</span>
             <span class="kt">Text</span><span class="p">(</span><span class="s">"</span><span class="se">\\(</span><span class="n">vm</span><span class="o">.</span><span class="n">temp</span><span class="o">.</span><span class="n">lower</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
                 <span class="o">.</span><span class="nf">foregroundColor</span><span class="p">(</span><span class="n">lowerValueColor</span><span class="p">)</span>
             <span class="kt">Text</span><span class="p">(</span><span class="s">"℃"</span><span class="p">)</span><span class="o">.</span><span class="nf">font</span><span class="p">(</span><span class="kt">Font</span><span class="o">.</span><span class="nf">system</span><span class="p">(</span><span class="nv">size</span><span class="p">:</span> <span class="mi">48</span><span class="p">))</span>
-        <span class="p">\}</span><span class="o">.</span><span class="nf">font</span><span class="p">(</span><span class="kt">Font</span><span class="o">.</span><span class="nf">system</span><span class="p">(</span><span class="nv">size</span><span class="p">:</span> <span class="mi">80</span><span class="p">))</span>
-    <span class="p">\}</span>
-<span class="p">\}</span>
+        <span class="p">${"$"}{"}"}</span><span class="o">.</span><span class="nf">font</span><span class="p">(</span><span class="kt">Font</span><span class="o">.</span><span class="nf">system</span><span class="p">(</span><span class="nv">size</span><span class="p">:</span> <span class="mi">80</span><span class="p">))</span>
+    <span class="p">${"$"}{"}"}</span>
+<span class="p">${"$"}{"}"}</span>
 </code></pre></div></div>
 
 <h3>
@@ -3182,19 +3182,19 @@ OK！
 
 <div class="code-frame" data-lang="swift"><div class="highlight"><pre><code><span class="kd">import</span> <span class="kt">Foundation</span>
 <span class="kd">import</span> <span class="kt">Combine</span>
-<span class="kd">class</span> <span class="kt">DisplayViewModel</span><span class="p">:</span> <span class="kt">ObservableObject</span><span class="p">\{</span>
+<span class="kd">class</span> <span class="kt">DisplayViewModel</span><span class="p">:</span> <span class="kt">ObservableObject</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="kd">private</span> <span class="k">let</span> <span class="nv">healthCareRepository</span><span class="p">:</span> <span class="kt">HealthCareRepositoryDelegate</span>
     <span class="kd">@Published</span> <span class="kd">private</span> <span class="p">(</span><span class="k">set</span><span class="p">)</span> <span class="k">var</span> <span class="nv">temp</span><span class="p">:</span><span class="kt">Temperature</span>
 
     <span class="kd">private</span> <span class="k">var</span> <span class="nv">cancellable</span><span class="p">:</span><span class="kt">AnyCancellable</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
 
-    <span class="nf">init</span><span class="p">(</span><span class="nv">repo</span><span class="p">:</span><span class="kt">HealthCareRepositoryDelegate</span><span class="p">,</span> <span class="nv">store</span><span class="p">:</span><span class="kt">TemperatureStore</span><span class="p">)</span> <span class="p">\{</span>
+    <span class="nf">init</span><span class="p">(</span><span class="nv">repo</span><span class="p">:</span><span class="kt">HealthCareRepositoryDelegate</span><span class="p">,</span> <span class="nv">store</span><span class="p">:</span><span class="kt">TemperatureStore</span><span class="p">)</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
         <span class="k">self</span><span class="o">.</span><span class="n">healthCareRepository</span> <span class="o">=</span> <span class="n">repo</span>
         <span class="k">self</span><span class="o">.</span><span class="n">temp</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">value</span>
 
-        <span class="k">self</span><span class="o">.</span><span class="n">cancellable</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="err">$</span><span class="n">value</span><span class="o">.</span><span class="nf">sink</span><span class="p">(</span><span class="nv">receiveValue</span><span class="p">:</span> <span class="p">\{</span><span class="n">t</span> <span class="k">in</span> <span class="k">self</span><span class="o">.</span><span class="n">temp</span> <span class="o">=</span> <span class="n">t</span><span class="p">\})</span>
-    <span class="p">\}</span>
-<span class="p">\}</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">cancellable</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="err">${"$"}</span><span class="n">value</span><span class="o">.</span><span class="nf">sink</span><span class="p">(</span><span class="nv">receiveValue</span><span class="p">:</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span><span class="n">t</span> <span class="k">in</span> <span class="k">self</span><span class="o">.</span><span class="n">temp</span> <span class="o">=</span> <span class="n">t</span><span class="p">${"$"}{"}"})</span>
+    <span class="p">${"$"}{"}"}</span>
+<span class="p">${"$"}{"}"}</span>
 
 </code></pre></div></div>
 
@@ -3203,18 +3203,18 @@ OK！
 
 <div class="code-frame" data-lang="swift"><div class="highlight"><pre><code><span class="kd">import</span> <span class="kt">Foundation</span>
 <span class="kd">import</span> <span class="kt">Combine</span>
-<span class="kd">class</span> <span class="kt">TemperatureStore</span><span class="p">:</span> <span class="kt">ObservableObject</span><span class="p">\{</span>
+<span class="kd">class</span> <span class="kt">TemperatureStore</span><span class="p">:</span> <span class="kt">ObservableObject</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
 
     <span class="kd">@Published</span> <span class="kd">private</span> <span class="p">(</span><span class="k">set</span><span class="p">)</span> <span class="k">var</span> <span class="nv">value</span><span class="p">:</span><span class="kt">Temperature</span>
 
-    <span class="nf">init</span><span class="p">(</span><span class="n">_</span> <span class="nv">initialValue</span><span class="p">:</span><span class="kt">Temperature</span><span class="p">)\{</span>
+    <span class="nf">init</span><span class="p">(</span><span class="n">_</span> <span class="nv">initialValue</span><span class="p">:</span><span class="kt">Temperature</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
         <span class="k">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">initialValue</span>
-    <span class="p">\}</span>
+    <span class="p">${"$"}{"}"}</span>
 
-    <span class="kd">func</span> <span class="nf">update</span><span class="p">(</span><span class="n">_</span> <span class="nv">closure</span><span class="p">:(</span><span class="kt">Temperature</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Temperature</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">\{</span>
+    <span class="kd">func</span> <span class="nf">update</span><span class="p">(</span><span class="n">_</span> <span class="nv">closure</span><span class="p">:(</span><span class="kt">Temperature</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Temperature</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
         <span class="k">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="nf">closure</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
-    <span class="p">\}</span>
-<span class="p">\}</span>
+    <span class="p">${"$"}{"}"}</span>
+<span class="p">${"$"}{"}"}</span>
 
 </code></pre></div></div>
 
@@ -3222,7 +3222,7 @@ OK！
 
 <div class="code-frame" data-lang="swift"><div class="highlight"><pre><code><span class="k">let</span> <span class="nv">store</span><span class="p">:</span><span class="kt">TemperatureStore</span>
 <span class="c1">// 小数点以下の値を更新する</span>
-<span class="n">store</span><span class="o">.</span><span class="nf">update</span><span class="p">(\{</span><span class="n">old</span> <span class="k">in</span> <span class="n">old</span><span class="o">.</span><span class="nf">lower</span><span class="p">(</span><span class="mi">9</span><span class="p">))</span>
+<span class="n">store</span><span class="o">.</span><span class="nf">update</span><span class="p">(${"$"}{"{"${"$"}{"}"}</span><span class="n">old</span> <span class="k">in</span> <span class="n">old</span><span class="o">.</span><span class="nf">lower</span><span class="p">(</span><span class="mi">9</span><span class="p">))</span>
 </code></pre></div></div>
 
 <h3>
@@ -3233,23 +3233,23 @@ OK！
 <div class="code-frame" data-lang="swift"><div class="highlight"><pre><code><span class="kd">import</span> <span class="kt">Foundation</span>
 
 <span class="c1">/// 入力中の体温を保持する構造体です</span>
-<span class="kd">struct</span> <span class="kt">Temperature</span><span class="p">\{</span>
+<span class="kd">struct</span> <span class="kt">Temperature</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="c1">/// 小数点以下</span>
     <span class="k">let</span> <span class="nv">lower</span><span class="p">:</span><span class="kt">Int</span>
 
     <span class="c1">/// 小数点以上</span>
     <span class="k">let</span> <span class="nv">higher</span><span class="p">:</span><span class="kt">Int</span>
-<span class="p">\}</span>
+<span class="p">${"$"}{"}"}</span>
 
-<span class="kd">extension</span> <span class="kt">Temperature</span><span class="p">\{</span>
-    <span class="kd">public</span> <span class="kd">func</span> <span class="nf">lower</span><span class="p">(</span><span class="n">_</span> <span class="nv">val</span><span class="p">:</span><span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span><span class="p">\{</span>
+<span class="kd">extension</span> <span class="kt">Temperature</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
+    <span class="kd">public</span> <span class="kd">func</span> <span class="nf">lower</span><span class="p">(</span><span class="n">_</span> <span class="nv">val</span><span class="p">:</span><span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
         <span class="k">return</span> <span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">lower</span><span class="p">:</span> <span class="n">val</span><span class="p">,</span> <span class="nv">higher</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">higher</span><span class="p">)</span>
-    <span class="p">\}</span>
+    <span class="p">${"$"}{"}"}</span>
 
-    <span class="kd">public</span> <span class="kd">func</span> <span class="nf">higher</span><span class="p">(</span><span class="n">_</span> <span class="nv">val</span><span class="p">:</span><span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span><span class="p">\{</span>
+    <span class="kd">public</span> <span class="kd">func</span> <span class="nf">higher</span><span class="p">(</span><span class="n">_</span> <span class="nv">val</span><span class="p">:</span><span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
         <span class="k">return</span> <span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">lower</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">lower</span><span class="p">,</span> <span class="nv">higher</span><span class="p">:</span> <span class="n">val</span><span class="p">)</span>
-    <span class="p">\}</span>
-<span class="p">\}</span>
+    <span class="p">${"$"}{"}"}</span>
+<span class="p">${"$"}{"}"}</span>
 
 </code></pre></div></div>
 
@@ -3327,47 +3327,47 @@ TapInputViewに詰め込んでいたユーザー設定や現在値の表示を�
 \`\`\`swift
 import SwiftUI
 
-extension DisplayView\{
-    private init(vm:DisplayViewModel, upperColor:Color, lowerColor:Color)\{
+extension DisplayView${"$"}{"{"${"$"}{"}"}
+    private init(vm:DisplayViewModel, upperColor:Color, lowerColor:Color)${"$"}{"{"${"$"}{"}"}
         self.vm = vm
         self.upperValueColor = upperColor
         self.lowerValueColor = lowerColor
-    \}
+    ${"$"}{"}"}
     
-    func upperColor(_ color:Color) -> Self\{
+    func upperColor(_ color:Color) -> Self${"$"}{"{"${"$"}{"}"}
         return DisplayView(vm: self.vm, upperColor: color, lowerColor: self.lowerValueColor)
-    \}
+    ${"$"}{"}"}
     
-    func lowerColor(_ color:Color) -> Self\{
+    func lowerColor(_ color:Color) -> Self${"$"}{"{"${"$"}{"}"}
         return DisplayView(vm: self.vm, upperColor: self.upperValueColor, lowerColor: color)
-    \}
-\}
+    ${"$"}{"}"}
+${"$"}{"}"}
 
-struct DisplayView: View \{
+struct DisplayView: View ${"$"}{"{"${"$"}{"}"}
     
     private let upperValueColor:Color
     private let lowerValueColor:Color
     
     @ObservedObject private var vm:DisplayViewModel
     
-    init(vm:DisplayViewModel)\{
+    init(vm:DisplayViewModel)${"$"}{"{"${"$"}{"}"}
         self.vm = vm
         
         self.upperValueColor = Color.primary
         self.lowerValueColor = Color.primary
-    \}
+    ${"$"}{"}"}
     
-    var body: some View \{
+    var body: some View ${"$"}{"{"${"$"}{"}"}
         // 表示
-        HStack(alignment: .firstTextBaseline, spacing: 4)\{
+        HStack(alignment: .firstTextBaseline, spacing: 4)${"$"}{"{"${"$"}{"}"}
             Text("\\(vm.temp.higher).")
                 .foregroundColor(upperValueColor)
             Text("\\(vm.temp.lower)")
                 .foregroundColor(lowerValueColor)
             Text("℃").font(Font.system(size: 48))
-        \}.font(Font.system(size: 80))
-    \}
-\}
+        ${"$"}{"}"}.font(Font.system(size: 80))
+    ${"$"}{"}"}
+${"$"}{"}"}
 \`\`\`
 
 ### DisplayViewModel(ViewModel)
@@ -3376,19 +3376,19 @@ struct DisplayView: View \{
 \`\`\`swift
 import Foundation
 import Combine
-class DisplayViewModel: ObservableObject\{
+class DisplayViewModel: ObservableObject${"$"}{"{"${"$"}{"}"}
     private let healthCareRepository: HealthCareRepositoryDelegate
     @Published private (set) var temp:Temperature
     
     private var cancellable:AnyCancellable? = nil
     
-    init(repo:HealthCareRepositoryDelegate, store:TemperatureStore) \{
+    init(repo:HealthCareRepositoryDelegate, store:TemperatureStore) ${"$"}{"{"${"$"}{"}"}
         self.healthCareRepository = repo
         self.temp = store.value
         
-        self.cancellable = store.$value.sink(receiveValue: \{t in self.temp = t\})
-    \}
-\}
+        self.cancellable = store.${"$"}value.sink(receiveValue: ${"$"}{"{"${"$"}{"}"}t in self.temp = t${"$"}{"}"})
+    ${"$"}{"}"}
+${"$"}{"}"}
 
 \`\`\`
 
@@ -3397,18 +3397,18 @@ class DisplayViewModel: ObservableObject\{
 \`\`\`swift
 import Foundation
 import Combine
-class TemperatureStore: ObservableObject\{
+class TemperatureStore: ObservableObject${"$"}{"{"${"$"}{"}"}
 
     @Published private (set) var value:Temperature
     
-    init(_ initialValue:Temperature)\{
+    init(_ initialValue:Temperature)${"$"}{"{"${"$"}{"}"}
         self.value = initialValue
-    \}
+    ${"$"}{"}"}
     
-    func update(_ closure:(Temperature) -> Temperature) -> Void\{
+    func update(_ closure:(Temperature) -> Temperature) -> Void${"$"}{"{"${"$"}{"}"}
         self.value = closure(self.value)
-    \}
-\}
+    ${"$"}{"}"}
+${"$"}{"}"}
 
 \`\`\`
 
@@ -3417,7 +3417,7 @@ class TemperatureStore: ObservableObject\{
 \`\`\`swift
 let store:TemperatureStore
 // 小数点以下の値を更新する
-store.update(\{old in old.lower(9))
+store.update(${"$"}{"{"${"$"}{"}"}old in old.lower(9))
 \`\`\`
 
 
@@ -3429,23 +3429,23 @@ store.update(\{old in old.lower(9))
 import Foundation
 
 /// 入力中の体温を保持する構造体です
-struct Temperature\{
+struct Temperature${"$"}{"{"${"$"}{"}"}
     /// 小数点以下
     let lower:Int
     
     /// 小数点以上
     let higher:Int
-\}
+${"$"}{"}"}
 
-extension Temperature\{
-    public func lower(_ val:Int) -> Self\{
+extension Temperature${"$"}{"{"${"$"}{"}"}
+    public func lower(_ val:Int) -> Self${"$"}{"{"${"$"}{"}"}
         return .init(lower: val, higher: self.higher)
-    \}
+    ${"$"}{"}"}
     
-    public func higher(_ val:Int) -> Self\{
+    public func higher(_ val:Int) -> Self${"$"}{"{"${"$"}{"}"}
         return .init(lower: self.lower, higher: val)
-    \}
-\}
+    ${"$"}{"}"}
+${"$"}{"}"}
 
 \`\`\`
 
@@ -3788,47 +3788,47 @@ https://stackoverflow.com/questions/37863093/exception-nsinvalidargumentexceptio
 <div class="code-frame" data-lang="swift"><div class="highlight"><pre><code><span class="kd">import</span> <span class="kt">Foundation</span>
 <span class="kd">import</span> <span class="kt">HealthKit</span>
 
-<span class="kd">enum</span> <span class="kt">BodyTemperatureUnit</span><span class="p">\{</span>
+<span class="kd">enum</span> <span class="kt">BodyTemperatureUnit</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="c1">/// 摂氏</span>
     <span class="k">case</span> <span class="n">degreeCelsius</span>
     <span class="c1">/// 華氏</span>
     <span class="k">case</span> <span class="n">degreeFahrenheit</span>
-<span class="p">\}</span>
-<span class="kd">class</span> <span class="kt">HealthCareRepository</span><span class="p">\{</span>
+<span class="p">${"$"}{"}"}</span>
+<span class="kd">class</span> <span class="kt">HealthCareRepository</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="k">let</span> <span class="nv">allTypes</span> <span class="o">=</span> <span class="kt">Set</span><span class="p">([</span><span class="kt">HKObjectType</span><span class="o">.</span><span class="nf">quantityType</span><span class="p">(</span><span class="nv">forIdentifier</span><span class="p">:</span> <span class="o">.</span><span class="n">bodyTemperature</span><span class="p">)</span><span class="o">!</span><span class="p">])</span>
     <span class="c1">/// HKHealthStoreはアプリケーションあたり1インスタンス。１回生成したらそれを使い続ける必要あり</span>
     <span class="k">var</span> <span class="nv">store</span><span class="p">:</span><span class="kt">HKHealthStore</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
 
-    <span class="kd">func</span> <span class="nf">setup</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Bool</span><span class="p">\{</span>
+    <span class="kd">func</span> <span class="nf">setup</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Bool</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
         <span class="c1">/// ipadではヘルスケア使えない</span>
         <span class="c1">/// https://developer.apple.com/documentation/healthkit/setting_up_healthkit</span>
         <span class="c1">/// Ensure HealthKit’s Availability</span>
-        <span class="k">if</span> <span class="p">(</span><span class="kt">HKHealthStore</span><span class="o">.</span><span class="nf">isHealthDataAvailable</span><span class="p">()</span> <span class="o">==</span> <span class="kc">false</span><span class="p">)\{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="kt">HKHealthStore</span><span class="o">.</span><span class="nf">isHealthDataAvailable</span><span class="p">()</span> <span class="o">==</span> <span class="kc">false</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
             <span class="c1">// ヘルスデータが無効状態</span>
             <span class="k">return</span> <span class="kc">false</span>
-        <span class="p">\}</span>
+        <span class="p">${"$"}{"}"}</span>
 
         <span class="c1">/// ヘルスケア機能があり、有効である場合生成する</span>
         <span class="k">self</span><span class="o">.</span><span class="n">store</span> <span class="o">=</span> <span class="kt">HKHealthStore</span><span class="p">()</span>
         <span class="k">return</span> <span class="kc">true</span>
-    <span class="p">\}</span>
+    <span class="p">${"$"}{"}"}</span>
 
-    <span class="kd">func</span> <span class="nf">postBodyTemperature</span><span class="p">(</span><span class="n">_</span> <span class="nv">value</span><span class="p">:</span><span class="kt">Double</span><span class="p">,</span> <span class="nv">unit</span><span class="p">:</span><span class="kt">BodyTemperatureUnit</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span><span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Bool</span><span class="p">,</span> <span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">\{</span>
+    <span class="kd">func</span> <span class="nf">postBodyTemperature</span><span class="p">(</span><span class="n">_</span> <span class="nv">value</span><span class="p">:</span><span class="kt">Double</span><span class="p">,</span> <span class="nv">unit</span><span class="p">:</span><span class="kt">BodyTemperatureUnit</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span><span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Bool</span><span class="p">,</span> <span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
 
         <span class="c1">/// https://developer.apple.com/documentation/healthkit/authorizing_access_to_health_data</span>
         <span class="c1">/// Request Permission from the User</span>
         <span class="c1">/// toShare: Write要求</span>
         <span class="c1">/// read: Read要求</span>
-        <span class="k">self</span><span class="o">.</span><span class="n">store</span><span class="o">!.</span><span class="nf">requestAuthorization</span><span class="p">(</span><span class="nv">toShare</span><span class="p">:</span> <span class="n">allTypes</span><span class="p">,</span> <span class="nv">read</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)\{</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
-            <span class="k">if</span> <span class="o">!</span><span class="n">success</span><span class="p">\{</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">store</span><span class="o">!.</span><span class="nf">requestAuthorization</span><span class="p">(</span><span class="nv">toShare</span><span class="p">:</span> <span class="n">allTypes</span><span class="p">,</span> <span class="nv">read</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span> <span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
+            <span class="k">if</span> <span class="o">!</span><span class="n">success</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
                 <span class="nf">completion</span><span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span>
                 <span class="k">return</span>
-            <span class="p">\}</span>
+            <span class="p">${"$"}{"}"}</span>
 
             <span class="c1">/// https://developer.apple.com/documentation/healthkit/authorizing_access_to_health_data</span>
             <span class="c1">/// Check for Authorization Before Saving Data</span>
             <span class="k">let</span> <span class="nv">status</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">store</span><span class="o">!.</span><span class="nf">authorizationStatus</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="o">.</span><span class="nf">quantityType</span><span class="p">(</span><span class="nv">forIdentifier</span><span class="p">:</span> <span class="o">.</span><span class="n">bodyTemperature</span><span class="p">)</span><span class="o">!</span><span class="p">)</span>
-            <span class="k">switch</span> <span class="n">status</span><span class="p">\{</span>
+            <span class="k">switch</span> <span class="n">status</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
             <span class="k">case</span> <span class="o">.</span><span class="nv">notDetermined</span><span class="p">:</span>
                 <span class="c1">// "If you have not yet requested permission"</span>
                 <span class="c1">// ここに入ることはないはず</span>
@@ -3847,25 +3847,25 @@ https://stackoverflow.com/questions/37863093/exception-nsinvalidargumentexceptio
             <span class="kd">@unknown</span> <span class="k">default</span><span class="p">:</span>
                 <span class="nf">print</span><span class="p">(</span><span class="s">"Unknown status."</span><span class="p">)</span>
                 <span class="k">break</span>
-            <span class="p">\}</span>
+            <span class="p">${"$"}{"}"}</span>
 
             <span class="c1">// Datetime</span>
             <span class="k">let</span> <span class="nv">now</span> <span class="o">=</span> <span class="kt">Date</span><span class="p">()</span>
             <span class="c1">// 摂氏 or 華氏</span>
             <span class="k">let</span> <span class="nv">hkUnit</span><span class="p">:</span><span class="kt">HKUnit</span>
-            <span class="k">switch</span> <span class="n">unit</span> <span class="p">\{</span>
+            <span class="k">switch</span> <span class="n">unit</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
             <span class="k">case</span> <span class="o">.</span><span class="nv">degreeCelsius</span><span class="p">:</span>
                 <span class="n">hkUnit</span> <span class="o">=</span> <span class="o">.</span><span class="nf">degreeCelsius</span><span class="p">()</span>
             <span class="k">case</span> <span class="o">.</span><span class="nv">degreeFahrenheit</span><span class="p">:</span>
                 <span class="n">hkUnit</span> <span class="o">=</span> <span class="o">.</span><span class="nf">degreeFahrenheit</span><span class="p">()</span>
-            <span class="p">\}</span>
+            <span class="p">${"$"}{"}"}</span>
 
             <span class="k">let</span> <span class="nv">quantity</span> <span class="o">=</span> <span class="kt">HKQuantity</span><span class="p">(</span><span class="nv">unit</span><span class="p">:</span> <span class="n">hkUnit</span><span class="p">,</span> <span class="nv">doubleValue</span><span class="p">:</span> <span class="n">value</span><span class="p">)</span>
             <span class="k">let</span> <span class="nv">obj</span> <span class="o">=</span> <span class="kt">HKQuantitySample</span><span class="p">(</span><span class="nv">type</span><span class="p">:</span> <span class="o">.</span><span class="nf">quantityType</span><span class="p">(</span><span class="nv">forIdentifier</span><span class="p">:</span> <span class="o">.</span><span class="n">bodyTemperature</span><span class="p">)</span><span class="o">!</span><span class="p">,</span> <span class="nv">quantity</span><span class="p">:</span> <span class="n">quantity</span><span class="p">,</span> <span class="nv">start</span><span class="p">:</span> <span class="n">now</span><span class="p">,</span> <span class="nv">end</span><span class="p">:</span> <span class="n">now</span><span class="p">)</span>
             <span class="k">self</span><span class="o">.</span><span class="n">store</span><span class="o">!.</span><span class="nf">save</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nv">withCompletion</span><span class="p">:</span> <span class="n">completion</span><span class="p">)</span>
-        <span class="p">\}</span>
-    <span class="p">\}</span>
-<span class="p">\}</span>
+        <span class="p">${"$"}{"}"}</span>
+    <span class="p">${"$"}{"}"}</span>
+<span class="p">${"$"}{"}"}</span>
 </code></pre></div></div>
 
 <h2>
@@ -3944,47 +3944,47 @@ https://stackoverflow.com/questions/37863093/exception-nsinvalidargumentexceptio
 import Foundation
 import HealthKit
 
-enum BodyTemperatureUnit\{
+enum BodyTemperatureUnit${"$"}{"{"${"$"}{"}"}
     /// 摂氏
     case degreeCelsius
     /// 華氏
     case degreeFahrenheit
-\}
-class HealthCareRepository\{
+${"$"}{"}"}
+class HealthCareRepository${"$"}{"{"${"$"}{"}"}
     let allTypes = Set([HKObjectType.quantityType(forIdentifier: .bodyTemperature)!])
     /// HKHealthStoreはアプリケーションあたり1インスタンス。１回生成したらそれを使い続ける必要あり
     var store:HKHealthStore? = nil
     
-    func setup() -> Bool\{
+    func setup() -> Bool${"$"}{"{"${"$"}{"}"}
         /// ipadではヘルスケア使えない
         /// https://developer.apple.com/documentation/healthkit/setting_up_healthkit
         /// Ensure HealthKit’s Availability
-        if (HKHealthStore.isHealthDataAvailable() == false)\{
+        if (HKHealthStore.isHealthDataAvailable() == false)${"$"}{"{"${"$"}{"}"}
             // ヘルスデータが無効状態
             return false
-        \}
+        ${"$"}{"}"}
         
         /// ヘルスケア機能があり、有効である場合生成する
         self.store = HKHealthStore()
         return true
-    \}
+    ${"$"}{"}"}
 
-    func postBodyTemperature(_ value:Double, unit:BodyTemperatureUnit, completion:@escaping (Bool, Error?) -> Void) -> Void\{
+    func postBodyTemperature(_ value:Double, unit:BodyTemperatureUnit, completion:@escaping (Bool, Error?) -> Void) -> Void${"$"}{"{"${"$"}{"}"}
         
         /// https://developer.apple.com/documentation/healthkit/authorizing_access_to_health_data
         /// Request Permission from the User
         /// toShare: Write要求
         /// read: Read要求
-        self.store!.requestAuthorization(toShare: allTypes, read: nil)\{ (success, error) in
-            if !success\{
+        self.store!.requestAuthorization(toShare: allTypes, read: nil)${"$"}{"{"${"$"}{"}"} (success, error) in
+            if !success${"$"}{"{"${"$"}{"}"}
                 completion(success, error)
                 return
-            \}
+            ${"$"}{"}"}
             
             /// https://developer.apple.com/documentation/healthkit/authorizing_access_to_health_data
             /// Check for Authorization Before Saving Data
             let status = self.store!.authorizationStatus(for: .quantityType(forIdentifier: .bodyTemperature)!)
-            switch status\{
+            switch status${"$"}{"{"${"$"}{"}"}
             case .notDetermined:
                 // "If you have not yet requested permission"
                 // ここに入ることはないはず
@@ -4003,25 +4003,25 @@ class HealthCareRepository\{
             @unknown default:
                 print("Unknown status.")
                 break
-            \}
+            ${"$"}{"}"}
             
             // Datetime
             let now = Date()
             // 摂氏 or 華氏
             let hkUnit:HKUnit
-            switch unit \{
+            switch unit ${"$"}{"{"${"$"}{"}"}
             case .degreeCelsius:
                 hkUnit = .degreeCelsius()
             case .degreeFahrenheit:
                 hkUnit = .degreeFahrenheit()
-            \}
+            ${"$"}{"}"}
             
             let quantity = HKQuantity(unit: hkUnit, doubleValue: value)
             let obj = HKQuantitySample(type: .quantityType(forIdentifier: .bodyTemperature)!, quantity: quantity, start: now, end: now)
             self.store!.save(obj, withCompletion: completion)
-        \}
-    \}
-\}
+        ${"$"}{"}"}
+    ${"$"}{"}"}
+${"$"}{"}"}
 \`\`\`
 
 
@@ -4047,19 +4047,19 @@ class HealthCareRepository\{
 <p>「とりあえず動くもの！」ということで前回はとりあえずif分岐をひたすらしていましたが流石にテストし難いです。</p>
 
 <div class="code-frame" data-lang="swift"><div class="highlight"><pre><code><span class="c1">/// 以下はイメージです</span>
-<span class="kd">func</span> <span class="nf">parse</span><span class="p">(</span><span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="p">)\{</span>
-  <span class="k">while</span><span class="p">(</span><span class="n">全文字探査するまで</span><span class="p">)\{</span>
-    <span class="k">if</span><span class="p">(</span><span class="kt">H1の場合</span><span class="p">)\{</span>
-    <span class="p">\}</span>
-    <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="kt">H2の場合</span><span class="p">)\{</span>
-    <span class="p">\}</span>
+<span class="kd">func</span> <span class="nf">parse</span><span class="p">(</span><span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
+  <span class="k">while</span><span class="p">(</span><span class="n">全文字探査するまで</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
+    <span class="k">if</span><span class="p">(</span><span class="kt">H1の場合</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
+    <span class="p">${"$"}{"}"}</span>
+    <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="kt">H2の場合</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
+    <span class="p">${"$"}{"}"}</span>
     <span class="c1">// 中略。無限にelse if...</span>
-    <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nf">コードブロック</span><span class="p">(</span><span class="s">"\`\`\`"</span><span class="p">)</span><span class="n">の場合</span><span class="p">)\{</span>
-    <span class="p">\}</span>
+    <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nf">コードブロック</span><span class="p">(</span><span class="s">"\`\`\`"</span><span class="p">)</span><span class="n">の場合</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
+    <span class="p">${"$"}{"}"}</span>
 
     <span class="mi">1</span><span class="n">文字進める</span><span class="err">、</span><span class="nf">または処理済みの所まで進める</span><span class="p">()</span>
-  <span class="p">\}</span>
-<span class="p">\}</span>
+  <span class="p">${"$"}{"}"}</span>
+<span class="p">${"$"}{"}"}</span>
 
 </code></pre></div></div>
 
@@ -4083,41 +4083,41 @@ class HealthCareRepository\{
 <span id="blockparserdelegate" class="fragment"></span><a href="#blockparserdelegate"><i class="fa fa-link"></i></a>BlockParserDelegate</h4>
 
 <div class="code-frame" data-lang="swift"><div class="highlight"><pre><code><span class="kd">import</span> <span class="kt">Foundation</span>
-<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">BlockParserDelegate</span><span class="p">\{</span>
+<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">BlockParserDelegate</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="kd">func</span> <span class="nf">parse</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="p">,</span> <span class="nv">closure</span><span class="p">:(</span><span class="kt">String</span><span class="p">)</span><span class="o">-&gt;</span><span class="p">[</span><span class="kt">MDInline</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="nv">nextText</span><span class="p">:</span><span class="kt">String</span><span class="p">,</span> <span class="nv">node</span><span class="p">:</span><span class="kt">MDBlock</span><span class="p">?);</span>
-<span class="p">\}</span>
+<span class="p">${"$"}{"}"}</span>
 </code></pre></div></div>
 
 <h4>
 <span id="inlineparserdelegate" class="fragment"></span><a href="#inlineparserdelegate"><i class="fa fa-link"></i></a>InlineParserDelegate</h4>
 
 <div class="code-frame" data-lang="swift"><div class="highlight"><pre><code><span class="kd">import</span> <span class="kt">Foundation</span>
-<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">InlineParserDelegate</span><span class="p">\{</span>
+<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">InlineParserDelegate</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="kd">func</span> <span class="nf">parse</span><span class="p">(</span><span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="nv">nextText</span><span class="p">:</span><span class="kt">String</span><span class="p">,</span> <span class="nv">node</span><span class="p">:</span><span class="kt">MDInline</span><span class="p">?)</span>
-<span class="p">\}</span>
+<span class="p">${"$"}{"}"}</span>
 </code></pre></div></div>
 
 <p>このProtocolの実装クラス<code>StrongParser</code></p>
 
 <div class="code-frame" data-lang="swift"><div class="highlight"><pre><code><span class="kd">import</span> <span class="kt">Foundation</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="kt">StrongParser</span><span class="p">:</span> <span class="kt">InlineParserDelegate</span>
-<span class="p">\{</span>
-    <span class="kd">public</span> <span class="kd">func</span> <span class="nf">parse</span><span class="p">(</span><span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="nv">nextText</span><span class="p">:</span><span class="kt">String</span><span class="p">,</span> <span class="nv">node</span><span class="p">:</span><span class="kt">MDInline</span><span class="p">?)\{</span>
-        <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"**"</span><span class="p">))\{</span>
+<span class="p">${"$"}{"{"${"$"}{"}"}</span>
+    <span class="kd">public</span> <span class="kd">func</span> <span class="nf">parse</span><span class="p">(</span><span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="nv">nextText</span><span class="p">:</span><span class="kt">String</span><span class="p">,</span> <span class="nv">node</span><span class="p">:</span><span class="kt">MDInline</span><span class="p">?)${"$"}{"{"${"$"}{"}"}</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"**"</span><span class="p">))${"$"}{"{"${"$"}{"}"}</span>
             <span class="c1">// scan</span>
             <span class="k">let</span> <span class="nv">subStartIndex</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="nf">index</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">startIndex</span><span class="p">,</span> <span class="nv">offsetBy</span><span class="p">:</span> <span class="mi">2</span><span class="p">)</span>
             <span class="k">let</span> <span class="nv">subText</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">subStartIndex</span><span class="o">...</span><span class="p">]</span>
-            <span class="k">if</span> <span class="k">let</span> <span class="nv">end</span> <span class="o">=</span> <span class="n">subText</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"**"</span><span class="p">)\{</span>
+            <span class="k">if</span> <span class="k">let</span> <span class="nv">end</span> <span class="o">=</span> <span class="n">subText</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"**"</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
                 <span class="c1">// text between ** and **</span>
                 <span class="k">let</span> <span class="nv">content</span> <span class="o">=</span> <span class="n">subText</span><span class="p">[</span><span class="o">..&lt;</span><span class="n">end</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]</span>
 
                 <span class="nf">return</span> <span class="p">(</span><span class="kt">String</span><span class="p">(</span><span class="n">subText</span><span class="p">[</span><span class="n">end</span><span class="o">.</span><span class="n">upperBound</span><span class="o">...</span><span class="p">]),</span> <span class="kt">MDStrong</span><span class="p">(</span><span class="kt">String</span><span class="p">(</span><span class="n">content</span><span class="p">)))</span>
-            <span class="p">\}</span>
-        <span class="p">\}</span>
+            <span class="p">${"$"}{"}"}</span>
+        <span class="p">${"$"}{"}"}</span>
 
         <span class="nf">return</span> <span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="kc">nil</span><span class="p">)</span>
-    <span class="p">\}</span>
-<span class="p">\}</span>
+    <span class="p">${"$"}{"}"}</span>
+<span class="p">${"$"}{"}"}</span>
 </code></pre></div></div>
 
 <p><code>StrongParser</code>では以下のようなイメージです</p>
@@ -4160,19 +4160,19 @@ class HealthCareRepository\{
 
 \`\`\`swift
 /// 以下はイメージです
-func parse(text:String)\{
-  while(全文字探査するまで)\{
-    if(H1の場合)\{
-    \}
-    else if(H2の場合)\{
-    \}
+func parse(text:String)${"$"}{"{"${"$"}{"}"}
+  while(全文字探査するまで)${"$"}{"{"${"$"}{"}"}
+    if(H1の場合)${"$"}{"{"${"$"}{"}"}
+    ${"$"}{"}"}
+    else if(H2の場合)${"$"}{"{"${"$"}{"}"}
+    ${"$"}{"}"}
     // 中略。無限にelse if...
-    else if(コードブロック("\`\`\`")の場合)\{
-    \}
+    else if(コードブロック("\`\`\`")の場合)${"$"}{"{"${"$"}{"}"}
+    ${"$"}{"}"}
 
     1文字進める、または処理済みの所まで進める()
-  \}
-\}
+  ${"$"}{"}"}
+${"$"}{"}"}
 
 \`\`\`
 
@@ -4195,18 +4195,18 @@ Markdownの要素（\`# H1\`や\`**strong**\`,...)ごとにシンプルなテス
 
 \`\`\`swift
 import Foundation
-public protocol BlockParserDelegate\{
+public protocol BlockParserDelegate${"$"}{"{"${"$"}{"}"}
     func parse(_ text:String, closure:(String)->[MDInline]) -> (nextText:String, node:MDBlock?);
-\}
+${"$"}{"}"}
 \`\`\`
 
 #### InlineParserDelegate
 
 \`\`\`swift
 import Foundation
-public protocol InlineParserDelegate\{
+public protocol InlineParserDelegate${"$"}{"{"${"$"}{"}"}
     func parse(text:String) -> (nextText:String, node:MDInline?)
-\}
+${"$"}{"}"}
 \`\`\`
 
 このProtocolの実装クラス\`StrongParser\`
@@ -4214,23 +4214,23 @@ public protocol InlineParserDelegate\{
 \`\`\`swift
 import Foundation
 public class StrongParser: InlineParserDelegate
-\{
-    public func parse(text:String) -> (nextText:String, node:MDInline?)\{
-        if(text.starts(with: "**"))\{
+${"$"}{"{"${"$"}{"}"}
+    public func parse(text:String) -> (nextText:String, node:MDInline?)${"$"}{"{"${"$"}{"}"}
+        if(text.starts(with: "**"))${"$"}{"{"${"$"}{"}"}
             // scan
             let subStartIndex = text.index(text.startIndex, offsetBy: 2)
             let subText = text[subStartIndex...]
-            if let end = subText.range(of: "**")\{
+            if let end = subText.range(of: "**")${"$"}{"{"${"$"}{"}"}
                 // text between ** and **
                 let content = subText[..<end.lowerBound]
                 
                 return (String(subText[end.upperBound...]), MDStrong(String(content)))
-            \}
-        \}
+            ${"$"}{"}"}
+        ${"$"}{"}"}
         
         return (text, nil)
-    \}
-\}
+    ${"$"}{"}"}
+${"$"}{"}"}
 \`\`\`
 
 \`StrongParser\`では以下のようなイメージです
@@ -4370,282 +4370,282 @@ Markdownの記法は以下の２つに分類できると考えました
 <div class="code-frame" data-lang="swift"><div class="highlight"><pre><code><span class="kd">import</span> <span class="kt">Foundation</span>
 <span class="kd">import</span> <span class="kt">SwiftUI</span>
 
-<span class="kd">protocol</span> <span class="kt">MDNodeDelegate</span><span class="p">\{\}</span>
+<span class="kd">protocol</span> <span class="kt">MDNodeDelegate</span><span class="p">${"$"}{"{"${"$"}{"}"}${"$"}{"}"}</span>
 
-<span class="kd">protocol</span> <span class="kt">MDBlockDelegate</span> <span class="p">:</span> <span class="kt">MDNodeDelegate</span><span class="p">\{\}</span>
+<span class="kd">protocol</span> <span class="kt">MDBlockDelegate</span> <span class="p">:</span> <span class="kt">MDNodeDelegate</span><span class="p">${"$"}{"{"${"$"}{"}"}${"$"}{"}"}</span>
 
-<span class="kd">protocol</span> <span class="kt">MDInlineDelegate</span> <span class="p">:</span> <span class="kt">MDNodeDelegate</span><span class="p">\{\}</span>
+<span class="kd">protocol</span> <span class="kt">MDInlineDelegate</span> <span class="p">:</span> <span class="kt">MDNodeDelegate</span><span class="p">${"$"}{"{"${"$"}{"}"}${"$"}{"}"}</span>
 
 <span class="kd">public</span> <span class="kd">class</span> <span class="kt">MarkdownAnalyzer</span>
-<span class="p">\{</span>
-    <span class="kd">func</span> <span class="nf">parse</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDSyntaxTree</span><span class="p">\{</span>
+<span class="p">${"$"}{"{"${"$"}{"}"}</span>
+    <span class="kd">func</span> <span class="nf">parse</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDSyntaxTree</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
         <span class="k">var</span> <span class="nv">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="kt">MDBlockDelegate</span><span class="p">]()</span>
         <span class="c1">// blockに分割する</span>
         <span class="k">var</span> <span class="nv">ind</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">startIndex</span>
-        <span class="k">while</span><span class="p">(</span><span class="n">ind</span> <span class="o">!=</span> <span class="n">text</span><span class="o">.</span><span class="n">endIndex</span><span class="p">)\{</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">ind</span> <span class="o">!=</span> <span class="n">text</span><span class="o">.</span><span class="n">endIndex</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
             <span class="k">var</span> <span class="nv">nextInd</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="nf">index</span><span class="p">(</span><span class="nv">after</span><span class="p">:</span> <span class="n">ind</span><span class="p">)</span>
-            <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"# "</span><span class="p">))\{</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"# "</span><span class="p">))${"$"}{"{"${"$"}{"}"}</span>
                 <span class="k">let</span> <span class="nv">blockSpan</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span>
-                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">)\{</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseHeadline1</span><span class="p">(</span><span class="n">blockSpan</span><span class="p">[</span><span class="o">..&lt;</span><span class="n">r</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]))</span>
                     <span class="n">nextInd</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">upperBound</span>
-                <span class="p">\}</span> <span class="k">else</span><span class="p">\{</span>
+                <span class="p">${"$"}{"}"}</span> <span class="k">else</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseHeadline1</span><span class="p">(</span><span class="n">blockSpan</span><span class="p">))</span>
                     <span class="k">break</span>
-                <span class="p">\}</span>
-            <span class="p">\}</span>
-            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"## "</span><span class="p">))\{</span>
+                <span class="p">${"$"}{"}"}</span>
+            <span class="p">${"$"}{"}"}</span>
+            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"## "</span><span class="p">))${"$"}{"{"${"$"}{"}"}</span>
                 <span class="k">let</span> <span class="nv">blockSpan</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span>
-                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">)\{</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseHeadline2</span><span class="p">(</span><span class="n">blockSpan</span><span class="p">[</span><span class="o">..&lt;</span><span class="n">r</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]))</span>
                     <span class="n">nextInd</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">upperBound</span>
-                <span class="p">\}</span> <span class="k">else</span><span class="p">\{</span>
+                <span class="p">${"$"}{"}"}</span> <span class="k">else</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseHeadline2</span><span class="p">(</span><span class="n">blockSpan</span><span class="p">))</span>
                     <span class="k">break</span><span class="p">;</span>
-                <span class="p">\}</span>
-            <span class="p">\}</span>
-            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"### "</span><span class="p">))\{</span>
+                <span class="p">${"$"}{"}"}</span>
+            <span class="p">${"$"}{"}"}</span>
+            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"### "</span><span class="p">))${"$"}{"{"${"$"}{"}"}</span>
                 <span class="k">let</span> <span class="nv">blockSpan</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span>
-                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">)\{</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseHeadline3</span><span class="p">(</span><span class="n">blockSpan</span><span class="p">[</span><span class="o">..&lt;</span><span class="n">r</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]))</span>
                     <span class="n">nextInd</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">upperBound</span>
-                <span class="p">\}</span><span class="k">else</span><span class="p">\{</span>
+                <span class="p">${"$"}{"}"}</span><span class="k">else</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseHeadline3</span><span class="p">(</span><span class="n">blockSpan</span><span class="p">))</span>
                     <span class="k">break</span><span class="p">;</span>
-                <span class="p">\}</span>
-            <span class="p">\}</span>
-            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"#### "</span><span class="p">))\{</span>
+                <span class="p">${"$"}{"}"}</span>
+            <span class="p">${"$"}{"}"}</span>
+            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"#### "</span><span class="p">))${"$"}{"{"${"$"}{"}"}</span>
                 <span class="k">let</span> <span class="nv">blockSpan</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span>
-                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">)\{</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseHeadline4</span><span class="p">(</span><span class="n">blockSpan</span><span class="p">[</span><span class="o">..&lt;</span><span class="n">r</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]))</span>
                     <span class="n">nextInd</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">upperBound</span>
-                <span class="p">\}</span><span class="k">else</span><span class="p">\{</span>
+                <span class="p">${"$"}{"}"}</span><span class="k">else</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseHeadline4</span><span class="p">(</span><span class="n">blockSpan</span><span class="p">))</span>
                     <span class="k">break</span><span class="p">;</span>
-                <span class="p">\}</span>
-            <span class="p">\}</span>
-            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"##### "</span><span class="p">))\{</span>
+                <span class="p">${"$"}{"}"}</span>
+            <span class="p">${"$"}{"}"}</span>
+            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"##### "</span><span class="p">))${"$"}{"{"${"$"}{"}"}</span>
                 <span class="k">let</span> <span class="nv">blockSpan</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span>
-                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">)\{</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseHeadline5</span><span class="p">(</span><span class="n">blockSpan</span><span class="p">[</span><span class="o">..&lt;</span><span class="n">r</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]))</span>
                     <span class="n">nextInd</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">upperBound</span>
-                <span class="p">\}</span><span class="k">else</span><span class="p">\{</span>
+                <span class="p">${"$"}{"}"}</span><span class="k">else</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseHeadline5</span><span class="p">(</span><span class="n">blockSpan</span><span class="p">))</span>
                     <span class="k">break</span><span class="p">;</span>
-                <span class="p">\}</span>
-            <span class="p">\}</span>
-            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"###### "</span><span class="p">))\{</span>
+                <span class="p">${"$"}{"}"}</span>
+            <span class="p">${"$"}{"}"}</span>
+            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"###### "</span><span class="p">))${"$"}{"{"${"$"}{"}"}</span>
                 <span class="k">let</span> <span class="nv">blockSpan</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span>
-                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">)\{</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseHeadline6</span><span class="p">(</span><span class="n">blockSpan</span><span class="p">[</span><span class="o">..&lt;</span><span class="n">r</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]))</span>
                     <span class="n">nextInd</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">upperBound</span>
-                <span class="p">\}</span><span class="k">else</span><span class="p">\{</span>
+                <span class="p">${"$"}{"}"}</span><span class="k">else</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseHeadline6</span><span class="p">(</span><span class="n">blockSpan</span><span class="p">))</span>
                     <span class="k">break</span><span class="p">;</span>
-                <span class="p">\}</span>
-            <span class="p">\}</span>
-            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"---</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">))\{</span>
-                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"---</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">)\{</span>
+                <span class="p">${"$"}{"}"}</span>
+            <span class="p">${"$"}{"}"}</span>
+            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"---</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">))${"$"}{"{"${"$"}{"}"}</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"---</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseHorizontalRule</span><span class="p">(</span><span class="s">"---</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">))</span>
                     <span class="n">nextInd</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">upperBound</span>
-                <span class="p">\}</span>
-            <span class="p">\}</span>
-            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"===</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">))\{</span>
-                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"===</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">)\{</span>
+                <span class="p">${"$"}{"}"}</span>
+            <span class="p">${"$"}{"}"}</span>
+            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"===</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">))${"$"}{"{"${"$"}{"}"}</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"===</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseHorizontalRule</span><span class="p">(</span><span class="s">"===</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">))</span>
                     <span class="n">nextInd</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">upperBound</span>
-                <span class="p">\}</span>
-            <span class="p">\}</span>
-            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"\`\`\`"</span><span class="p">))\{</span>
-                <span class="k">if</span> <span class="k">let</span> <span class="nv">start</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"\`\`\`"</span><span class="p">)\{</span>
-                    <span class="k">if</span> <span class="k">let</span> <span class="nv">end</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">start</span><span class="o">.</span><span class="n">upperBound</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"\`\`\`</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">)\{</span>
+                <span class="p">${"$"}{"}"}</span>
+            <span class="p">${"$"}{"}"}</span>
+            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"\`\`\`"</span><span class="p">))${"$"}{"{"${"$"}{"}"}</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">start</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"\`\`\`"</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
+                    <span class="k">if</span> <span class="k">let</span> <span class="nv">end</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">start</span><span class="o">.</span><span class="n">upperBound</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"\`\`\`</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
 
                         <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseCodeBlock</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">..&lt;</span><span class="n">end</span><span class="o">.</span><span class="n">upperBound</span><span class="p">]))</span>
                         <span class="n">nextInd</span> <span class="o">=</span> <span class="n">end</span><span class="o">.</span><span class="n">upperBound</span>
-                    <span class="p">\}</span>
-                    <span class="k">else</span><span class="p">\{</span>
+                    <span class="p">${"$"}{"}"}</span>
+                    <span class="k">else</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
                         <span class="k">break</span><span class="p">;</span>
-                    <span class="p">\}</span>
-                <span class="p">\}</span>
-            <span class="p">\}</span>
-            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"- "</span><span class="p">))\{</span>
+                    <span class="p">${"$"}{"}"}</span>
+                <span class="p">${"$"}{"}"}</span>
+            <span class="p">${"$"}{"}"}</span>
+            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"- "</span><span class="p">))${"$"}{"{"${"$"}{"}"}</span>
                 <span class="k">let</span> <span class="nv">blockSpan</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span>
-                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">)\{</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseUnorderedList</span><span class="p">(</span><span class="n">blockSpan</span><span class="p">[</span><span class="o">..&lt;</span><span class="n">r</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]))</span>
                     <span class="n">nextInd</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">upperBound</span>
-                <span class="p">\}</span><span class="k">else</span><span class="p">\{</span>
+                <span class="p">${"$"}{"}"}</span><span class="k">else</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseUnorderedList</span><span class="p">(</span><span class="n">blockSpan</span><span class="p">))</span>
                     <span class="k">break</span><span class="p">;</span>
-                <span class="p">\}</span>
-            <span class="p">\}</span>
-            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"* "</span><span class="p">))\{</span>
+                <span class="p">${"$"}{"}"}</span>
+            <span class="p">${"$"}{"}"}</span>
+            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"* "</span><span class="p">))${"$"}{"{"${"$"}{"}"}</span>
                 <span class="k">let</span> <span class="nv">blockSpan</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span>
-                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">)\{</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseUnorderedList</span><span class="p">(</span><span class="n">blockSpan</span><span class="p">[</span><span class="o">..&lt;</span><span class="n">r</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]))</span>
                     <span class="n">nextInd</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">upperBound</span>
-                <span class="p">\}</span><span class="k">else</span><span class="p">\{</span>
+                <span class="p">${"$"}{"}"}</span><span class="k">else</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseUnorderedList</span><span class="p">(</span><span class="n">blockSpan</span><span class="p">))</span>
                     <span class="k">break</span><span class="p">;</span>
-                <span class="p">\}</span>
-            <span class="p">\}</span>
-            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"+ "</span><span class="p">))\{</span>
+                <span class="p">${"$"}{"}"}</span>
+            <span class="p">${"$"}{"}"}</span>
+            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"+ "</span><span class="p">))${"$"}{"{"${"$"}{"}"}</span>
                 <span class="k">let</span> <span class="nv">blockSpan</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span>
-                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">)\{</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseUnorderedList</span><span class="p">(</span><span class="n">blockSpan</span><span class="p">[</span><span class="o">..&lt;</span><span class="n">r</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]))</span>
                     <span class="n">nextInd</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">upperBound</span>
-                <span class="p">\}</span><span class="k">else</span><span class="p">\{</span>
+                <span class="p">${"$"}{"}"}</span><span class="k">else</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseUnorderedList</span><span class="p">(</span><span class="n">blockSpan</span><span class="p">))</span>
                     <span class="k">break</span><span class="p">;</span>
-                <span class="p">\}</span>
-            <span class="p">\}</span>
-            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"1. "</span><span class="p">))\{</span>
+                <span class="p">${"$"}{"}"}</span>
+            <span class="p">${"$"}{"}"}</span>
+            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"1. "</span><span class="p">))${"$"}{"{"${"$"}{"}"}</span>
                 <span class="k">let</span> <span class="nv">blockSpan</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span>
-                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">)\{</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseOrderedList</span><span class="p">(</span><span class="n">blockSpan</span><span class="p">[</span><span class="o">..&lt;</span><span class="n">r</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]))</span>
                     <span class="n">nextInd</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">upperBound</span>
-                <span class="p">\}</span><span class="k">else</span><span class="p">\{</span>
+                <span class="p">${"$"}{"}"}</span><span class="k">else</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseOrderedList</span><span class="p">(</span><span class="n">blockSpan</span><span class="p">))</span>
                     <span class="k">break</span><span class="p">;</span>
-                <span class="p">\}</span>
-            <span class="p">\}</span>
-            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"&gt; "</span><span class="p">))\{</span>
+                <span class="p">${"$"}{"}"}</span>
+            <span class="p">${"$"}{"}"}</span>
+            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"&gt; "</span><span class="p">))${"$"}{"{"${"$"}{"}"}</span>
                 <span class="k">let</span> <span class="nv">blockSpan</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span>
-                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">)\{</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseBlockQuote</span><span class="p">(</span><span class="n">blockSpan</span><span class="p">[</span><span class="o">..&lt;</span><span class="n">r</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]))</span>
                     <span class="n">nextInd</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">upperBound</span>
-                <span class="p">\}</span><span class="k">else</span><span class="p">\{</span>
+                <span class="p">${"$"}{"}"}</span><span class="k">else</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseBlockQuote</span><span class="p">(</span><span class="n">blockSpan</span><span class="p">))</span>
                     <span class="k">break</span><span class="p">;</span>
-                <span class="p">\}</span>
-            <span class="p">\}</span>
-            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"|"</span><span class="p">))\{</span>
+                <span class="p">${"$"}{"}"}</span>
+            <span class="p">${"$"}{"}"}</span>
+            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"|"</span><span class="p">))${"$"}{"{"${"$"}{"}"}</span>
                 <span class="c1">//table or paragragh</span>
                 <span class="k">let</span> <span class="nv">blockSpan</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span>
-                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"|</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">)\{</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"|</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
 
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseTable</span><span class="p">(</span><span class="n">blockSpan</span><span class="p">[</span><span class="o">..&lt;</span><span class="n">r</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]))</span>
                     <span class="n">nextInd</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">upperBound</span>
-                <span class="p">\}</span><span class="k">else</span><span class="p">\{</span>
+                <span class="p">${"$"}{"}"}</span><span class="k">else</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseParagragh</span><span class="p">(</span><span class="n">blockSpan</span><span class="p">))</span>
                     <span class="k">break</span>
-                <span class="p">\}</span>
-            <span class="p">\}</span>
-            <span class="k">else</span><span class="p">\{</span> <span class="c1">// paragragh</span>
+                <span class="p">${"$"}{"}"}</span>
+            <span class="p">${"$"}{"}"}</span>
+            <span class="k">else</span><span class="p">${"$"}{"{"${"$"}{"}"}</span> <span class="c1">// paragragh</span>
                 <span class="k">let</span> <span class="nv">blockSpan</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span>
-                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">)\{</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">r</span> <span class="o">=</span> <span class="n">blockSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n\\n</span><span class="s">"</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseParagragh</span><span class="p">(</span><span class="n">blockSpan</span><span class="p">[</span><span class="o">..&lt;</span><span class="n">r</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]))</span>
                     <span class="n">nextInd</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">upperBound</span>
-                <span class="p">\}</span><span class="k">else</span><span class="p">\{</span>
+                <span class="p">${"$"}{"}"}</span><span class="k">else</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
                     <span class="n">blocks</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseParagragh</span><span class="p">(</span><span class="n">blockSpan</span><span class="p">))</span>
                     <span class="k">break</span><span class="p">;</span>
-                <span class="p">\}</span>
-            <span class="p">\}</span>
+                <span class="p">${"$"}{"}"}</span>
+            <span class="p">${"$"}{"}"}</span>
 
             <span class="n">ind</span> <span class="o">=</span> <span class="n">nextInd</span>
-        <span class="p">\}</span>
+        <span class="p">${"$"}{"}"}</span>
 
         <span class="k">let</span> <span class="nv">ret</span> <span class="o">=</span> <span class="kt">MDSyntaxTree</span><span class="p">(</span><span class="nv">blocks</span><span class="p">:</span> <span class="n">blocks</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ret</span>
-    <span class="p">\}</span>
+    <span class="p">${"$"}{"}"}</span>
 
-    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseHeadline1</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDBlockDelegate</span><span class="p">\{</span>
+    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseHeadline1</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDBlockDelegate</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
         <span class="k">var</span> <span class="nv">data</span> <span class="o">=</span> <span class="n">text</span>
         <span class="n">data</span><span class="o">.</span><span class="nf">removeFirst</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
         <span class="k">let</span> <span class="nv">subString</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="nf">trimmingCharacters</span><span class="p">(</span><span class="nv">in</span><span class="p">:</span> <span class="kt">CharacterSet</span><span class="p">(</span><span class="nv">charactersIn</span><span class="p">:</span> <span class="s">" "</span><span class="p">))</span>
         <span class="k">let</span> <span class="nv">inlines</span> <span class="o">=</span> <span class="nf">parseInlineData</span><span class="p">(</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">(</span><span class="n">subString</span><span class="p">))</span>
         <span class="k">return</span> <span class="kt">MDHeading1</span><span class="p">(</span><span class="nv">inlines</span><span class="p">:</span> <span class="n">inlines</span><span class="p">)</span>
-    <span class="p">\}</span>
+    <span class="p">${"$"}{"}"}</span>
 
-    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseHeadline2</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDBlockDelegate</span><span class="p">\{</span>
+    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseHeadline2</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDBlockDelegate</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
         <span class="k">var</span> <span class="nv">data</span> <span class="o">=</span> <span class="n">text</span>
         <span class="n">data</span><span class="o">.</span><span class="nf">removeFirst</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
         <span class="k">let</span> <span class="nv">subString</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="nf">trimmingCharacters</span><span class="p">(</span><span class="nv">in</span><span class="p">:</span> <span class="kt">CharacterSet</span><span class="p">(</span><span class="nv">charactersIn</span><span class="p">:</span> <span class="s">" "</span><span class="p">))</span>
         <span class="k">let</span> <span class="nv">inlines</span> <span class="o">=</span> <span class="nf">parseInlineData</span><span class="p">(</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">(</span><span class="n">subString</span><span class="p">))</span>
         <span class="k">return</span> <span class="kt">MDHeading2</span><span class="p">(</span><span class="nv">inlines</span><span class="p">:</span> <span class="n">inlines</span><span class="p">)</span>
-    <span class="p">\}</span>
+    <span class="p">${"$"}{"}"}</span>
 
-    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseHeadline3</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDBlockDelegate</span><span class="p">\{</span>
+    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseHeadline3</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDBlockDelegate</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
         <span class="k">var</span> <span class="nv">data</span> <span class="o">=</span> <span class="n">text</span>
         <span class="n">data</span><span class="o">.</span><span class="nf">removeFirst</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
         <span class="k">let</span> <span class="nv">subString</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="nf">trimmingCharacters</span><span class="p">(</span><span class="nv">in</span><span class="p">:</span> <span class="kt">CharacterSet</span><span class="p">(</span><span class="nv">charactersIn</span><span class="p">:</span> <span class="s">" "</span><span class="p">))</span>
         <span class="k">let</span> <span class="nv">inlines</span> <span class="o">=</span> <span class="nf">parseInlineData</span><span class="p">(</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">(</span><span class="n">subString</span><span class="p">))</span>
 
         <span class="k">return</span> <span class="kt">MDHeading3</span><span class="p">(</span><span class="nv">inlines</span><span class="p">:</span> <span class="n">inlines</span><span class="p">)</span>
-    <span class="p">\}</span>
+    <span class="p">${"$"}{"}"}</span>
 
-    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseHeadline4</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDBlockDelegate</span><span class="p">\{</span>
+    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseHeadline4</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDBlockDelegate</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
         <span class="k">var</span> <span class="nv">data</span> <span class="o">=</span> <span class="n">text</span>
         <span class="n">data</span><span class="o">.</span><span class="nf">removeFirst</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
         <span class="k">let</span> <span class="nv">subString</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="nf">trimmingCharacters</span><span class="p">(</span><span class="nv">in</span><span class="p">:</span> <span class="kt">CharacterSet</span><span class="p">(</span><span class="nv">charactersIn</span><span class="p">:</span> <span class="s">" "</span><span class="p">))</span>
         <span class="k">let</span> <span class="nv">inlines</span> <span class="o">=</span> <span class="nf">parseInlineData</span><span class="p">(</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">(</span><span class="n">subString</span><span class="p">))</span>
         <span class="k">return</span> <span class="kt">MDHeading4</span><span class="p">(</span><span class="nv">inlines</span><span class="p">:</span> <span class="n">inlines</span><span class="p">)</span>
-    <span class="p">\}</span>
+    <span class="p">${"$"}{"}"}</span>
 
-    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseHeadline5</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDBlockDelegate</span><span class="p">\{</span>
+    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseHeadline5</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDBlockDelegate</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
         <span class="k">var</span> <span class="nv">data</span> <span class="o">=</span> <span class="n">text</span>
         <span class="n">data</span><span class="o">.</span><span class="nf">removeFirst</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
         <span class="k">let</span> <span class="nv">subString</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="nf">trimmingCharacters</span><span class="p">(</span><span class="nv">in</span><span class="p">:</span> <span class="kt">CharacterSet</span><span class="p">(</span><span class="nv">charactersIn</span><span class="p">:</span> <span class="s">" "</span><span class="p">))</span>
         <span class="k">let</span> <span class="nv">inlines</span> <span class="o">=</span> <span class="nf">parseInlineData</span><span class="p">(</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">(</span><span class="n">subString</span><span class="p">))</span>
         <span class="k">return</span> <span class="kt">MDHeading5</span><span class="p">(</span><span class="nv">inlines</span><span class="p">:</span> <span class="n">inlines</span><span class="p">)</span>
-    <span class="p">\}</span>
+    <span class="p">${"$"}{"}"}</span>
 
-    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseHeadline6</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDBlockDelegate</span><span class="p">\{</span>
+    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseHeadline6</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDBlockDelegate</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
         <span class="k">var</span> <span class="nv">data</span> <span class="o">=</span> <span class="n">text</span>
         <span class="n">data</span><span class="o">.</span><span class="nf">removeFirst</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
         <span class="k">let</span> <span class="nv">subString</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="nf">trimmingCharacters</span><span class="p">(</span><span class="nv">in</span><span class="p">:</span> <span class="kt">CharacterSet</span><span class="p">(</span><span class="nv">charactersIn</span><span class="p">:</span> <span class="s">" "</span><span class="p">))</span>
         <span class="k">let</span> <span class="nv">inlines</span> <span class="o">=</span> <span class="nf">parseInlineData</span><span class="p">(</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">(</span><span class="n">subString</span><span class="p">))</span>
         <span class="k">return</span> <span class="kt">MDHeading6</span><span class="p">(</span><span class="nv">inlines</span><span class="p">:</span> <span class="n">inlines</span><span class="p">)</span>
-    <span class="p">\}</span>
+    <span class="p">${"$"}{"}"}</span>
 
-    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseParagragh</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDBlockDelegate</span><span class="p">\{</span>
+    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseParagragh</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDBlockDelegate</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
         <span class="k">let</span> <span class="nv">inlines</span> <span class="o">=</span> <span class="nf">parseInlineData</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
         <span class="k">return</span> <span class="kt">MDParagraph</span><span class="p">(</span><span class="nv">inlines</span><span class="p">:</span> <span class="n">inlines</span><span class="p">)</span>
-    <span class="p">\}</span>
+    <span class="p">${"$"}{"}"}</span>
 
 
-    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseUnorderedList</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDBlockDelegate</span><span class="p">\{</span>
+    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseUnorderedList</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDBlockDelegate</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
         <span class="k">var</span> <span class="nv">items</span><span class="p">:[</span><span class="kt">MDUnorderedListItem</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="kt">MDUnorderedListItem</span><span class="p">]()</span>
         <span class="k">var</span> <span class="nv">span</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">text</span><span class="o">.</span><span class="n">startIndex</span><span class="o">...</span><span class="p">]</span>
-        <span class="k">while</span><span class="p">(</span><span class="kc">true</span><span class="p">)\{</span>
-            <span class="k">if</span> <span class="k">let</span> <span class="nv">endofLine</span> <span class="o">=</span> <span class="n">span</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n</span><span class="s">"</span><span class="p">)\{</span>
+        <span class="k">while</span><span class="p">(</span><span class="kc">true</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
+            <span class="k">if</span> <span class="k">let</span> <span class="nv">endofLine</span> <span class="o">=</span> <span class="n">span</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n</span><span class="s">"</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
                 <span class="k">let</span> <span class="nv">line</span> <span class="o">=</span> <span class="n">span</span><span class="p">[</span><span class="n">span</span><span class="o">.</span><span class="n">startIndex</span><span class="o">..&lt;</span><span class="n">endofLine</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]</span>
                 <span class="k">var</span> <span class="nv">lineTxt</span> <span class="o">=</span> <span class="kt">String</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
                 <span class="n">lineTxt</span><span class="o">.</span><span class="nf">removeFirst</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-                <span class="k">if</span><span class="p">(</span><span class="n">lineTxt</span><span class="o">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)\{</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">lineTxt</span><span class="o">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
                     <span class="k">let</span> <span class="nv">inlines</span> <span class="o">=</span> <span class="nf">parseInlineData</span><span class="p">(</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">(</span><span class="n">lineTxt</span><span class="p">))</span>
                     <span class="n">items</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="kt">MDUnorderedListItem</span><span class="p">(</span><span class="nv">inlines</span><span class="p">:</span> <span class="n">inlines</span><span class="p">,</span> <span class="nv">children</span><span class="p">:</span> <span class="p">[</span><span class="kt">MDUnorderedListItem</span><span class="p">]()))</span>
-                <span class="p">\}</span>
+                <span class="p">${"$"}{"}"}</span>
                 <span class="n">span</span> <span class="o">=</span> <span class="n">span</span><span class="p">[</span><span class="n">endofLine</span><span class="o">.</span><span class="n">upperBound</span><span class="o">...</span><span class="p">]</span>
-            <span class="p">\}</span> <span class="k">else</span> <span class="p">\{</span>
+            <span class="p">${"$"}{"}"}</span> <span class="k">else</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
                 <span class="k">break</span>
-            <span class="p">\}</span>
-        <span class="p">\}</span>
+            <span class="p">${"$"}{"}"}</span>
+        <span class="p">${"$"}{"}"}</span>
 
         <span class="k">return</span> <span class="kt">MDUnorderedList</span><span class="p">(</span><span class="nv">items</span><span class="p">:</span> <span class="n">items</span><span class="p">)</span>
-    <span class="p">\}</span>
+    <span class="p">${"$"}{"}"}</span>
 
-    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseOrderedList</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDBlockDelegate</span><span class="p">\{</span>
+    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseOrderedList</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDBlockDelegate</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
         <span class="k">var</span> <span class="nv">items</span><span class="p">:[</span><span class="kt">MDOrderedListItem</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="kt">MDOrderedListItem</span><span class="p">]()</span>
         <span class="k">var</span> <span class="nv">span</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">text</span><span class="o">.</span><span class="n">startIndex</span><span class="o">...</span><span class="p">]</span>
-        <span class="k">while</span><span class="p">(</span><span class="kc">true</span><span class="p">)\{</span>
-            <span class="k">if</span> <span class="k">let</span> <span class="nv">endofLine</span> <span class="o">=</span> <span class="n">span</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n</span><span class="s">"</span><span class="p">)\{</span>
+        <span class="k">while</span><span class="p">(</span><span class="kc">true</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
+            <span class="k">if</span> <span class="k">let</span> <span class="nv">endofLine</span> <span class="o">=</span> <span class="n">span</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n</span><span class="s">"</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
                 <span class="k">let</span> <span class="nv">line</span> <span class="o">=</span> <span class="n">span</span><span class="p">[</span><span class="n">span</span><span class="o">.</span><span class="n">startIndex</span><span class="o">..&lt;</span><span class="n">endofLine</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]</span>
                 <span class="k">var</span> <span class="nv">lineTxt</span> <span class="o">=</span> <span class="kt">String</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
                 <span class="n">lineTxt</span><span class="o">.</span><span class="nf">removeFirst</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-                <span class="k">if</span><span class="p">(</span><span class="n">lineTxt</span><span class="o">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)\{</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">lineTxt</span><span class="o">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
                     <span class="k">let</span> <span class="nv">inlines</span> <span class="o">=</span> <span class="nf">parseInlineData</span><span class="p">(</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">(</span><span class="n">lineTxt</span><span class="p">))</span>
                     <span class="n">items</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="kt">MDOrderedListItem</span><span class="p">(</span><span class="nv">inlines</span><span class="p">:</span> <span class="n">inlines</span><span class="p">,</span> <span class="nv">children</span><span class="p">:</span> <span class="p">[</span><span class="kt">MDOrderedListItem</span><span class="p">]()))</span>
-                <span class="p">\}</span>
+                <span class="p">${"$"}{"}"}</span>
                 <span class="n">span</span> <span class="o">=</span> <span class="n">span</span><span class="p">[</span><span class="n">endofLine</span><span class="o">.</span><span class="n">upperBound</span><span class="o">...</span><span class="p">]</span>
-            <span class="p">\}</span> <span class="k">else</span> <span class="p">\{</span>
+            <span class="p">${"$"}{"}"}</span> <span class="k">else</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
                 <span class="k">break</span>
-            <span class="p">\}</span>
-        <span class="p">\}</span>
+            <span class="p">${"$"}{"}"}</span>
+        <span class="p">${"$"}{"}"}</span>
 
         <span class="k">return</span> <span class="kt">MDOrderedList</span><span class="p">(</span><span class="nv">items</span><span class="p">:</span> <span class="n">items</span><span class="p">)</span>
-    <span class="p">\}</span>
+    <span class="p">${"$"}{"}"}</span>
 
-    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseCodeBlock</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDBlockDelegate</span><span class="p">\{</span>
+    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseCodeBlock</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDBlockDelegate</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
         <span class="k">var</span> <span class="nv">data</span> <span class="o">=</span> <span class="n">text</span>
         <span class="n">data</span><span class="o">.</span><span class="nf">removeFirst</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
         <span class="k">let</span> <span class="nv">id</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n</span><span class="s">"</span><span class="p">)</span><span class="o">!</span>
@@ -4657,342 +4657,342 @@ Markdownの記法は以下の２つに分類できると考えました
         <span class="n">contentText</span><span class="o">.</span><span class="nf">removeLast</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="kt">MDCodeBlock</span><span class="p">(</span><span class="nv">lang</span><span class="p">:</span> <span class="kt">String</span><span class="p">(</span><span class="n">langName</span><span class="p">),</span> <span class="nv">multilineText</span><span class="p">:</span> <span class="kt">String</span><span class="p">(</span><span class="n">contentText</span><span class="p">))</span>
-    <span class="p">\}</span>
+    <span class="p">${"$"}{"}"}</span>
 
-    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseBlockQuote</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDBlockDelegate</span><span class="p">\{</span>
+    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseBlockQuote</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDBlockDelegate</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
         <span class="k">return</span> <span class="kt">MDBlockQuote</span><span class="p">(</span><span class="nv">multilineText</span><span class="p">:</span> <span class="kt">String</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
-    <span class="p">\}</span>
+    <span class="p">${"$"}{"}"}</span>
 
-    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseTable</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span> <span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDBlockDelegate</span><span class="p">\{</span>
+    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseTable</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span> <span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDBlockDelegate</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
         <span class="k">let</span> <span class="nv">lines</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="nf">split</span><span class="p">(</span><span class="nv">separator</span><span class="p">:</span> <span class="s">"</span><span class="se">\\n</span><span class="s">"</span><span class="p">)</span>
-        <span class="k">if</span><span class="p">(</span><span class="n">lines</span><span class="o">.</span><span class="n">count</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">)\{</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">lines</span><span class="o">.</span><span class="n">count</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
             <span class="k">return</span> <span class="nf">parseParagragh</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-        <span class="p">\}</span>
+        <span class="p">${"$"}{"}"}</span>
 
         <span class="k">let</span> <span class="nv">headlineRow</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">let</span> <span class="nv">headlineCellTexts</span> <span class="o">=</span> <span class="n">headlineRow</span><span class="o">.</span><span class="nf">split</span><span class="p">(</span><span class="nv">separator</span><span class="p">:</span> <span class="s">"|"</span><span class="p">)</span>
-        <span class="k">let</span> <span class="nv">headlineCells</span> <span class="o">=</span> <span class="n">headlineCellTexts</span><span class="o">.</span><span class="n">map</span><span class="p">\{</span><span class="n">txt</span> <span class="k">in</span> <span class="kt">MDTableCell</span><span class="p">(</span><span class="nv">inlines</span><span class="p">:</span> <span class="nf">parseInlineData</span><span class="p">(</span><span class="n">txt</span><span class="p">))\}</span>
+        <span class="k">let</span> <span class="nv">headlineCells</span> <span class="o">=</span> <span class="n">headlineCellTexts</span><span class="o">.</span><span class="n">map</span><span class="p">${"$"}{"{"${"$"}{"}"}</span><span class="n">txt</span> <span class="k">in</span> <span class="kt">MDTableCell</span><span class="p">(</span><span class="nv">inlines</span><span class="p">:</span> <span class="nf">parseInlineData</span><span class="p">(</span><span class="n">txt</span><span class="p">))${"$"}{"}"}</span>
 
         <span class="k">let</span> <span class="nv">configRow</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">let</span> <span class="nv">configTexts</span>  <span class="o">=</span> <span class="n">configRow</span><span class="o">.</span><span class="nf">split</span><span class="p">(</span><span class="nv">separator</span><span class="p">:</span> <span class="s">"|"</span><span class="p">)</span>
-        <span class="k">let</span> <span class="nv">configs</span><span class="p">:[</span><span class="kt">MDTableColConfig</span><span class="p">]</span> <span class="o">=</span> <span class="n">configTexts</span><span class="o">.</span><span class="n">map</span><span class="p">\{</span><span class="n">c</span> <span class="k">in</span>
-            <span class="k">if</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">startIndex</span><span class="p">]</span> <span class="o">==</span> <span class="s">":"</span><span class="p">)\{</span>
+        <span class="k">let</span> <span class="nv">configs</span><span class="p">:[</span><span class="kt">MDTableColConfig</span><span class="p">]</span> <span class="o">=</span> <span class="n">configTexts</span><span class="o">.</span><span class="n">map</span><span class="p">${"$"}{"{"${"$"}{"}"}</span><span class="n">c</span> <span class="k">in</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">startIndex</span><span class="p">]</span> <span class="o">==</span> <span class="s">":"</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
                 <span class="k">return</span> <span class="kt">MDTableColConfig</span><span class="o">.</span><span class="n">leading</span>
-            <span class="p">\}</span>
-            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="nf">index</span><span class="p">(</span><span class="nv">before</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">endIndex</span><span class="p">)]</span> <span class="o">==</span> <span class="s">":"</span><span class="p">)\{</span>
+            <span class="p">${"$"}{"}"}</span>
+            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="nf">index</span><span class="p">(</span><span class="nv">before</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">endIndex</span><span class="p">)]</span> <span class="o">==</span> <span class="s">":"</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
                 <span class="k">return</span> <span class="kt">MDTableColConfig</span><span class="o">.</span><span class="n">trailing</span>
-            <span class="p">\}</span>
-            <span class="k">else</span><span class="p">\{</span>
+            <span class="p">${"$"}{"}"}</span>
+            <span class="k">else</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
                 <span class="k">return</span> <span class="kt">MDTableColConfig</span><span class="o">.</span><span class="n">center</span>
-            <span class="p">\}</span>
-        <span class="p">\}</span>
+            <span class="p">${"$"}{"}"}</span>
+        <span class="p">${"$"}{"}"}</span>
 
-        <span class="k">let</span> <span class="nv">dataRows</span><span class="p">:[</span><span class="kt">MDTableRow</span><span class="p">]</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="mi">2</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">\{</span><span class="n">line</span> <span class="k">in</span>
-            <span class="k">return</span> <span class="kt">MDTableRow</span><span class="p">(</span><span class="nv">cells</span><span class="p">:</span> <span class="n">line</span><span class="o">.</span><span class="nf">split</span><span class="p">(</span><span class="nv">separator</span><span class="p">:</span> <span class="s">"|"</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">\{</span><span class="n">c</span> <span class="k">in</span>
+        <span class="k">let</span> <span class="nv">dataRows</span><span class="p">:[</span><span class="kt">MDTableRow</span><span class="p">]</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="mi">2</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">${"$"}{"{"${"$"}{"}"}</span><span class="n">line</span> <span class="k">in</span>
+            <span class="k">return</span> <span class="kt">MDTableRow</span><span class="p">(</span><span class="nv">cells</span><span class="p">:</span> <span class="n">line</span><span class="o">.</span><span class="nf">split</span><span class="p">(</span><span class="nv">separator</span><span class="p">:</span> <span class="s">"|"</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">${"$"}{"{"${"$"}{"}"}</span><span class="n">c</span> <span class="k">in</span>
                 <span class="k">let</span> <span class="nv">inlines</span> <span class="o">=</span> <span class="nf">parseInlineData</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
                 <span class="k">return</span> <span class="kt">MDTableCell</span><span class="p">(</span><span class="nv">inlines</span><span class="p">:</span> <span class="n">inlines</span><span class="p">)</span>
-            <span class="p">\})</span>
-        <span class="p">\}</span>
+            <span class="p">${"$"}{"}"})</span>
+        <span class="p">${"$"}{"}"}</span>
 
         <span class="k">return</span> <span class="kt">MDTable</span><span class="p">(</span><span class="nv">headline</span><span class="p">:</span> <span class="kt">MDTableHeader</span><span class="p">(</span><span class="nv">cells</span><span class="p">:</span> <span class="n">headlineCells</span><span class="p">),</span> <span class="nv">colconfigs</span><span class="p">:</span> <span class="kt">MDTableColConfigs</span><span class="p">(</span><span class="nv">colconfigs</span><span class="p">:</span> <span class="n">configs</span><span class="p">),</span> <span class="nv">rows</span><span class="p">:</span> <span class="n">dataRows</span><span class="p">)</span>
-    <span class="p">\}</span>
+    <span class="p">${"$"}{"}"}</span>
 
-    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseHorizontalRule</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDHorizontalRule</span><span class="p">\{</span>
+    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseHorizontalRule</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDHorizontalRule</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
         <span class="k">return</span> <span class="kt">MDHorizontalRule</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="kt">String</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
-    <span class="p">\}</span>
+    <span class="p">${"$"}{"}"}</span>
 
 
-    <span class="kd">internal</span> <span class="kd">func</span> <span class="nf">parseInlineData</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">MDInlineDelegate</span><span class="p">]\{</span>
+    <span class="kd">internal</span> <span class="kd">func</span> <span class="nf">parseInlineData</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">MDInlineDelegate</span><span class="p">]${"$"}{"{"${"$"}{"}"}</span>
         <span class="k">var</span> <span class="nv">ind</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">startIndex</span>
         <span class="k">var</span> <span class="nv">ret</span> <span class="o">=</span> <span class="p">[</span><span class="kt">MDInlineDelegate</span><span class="p">]()</span>
         <span class="k">var</span> <span class="nv">txtBuffer</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Character</span><span class="p">]()</span>
-        <span class="k">while</span><span class="p">(</span><span class="n">ind</span> <span class="o">!=</span> <span class="n">text</span><span class="o">.</span><span class="n">endIndex</span><span class="p">)\{</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">ind</span> <span class="o">!=</span> <span class="n">text</span><span class="o">.</span><span class="n">endIndex</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
             <span class="k">let</span> <span class="nv">nextInd</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="nf">index</span><span class="p">(</span><span class="nv">after</span><span class="p">:</span> <span class="n">ind</span><span class="p">)</span>
             <span class="k">let</span> <span class="nv">span</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="o">...</span><span class="p">]</span>
-            <span class="k">if</span><span class="p">(</span><span class="n">span</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"**"</span><span class="p">))\{</span>
-                <span class="k">if</span> <span class="k">let</span> <span class="nv">start</span> <span class="o">=</span> <span class="n">span</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"**"</span><span class="p">)\{</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">span</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"**"</span><span class="p">))${"$"}{"{"${"$"}{"}"}</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">start</span> <span class="o">=</span> <span class="n">span</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"**"</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
                     <span class="k">let</span> <span class="nv">subSpan</span> <span class="o">=</span> <span class="n">span</span><span class="p">[</span><span class="n">start</span><span class="o">.</span><span class="n">upperBound</span><span class="o">...</span><span class="p">]</span>
-                    <span class="k">if</span> <span class="k">let</span> <span class="nv">end</span> <span class="o">=</span> <span class="n">subSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"**"</span><span class="p">)\{</span>
-                        <span class="k">if</span><span class="p">(</span><span class="n">txtBuffer</span><span class="o">.</span><span class="n">count</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)\{</span>
+                    <span class="k">if</span> <span class="k">let</span> <span class="nv">end</span> <span class="o">=</span> <span class="n">subSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"**"</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
+                        <span class="k">if</span><span class="p">(</span><span class="n">txtBuffer</span><span class="o">.</span><span class="n">count</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
                             <span class="n">ret</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseText</span><span class="p">(</span><span class="n">txtBuffer</span><span class="p">))</span>
                             <span class="n">txtBuffer</span><span class="o">.</span><span class="nf">removeAll</span><span class="p">()</span>
-                        <span class="p">\}</span>
+                        <span class="p">${"$"}{"}"}</span>
                         <span class="n">ret</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseBold</span><span class="p">(</span><span class="n">subSpan</span><span class="p">[</span><span class="o">..&lt;</span><span class="n">end</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]))</span>
                         <span class="n">ind</span> <span class="o">=</span> <span class="n">end</span><span class="o">.</span><span class="n">upperBound</span>
                         <span class="k">continue</span>
-                    <span class="p">\}</span>
-                <span class="p">\}</span>
-            <span class="p">\}</span>
-            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">span</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"__"</span><span class="p">))\{</span>
+                    <span class="p">${"$"}{"}"}</span>
+                <span class="p">${"$"}{"}"}</span>
+            <span class="p">${"$"}{"}"}</span>
+            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">span</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"__"</span><span class="p">))${"$"}{"{"${"$"}{"}"}</span>
 
-                <span class="k">if</span> <span class="k">let</span> <span class="nv">start</span> <span class="o">=</span> <span class="n">span</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"__"</span><span class="p">)\{</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">start</span> <span class="o">=</span> <span class="n">span</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"__"</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
                     <span class="k">let</span> <span class="nv">subSpan</span> <span class="o">=</span> <span class="n">span</span><span class="p">[</span><span class="n">start</span><span class="o">.</span><span class="n">upperBound</span><span class="o">...</span><span class="p">]</span>
-                    <span class="k">if</span> <span class="k">let</span> <span class="nv">end</span> <span class="o">=</span> <span class="n">subSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"__"</span><span class="p">)\{</span>
-                        <span class="k">if</span><span class="p">(</span><span class="n">txtBuffer</span><span class="o">.</span><span class="n">count</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)\{</span>
+                    <span class="k">if</span> <span class="k">let</span> <span class="nv">end</span> <span class="o">=</span> <span class="n">subSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"__"</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
+                        <span class="k">if</span><span class="p">(</span><span class="n">txtBuffer</span><span class="o">.</span><span class="n">count</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
                             <span class="n">ret</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseText</span><span class="p">(</span><span class="n">txtBuffer</span><span class="p">))</span>
                             <span class="n">txtBuffer</span><span class="o">.</span><span class="nf">removeAll</span><span class="p">()</span>
-                        <span class="p">\}</span>
+                        <span class="p">${"$"}{"}"}</span>
                         <span class="n">ret</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseBold</span><span class="p">(</span><span class="n">subSpan</span><span class="p">[</span><span class="o">..&lt;</span><span class="n">end</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]))</span>
                         <span class="n">ind</span> <span class="o">=</span> <span class="n">end</span><span class="o">.</span><span class="n">upperBound</span>
                         <span class="k">continue</span>
-                    <span class="p">\}</span>
-                <span class="p">\}</span>
-            <span class="p">\}</span>
-            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">span</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"*"</span><span class="p">))\{</span>
-                <span class="k">if</span> <span class="k">let</span> <span class="nv">start</span> <span class="o">=</span> <span class="n">span</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"*"</span><span class="p">)\{</span>
+                    <span class="p">${"$"}{"}"}</span>
+                <span class="p">${"$"}{"}"}</span>
+            <span class="p">${"$"}{"}"}</span>
+            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">span</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"*"</span><span class="p">))${"$"}{"{"${"$"}{"}"}</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">start</span> <span class="o">=</span> <span class="n">span</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"*"</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
                     <span class="k">let</span> <span class="nv">subSpan</span> <span class="o">=</span> <span class="n">span</span><span class="p">[</span><span class="n">start</span><span class="o">.</span><span class="n">upperBound</span><span class="o">...</span><span class="p">]</span>
-                    <span class="k">if</span> <span class="k">let</span> <span class="nv">end</span> <span class="o">=</span> <span class="n">subSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"*"</span><span class="p">)\{</span>
-                        <span class="k">if</span><span class="p">(</span><span class="n">txtBuffer</span><span class="o">.</span><span class="n">count</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)\{</span>
+                    <span class="k">if</span> <span class="k">let</span> <span class="nv">end</span> <span class="o">=</span> <span class="n">subSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"*"</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
+                        <span class="k">if</span><span class="p">(</span><span class="n">txtBuffer</span><span class="o">.</span><span class="n">count</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
                             <span class="n">ret</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseText</span><span class="p">(</span><span class="n">txtBuffer</span><span class="p">))</span>
                             <span class="n">txtBuffer</span><span class="o">.</span><span class="nf">removeAll</span><span class="p">()</span>
-                        <span class="p">\}</span>
+                        <span class="p">${"$"}{"}"}</span>
                         <span class="n">ret</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseItalic</span><span class="p">(</span><span class="n">subSpan</span><span class="p">[</span><span class="o">..&lt;</span><span class="n">end</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]))</span>
                         <span class="n">ind</span> <span class="o">=</span> <span class="n">end</span><span class="o">.</span><span class="n">upperBound</span>
                         <span class="k">continue</span>
-                    <span class="p">\}</span>
-                <span class="p">\}</span>
-            <span class="p">\}</span>
-            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">span</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"_"</span><span class="p">))\{</span>
-                <span class="k">if</span> <span class="k">let</span> <span class="nv">start</span> <span class="o">=</span> <span class="n">span</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"_"</span><span class="p">)\{</span>
+                    <span class="p">${"$"}{"}"}</span>
+                <span class="p">${"$"}{"}"}</span>
+            <span class="p">${"$"}{"}"}</span>
+            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">span</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"_"</span><span class="p">))${"$"}{"{"${"$"}{"}"}</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">start</span> <span class="o">=</span> <span class="n">span</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"_"</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
                     <span class="k">let</span> <span class="nv">subSpan</span> <span class="o">=</span> <span class="n">span</span><span class="p">[</span><span class="n">start</span><span class="o">.</span><span class="n">upperBound</span><span class="o">...</span><span class="p">]</span>
-                    <span class="k">if</span> <span class="k">let</span> <span class="nv">end</span> <span class="o">=</span> <span class="n">subSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"_"</span><span class="p">)\{</span>
-                        <span class="k">if</span><span class="p">(</span><span class="n">txtBuffer</span><span class="o">.</span><span class="n">count</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)\{</span>
+                    <span class="k">if</span> <span class="k">let</span> <span class="nv">end</span> <span class="o">=</span> <span class="n">subSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"_"</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
+                        <span class="k">if</span><span class="p">(</span><span class="n">txtBuffer</span><span class="o">.</span><span class="n">count</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
                             <span class="n">ret</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseText</span><span class="p">(</span><span class="n">txtBuffer</span><span class="p">))</span>
                             <span class="n">txtBuffer</span><span class="o">.</span><span class="nf">removeAll</span><span class="p">()</span>
-                        <span class="p">\}</span>
+                        <span class="p">${"$"}{"}"}</span>
                         <span class="n">ret</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseItalic</span><span class="p">(</span><span class="n">subSpan</span><span class="p">[</span><span class="o">..&lt;</span><span class="n">end</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]))</span>
                         <span class="n">ind</span> <span class="o">=</span> <span class="n">end</span><span class="o">.</span><span class="n">upperBound</span>
                         <span class="k">continue</span>
-                    <span class="p">\}</span>
-                <span class="p">\}</span>
-            <span class="p">\}</span>
-            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">span</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"~~"</span><span class="p">))\{</span>
-                <span class="k">if</span> <span class="k">let</span> <span class="nv">start</span> <span class="o">=</span> <span class="n">span</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"~~"</span><span class="p">)\{</span>
+                    <span class="p">${"$"}{"}"}</span>
+                <span class="p">${"$"}{"}"}</span>
+            <span class="p">${"$"}{"}"}</span>
+            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">span</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"~~"</span><span class="p">))${"$"}{"{"${"$"}{"}"}</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">start</span> <span class="o">=</span> <span class="n">span</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"~~"</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
                     <span class="k">let</span> <span class="nv">subSpan</span> <span class="o">=</span> <span class="n">span</span><span class="p">[</span><span class="n">start</span><span class="o">.</span><span class="n">upperBound</span><span class="o">...</span><span class="p">]</span>
-                    <span class="k">if</span> <span class="k">let</span> <span class="nv">end</span> <span class="o">=</span> <span class="n">subSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"~~"</span><span class="p">)\{</span>
-                        <span class="k">if</span><span class="p">(</span><span class="n">txtBuffer</span><span class="o">.</span><span class="n">count</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)\{</span>
+                    <span class="k">if</span> <span class="k">let</span> <span class="nv">end</span> <span class="o">=</span> <span class="n">subSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"~~"</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
+                        <span class="k">if</span><span class="p">(</span><span class="n">txtBuffer</span><span class="o">.</span><span class="n">count</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
                             <span class="n">ret</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseText</span><span class="p">(</span><span class="n">txtBuffer</span><span class="p">))</span>
                             <span class="n">txtBuffer</span><span class="o">.</span><span class="nf">removeAll</span><span class="p">()</span>
-                        <span class="p">\}</span>
+                        <span class="p">${"$"}{"}"}</span>
                         <span class="n">ret</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseStrikethrough</span><span class="p">(</span><span class="n">subSpan</span><span class="p">[</span><span class="o">..&lt;</span><span class="n">end</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]))</span>
                         <span class="n">ind</span> <span class="o">=</span> <span class="n">end</span><span class="o">.</span><span class="n">upperBound</span>
                         <span class="k">continue</span>
-                    <span class="p">\}</span>
-                <span class="p">\}</span>
-            <span class="p">\}</span>
-            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">span</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"\`"</span><span class="p">))\{</span>
-                <span class="k">if</span> <span class="k">let</span> <span class="nv">start</span> <span class="o">=</span> <span class="n">span</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"\`"</span><span class="p">)\{</span>
+                    <span class="p">${"$"}{"}"}</span>
+                <span class="p">${"$"}{"}"}</span>
+            <span class="p">${"$"}{"}"}</span>
+            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">span</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"\`"</span><span class="p">))${"$"}{"{"${"$"}{"}"}</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">start</span> <span class="o">=</span> <span class="n">span</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"\`"</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
                     <span class="k">let</span> <span class="nv">subSpan</span> <span class="o">=</span> <span class="n">span</span><span class="p">[</span><span class="n">start</span><span class="o">.</span><span class="n">upperBound</span><span class="o">...</span><span class="p">]</span>
-                    <span class="k">if</span> <span class="k">let</span> <span class="nv">end</span> <span class="o">=</span> <span class="n">subSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"\`"</span><span class="p">)\{</span>
-                        <span class="k">if</span><span class="p">(</span><span class="n">txtBuffer</span><span class="o">.</span><span class="n">count</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)\{</span>
+                    <span class="k">if</span> <span class="k">let</span> <span class="nv">end</span> <span class="o">=</span> <span class="n">subSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"\`"</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
+                        <span class="k">if</span><span class="p">(</span><span class="n">txtBuffer</span><span class="o">.</span><span class="n">count</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
                             <span class="n">ret</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseText</span><span class="p">(</span><span class="n">txtBuffer</span><span class="p">))</span>
                             <span class="n">txtBuffer</span><span class="o">.</span><span class="nf">removeAll</span><span class="p">()</span>
-                        <span class="p">\}</span>
+                        <span class="p">${"$"}{"}"}</span>
                         <span class="n">ret</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseInlineCode</span><span class="p">(</span><span class="n">subSpan</span><span class="p">[</span><span class="o">..&lt;</span><span class="n">end</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]))</span>
                         <span class="n">ind</span> <span class="o">=</span> <span class="n">end</span><span class="o">.</span><span class="n">upperBound</span>
                         <span class="k">continue</span>
-                    <span class="p">\}</span>
-                <span class="p">\}</span>
-            <span class="p">\}</span>
-            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">span</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"["</span><span class="p">))\{</span>
-                <span class="k">if</span> <span class="k">let</span> <span class="nv">nameStart</span> <span class="o">=</span> <span class="n">span</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"]("</span><span class="p">)\{</span>
+                    <span class="p">${"$"}{"}"}</span>
+                <span class="p">${"$"}{"}"}</span>
+            <span class="p">${"$"}{"}"}</span>
+            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">span</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"["</span><span class="p">))${"$"}{"{"${"$"}{"}"}</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">nameStart</span> <span class="o">=</span> <span class="n">span</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"]("</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
                     <span class="k">var</span> <span class="nv">display</span> <span class="o">=</span> <span class="n">span</span><span class="p">[</span><span class="o">..&lt;</span><span class="n">nameStart</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]</span>
                     <span class="n">display</span> <span class="o">=</span> <span class="n">display</span><span class="p">[</span><span class="n">display</span><span class="o">.</span><span class="nf">index</span><span class="p">(</span><span class="nv">after</span><span class="p">:</span> <span class="n">display</span><span class="o">.</span><span class="n">startIndex</span><span class="p">)</span><span class="o">...</span><span class="p">]</span>
                     <span class="k">let</span> <span class="nv">subSpan</span> <span class="o">=</span> <span class="n">span</span><span class="p">[</span><span class="n">nameStart</span><span class="o">.</span><span class="n">upperBound</span><span class="o">...</span><span class="p">]</span>
-                    <span class="k">if</span> <span class="k">let</span> <span class="nv">end</span> <span class="o">=</span> <span class="n">subSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">")"</span><span class="p">)\{</span>
-                        <span class="k">if</span><span class="p">(</span><span class="n">txtBuffer</span><span class="o">.</span><span class="n">count</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)\{</span>
+                    <span class="k">if</span> <span class="k">let</span> <span class="nv">end</span> <span class="o">=</span> <span class="n">subSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">")"</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
+                        <span class="k">if</span><span class="p">(</span><span class="n">txtBuffer</span><span class="o">.</span><span class="n">count</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
                             <span class="n">ret</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseText</span><span class="p">(</span><span class="n">txtBuffer</span><span class="p">))</span>
                             <span class="n">txtBuffer</span><span class="o">.</span><span class="nf">removeAll</span><span class="p">()</span>
-                        <span class="p">\}</span>
+                        <span class="p">${"$"}{"}"}</span>
                         <span class="n">ret</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseLink</span><span class="p">(</span><span class="n">display</span><span class="p">,</span> <span class="n">subSpan</span><span class="p">[</span><span class="o">..&lt;</span><span class="n">end</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]))</span>
                         <span class="n">ind</span> <span class="o">=</span> <span class="n">end</span><span class="o">.</span><span class="n">upperBound</span>
                         <span class="k">continue</span>
-                    <span class="p">\}</span>
-                <span class="p">\}</span>
-            <span class="p">\}</span>
-            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">span</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"!["</span><span class="p">))\{</span>
-                <span class="k">if</span> <span class="k">let</span> <span class="nv">nameStart</span> <span class="o">=</span> <span class="n">span</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"]("</span><span class="p">)\{</span>
+                    <span class="p">${"$"}{"}"}</span>
+                <span class="p">${"$"}{"}"}</span>
+            <span class="p">${"$"}{"}"}</span>
+            <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">span</span><span class="o">.</span><span class="nf">starts</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="s">"!["</span><span class="p">))${"$"}{"{"${"$"}{"}"}</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">nameStart</span> <span class="o">=</span> <span class="n">span</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"]("</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
                     <span class="k">var</span> <span class="nv">display</span> <span class="o">=</span> <span class="n">span</span><span class="p">[</span><span class="o">..&lt;</span><span class="n">nameStart</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]</span>
                     <span class="n">display</span> <span class="o">=</span> <span class="n">display</span><span class="p">[</span><span class="n">display</span><span class="o">.</span><span class="nf">index</span><span class="p">(</span><span class="nv">after</span><span class="p">:</span> <span class="n">display</span><span class="o">.</span><span class="n">startIndex</span><span class="p">)</span><span class="o">...</span><span class="p">]</span>
                     <span class="n">display</span> <span class="o">=</span> <span class="n">display</span><span class="p">[</span><span class="n">display</span><span class="o">.</span><span class="nf">index</span><span class="p">(</span><span class="nv">after</span><span class="p">:</span> <span class="n">display</span><span class="o">.</span><span class="n">startIndex</span><span class="p">)</span><span class="o">...</span><span class="p">]</span>
                     <span class="k">let</span> <span class="nv">subSpan</span> <span class="o">=</span> <span class="n">span</span><span class="p">[</span><span class="n">nameStart</span><span class="o">.</span><span class="n">upperBound</span><span class="o">...</span><span class="p">]</span>
-                    <span class="k">if</span> <span class="k">let</span> <span class="nv">end</span> <span class="o">=</span> <span class="n">subSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">")"</span><span class="p">)\{</span>
-                        <span class="k">if</span><span class="p">(</span><span class="n">txtBuffer</span><span class="o">.</span><span class="n">count</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)\{</span>
+                    <span class="k">if</span> <span class="k">let</span> <span class="nv">end</span> <span class="o">=</span> <span class="n">subSpan</span><span class="o">.</span><span class="nf">range</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">")"</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
+                        <span class="k">if</span><span class="p">(</span><span class="n">txtBuffer</span><span class="o">.</span><span class="n">count</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
                             <span class="n">ret</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseText</span><span class="p">(</span><span class="n">txtBuffer</span><span class="p">))</span>
                             <span class="n">txtBuffer</span><span class="o">.</span><span class="nf">removeAll</span><span class="p">()</span>
-                        <span class="p">\}</span>
+                        <span class="p">${"$"}{"}"}</span>
                         <span class="n">ret</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseImage</span><span class="p">(</span><span class="n">display</span><span class="p">,</span> <span class="n">subSpan</span><span class="p">[</span><span class="o">..&lt;</span><span class="n">end</span><span class="o">.</span><span class="n">lowerBound</span><span class="p">]))</span>
                         <span class="n">ind</span> <span class="o">=</span> <span class="n">end</span><span class="o">.</span><span class="n">upperBound</span>
                         <span class="k">continue</span>
-                    <span class="p">\}</span>
-                <span class="p">\}</span>
-            <span class="p">\}</span>
-            <span class="k">else</span><span class="p">\{</span>
+                    <span class="p">${"$"}{"}"}</span>
+                <span class="p">${"$"}{"}"}</span>
+            <span class="p">${"$"}{"}"}</span>
+            <span class="k">else</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
                 <span class="n">txtBuffer</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">ind</span><span class="p">])</span>
-            <span class="p">\}</span>
+            <span class="p">${"$"}{"}"}</span>
 
             <span class="n">ind</span> <span class="o">=</span> <span class="n">nextInd</span>
-        <span class="p">\}</span>
-        <span class="k">if</span><span class="p">(</span><span class="n">txtBuffer</span><span class="o">.</span><span class="n">count</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)\{</span>
+        <span class="p">${"$"}{"}"}</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">txtBuffer</span><span class="o">.</span><span class="n">count</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
             <span class="n">ret</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nf">parseText</span><span class="p">(</span><span class="n">txtBuffer</span><span class="p">))</span>
-        <span class="p">\}</span>
+        <span class="p">${"$"}{"}"}</span>
         <span class="k">return</span> <span class="n">ret</span>
-    <span class="p">\}</span>
+    <span class="p">${"$"}{"}"}</span>
 
-    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseBold</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDBold</span><span class="p">\{</span>
+    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseBold</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDBold</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
         <span class="k">return</span> <span class="kt">MDBold</span><span class="p">(</span><span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
-    <span class="p">\}</span>
+    <span class="p">${"$"}{"}"}</span>
 
-    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseInlineCode</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span> <span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDInlineCode</span><span class="p">\{</span>
+    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseInlineCode</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span> <span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDInlineCode</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
         <span class="k">return</span> <span class="kt">MDInlineCode</span><span class="p">(</span><span class="nv">text</span><span class="p">:</span> <span class="kt">String</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
-    <span class="p">\}</span>
+    <span class="p">${"$"}{"}"}</span>
 
-    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseItalic</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDItalic</span><span class="p">\{</span>
+    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseItalic</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDItalic</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
         <span class="k">return</span> <span class="kt">MDItalic</span><span class="p">(</span><span class="nv">text</span><span class="p">:</span> <span class="kt">String</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
-    <span class="p">\}</span>
+    <span class="p">${"$"}{"}"}</span>
 
-    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseStrikethrough</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDStrikethrough</span><span class="p">\{</span>
+    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseStrikethrough</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDStrikethrough</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
         <span class="k">return</span> <span class="kt">MDStrikethrough</span><span class="p">(</span><span class="nv">text</span><span class="p">:</span> <span class="kt">String</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
-    <span class="p">\}</span>
+    <span class="p">${"$"}{"}"}</span>
 
-    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseLink</span><span class="p">(</span><span class="n">_</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">,</span> <span class="n">_</span> <span class="nv">address</span><span class="p">:</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDLink</span><span class="p">\{</span>
+    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseLink</span><span class="p">(</span><span class="n">_</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">,</span> <span class="n">_</span> <span class="nv">address</span><span class="p">:</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDLink</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
         <span class="k">return</span> <span class="kt">MDLink</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="nv">source</span><span class="p">:</span> <span class="kt">String</span><span class="p">(</span><span class="n">address</span><span class="p">))</span>
-    <span class="p">\}</span>
+    <span class="p">${"$"}{"}"}</span>
 
-    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseImage</span><span class="p">(</span><span class="n">_</span> <span class="nv">name</span><span class="p">:</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">,</span> <span class="n">_</span> <span class="nv">address</span><span class="p">:</span> <span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDImage</span><span class="p">\{</span>
+    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseImage</span><span class="p">(</span><span class="n">_</span> <span class="nv">name</span><span class="p">:</span><span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">,</span> <span class="n">_</span> <span class="nv">address</span><span class="p">:</span> <span class="kt">String</span><span class="o">.</span><span class="kt">SubSequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">MDImage</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
         <span class="k">return</span> <span class="kt">MDImage</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span><span class="kt">String</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="nv">source</span><span class="p">:</span> <span class="kt">String</span><span class="p">(</span><span class="n">address</span><span class="p">))</span>
-    <span class="p">\}</span>
+    <span class="p">${"$"}{"}"}</span>
 
-    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseText</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:[</span><span class="kt">Character</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kt">MDText</span><span class="p">\{</span>
+    <span class="kd">private</span> <span class="kd">func</span> <span class="nf">parseText</span><span class="p">(</span><span class="n">_</span> <span class="nv">text</span><span class="p">:[</span><span class="kt">Character</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kt">MDText</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
         <span class="k">let</span> <span class="nv">txt</span> <span class="o">=</span> <span class="kt">String</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
         <span class="k">return</span> <span class="kt">MDText</span><span class="p">(</span><span class="nv">text</span><span class="p">:</span> <span class="n">txt</span><span class="p">)</span>
-    <span class="p">\}</span>
-<span class="p">\}</span>
+    <span class="p">${"$"}{"}"}</span>
+<span class="p">${"$"}{"}"}</span>
 
-<span class="kd">struct</span> <span class="kt">MDSyntaxTree</span><span class="p">\{</span>
+<span class="kd">struct</span> <span class="kt">MDSyntaxTree</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="k">var</span> <span class="nv">blocks</span><span class="p">:[</span><span class="kt">MDBlockDelegate</span><span class="p">]</span>
-<span class="p">\}</span>
+<span class="p">${"$"}{"}"}</span>
 
-<span class="kd">struct</span> <span class="kt">MDBold</span><span class="p">:</span> <span class="kt">MDInlineDelegate</span><span class="p">\{</span>
+<span class="kd">struct</span> <span class="kt">MDBold</span><span class="p">:</span> <span class="kt">MDInlineDelegate</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="k">var</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span>
-<span class="p">\}</span>
+<span class="p">${"$"}{"}"}</span>
 
-<span class="kd">struct</span> <span class="kt">MDStrikethrough</span><span class="p">:</span> <span class="kt">MDInlineDelegate</span><span class="p">\{</span>
+<span class="kd">struct</span> <span class="kt">MDStrikethrough</span><span class="p">:</span> <span class="kt">MDInlineDelegate</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="k">var</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span>
-<span class="p">\}</span>
+<span class="p">${"$"}{"}"}</span>
 
-<span class="kd">struct</span> <span class="kt">MDItalic</span><span class="p">:</span><span class="kt">MDInlineDelegate</span><span class="p">\{</span>
+<span class="kd">struct</span> <span class="kt">MDItalic</span><span class="p">:</span><span class="kt">MDInlineDelegate</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="k">var</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span>
-<span class="p">\}</span>
+<span class="p">${"$"}{"}"}</span>
 
-<span class="kd">struct</span> <span class="kt">MDLink</span><span class="p">:</span> <span class="kt">MDInlineDelegate</span><span class="p">\{</span>
+<span class="kd">struct</span> <span class="kt">MDLink</span><span class="p">:</span> <span class="kt">MDInlineDelegate</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="k">var</span> <span class="nv">name</span><span class="p">:</span><span class="kt">String</span>
     <span class="k">var</span> <span class="nv">source</span><span class="p">:</span><span class="kt">String</span>
-<span class="p">\}</span>
+<span class="p">${"$"}{"}"}</span>
 
-<span class="kd">struct</span> <span class="kt">MDImage</span><span class="p">:</span> <span class="kt">MDInlineDelegate</span><span class="p">\{</span>
+<span class="kd">struct</span> <span class="kt">MDImage</span><span class="p">:</span> <span class="kt">MDInlineDelegate</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="k">var</span> <span class="nv">name</span><span class="p">:</span><span class="kt">String</span>
     <span class="k">var</span> <span class="nv">source</span><span class="p">:</span><span class="kt">String</span>
-<span class="p">\}</span>
+<span class="p">${"$"}{"}"}</span>
 
-<span class="kd">struct</span> <span class="kt">MDInlineCode</span> <span class="p">:</span> <span class="kt">MDInlineDelegate</span><span class="p">\{</span>
+<span class="kd">struct</span> <span class="kt">MDInlineCode</span> <span class="p">:</span> <span class="kt">MDInlineDelegate</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="k">var</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span>
-<span class="p">\}</span>
+<span class="p">${"$"}{"}"}</span>
 
-<span class="kd">struct</span> <span class="kt">MDText</span><span class="p">:</span> <span class="kt">MDInlineDelegate</span><span class="p">\{</span>
+<span class="kd">struct</span> <span class="kt">MDText</span><span class="p">:</span> <span class="kt">MDInlineDelegate</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="k">var</span> <span class="nv">text</span><span class="p">:</span><span class="kt">String</span>
-<span class="p">\}</span>
+<span class="p">${"$"}{"}"}</span>
 
-<span class="kd">struct</span> <span class="kt">MDHeading1</span><span class="p">:</span> <span class="kt">MDBlockDelegate</span><span class="p">\{</span>
+<span class="kd">struct</span> <span class="kt">MDHeading1</span><span class="p">:</span> <span class="kt">MDBlockDelegate</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="k">var</span> <span class="nv">inlines</span><span class="p">:[</span><span class="kt">MDInlineDelegate</span><span class="p">]</span>
-<span class="p">\}</span>
+<span class="p">${"$"}{"}"}</span>
 
-<span class="kd">struct</span> <span class="kt">MDHeading2</span><span class="p">:</span> <span class="kt">MDBlockDelegate</span><span class="p">\{</span>
+<span class="kd">struct</span> <span class="kt">MDHeading2</span><span class="p">:</span> <span class="kt">MDBlockDelegate</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="k">var</span> <span class="nv">inlines</span><span class="p">:[</span><span class="kt">MDInlineDelegate</span><span class="p">]</span>
-<span class="p">\}</span>
+<span class="p">${"$"}{"}"}</span>
 
-<span class="kd">struct</span> <span class="kt">MDHeading3</span><span class="p">:</span> <span class="kt">MDBlockDelegate</span><span class="p">\{</span>
+<span class="kd">struct</span> <span class="kt">MDHeading3</span><span class="p">:</span> <span class="kt">MDBlockDelegate</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="k">var</span> <span class="nv">inlines</span><span class="p">:[</span><span class="kt">MDInlineDelegate</span><span class="p">]</span>
-<span class="p">\}</span>
+<span class="p">${"$"}{"}"}</span>
 
-<span class="kd">struct</span> <span class="kt">MDHeading4</span><span class="p">:</span> <span class="kt">MDBlockDelegate</span><span class="p">\{</span>
+<span class="kd">struct</span> <span class="kt">MDHeading4</span><span class="p">:</span> <span class="kt">MDBlockDelegate</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="k">var</span> <span class="nv">inlines</span><span class="p">:[</span><span class="kt">MDInlineDelegate</span><span class="p">]</span>
-<span class="p">\}</span>
+<span class="p">${"$"}{"}"}</span>
 
-<span class="kd">struct</span> <span class="kt">MDHeading5</span><span class="p">:</span> <span class="kt">MDBlockDelegate</span><span class="p">\{</span>
+<span class="kd">struct</span> <span class="kt">MDHeading5</span><span class="p">:</span> <span class="kt">MDBlockDelegate</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="k">var</span> <span class="nv">inlines</span><span class="p">:[</span><span class="kt">MDInlineDelegate</span><span class="p">]</span>
-<span class="p">\}</span>
+<span class="p">${"$"}{"}"}</span>
 
-<span class="kd">struct</span> <span class="kt">MDHeading6</span><span class="p">:</span> <span class="kt">MDBlockDelegate</span><span class="p">\{</span>
+<span class="kd">struct</span> <span class="kt">MDHeading6</span><span class="p">:</span> <span class="kt">MDBlockDelegate</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="k">var</span> <span class="nv">inlines</span><span class="p">:[</span><span class="kt">MDInlineDelegate</span><span class="p">]</span>
-<span class="p">\}</span>
+<span class="p">${"$"}{"}"}</span>
 
-<span class="kd">struct</span> <span class="kt">MDParagraph</span><span class="p">:</span> <span class="kt">MDBlockDelegate</span><span class="p">\{</span>
+<span class="kd">struct</span> <span class="kt">MDParagraph</span><span class="p">:</span> <span class="kt">MDBlockDelegate</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="k">var</span> <span class="nv">inlines</span><span class="p">:[</span><span class="kt">MDInlineDelegate</span><span class="p">]</span>
-<span class="p">\}</span>
+<span class="p">${"$"}{"}"}</span>
 
-<span class="kd">struct</span> <span class="kt">MDUnorderedList</span><span class="p">:</span> <span class="kt">MDBlockDelegate</span><span class="p">\{</span>
+<span class="kd">struct</span> <span class="kt">MDUnorderedList</span><span class="p">:</span> <span class="kt">MDBlockDelegate</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="k">var</span> <span class="nv">items</span><span class="p">:[</span><span class="kt">MDUnorderedListItem</span><span class="p">]</span>
-<span class="p">\}</span>
+<span class="p">${"$"}{"}"}</span>
 
 <span class="kd">struct</span> <span class="kt">MDUnorderedListItem</span>
-<span class="p">\{</span>
+<span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="k">var</span> <span class="nv">inlines</span><span class="p">:[</span><span class="kt">MDInlineDelegate</span><span class="p">]</span>
     <span class="k">var</span> <span class="nv">children</span><span class="p">:[</span><span class="kt">MDUnorderedListItem</span><span class="p">]</span>
-<span class="p">\}</span>
+<span class="p">${"$"}{"}"}</span>
 
-<span class="kd">struct</span> <span class="kt">MDOrderedList</span><span class="p">:</span> <span class="kt">MDBlockDelegate</span><span class="p">\{</span>
+<span class="kd">struct</span> <span class="kt">MDOrderedList</span><span class="p">:</span> <span class="kt">MDBlockDelegate</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="k">var</span> <span class="nv">items</span><span class="p">:[</span><span class="kt">MDOrderedListItem</span><span class="p">]</span>
-<span class="p">\}</span>
+<span class="p">${"$"}{"}"}</span>
 
 <span class="kd">struct</span> <span class="kt">MDOrderedListItem</span>
-<span class="p">\{</span>
+<span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="k">var</span> <span class="nv">inlines</span><span class="p">:[</span><span class="kt">MDInlineDelegate</span><span class="p">]</span>
     <span class="k">var</span> <span class="nv">children</span><span class="p">:[</span><span class="kt">MDOrderedListItem</span><span class="p">]</span>
-<span class="p">\}</span>
+<span class="p">${"$"}{"}"}</span>
 
-<span class="kd">struct</span> <span class="kt">MDCodeBlock</span> <span class="p">:</span> <span class="kt">MDBlockDelegate</span><span class="p">\{</span>
+<span class="kd">struct</span> <span class="kt">MDCodeBlock</span> <span class="p">:</span> <span class="kt">MDBlockDelegate</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="k">var</span> <span class="nv">lang</span><span class="p">:</span><span class="kt">String</span>
     <span class="k">var</span> <span class="nv">multilineText</span><span class="p">:</span><span class="kt">String</span>
-<span class="p">\}</span>
+<span class="p">${"$"}{"}"}</span>
 
-<span class="kd">struct</span> <span class="kt">MDHorizontalRule</span><span class="p">:</span> <span class="kt">MDBlockDelegate</span><span class="p">\{</span>
+<span class="kd">struct</span> <span class="kt">MDHorizontalRule</span><span class="p">:</span> <span class="kt">MDBlockDelegate</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
 
     <span class="k">var</span> <span class="nv">data</span><span class="p">:</span><span class="kt">String</span>
-<span class="p">\}</span>
+<span class="p">${"$"}{"}"}</span>
 
-<span class="kd">struct</span> <span class="kt">MDBlockQuote</span><span class="p">:</span> <span class="kt">MDBlockDelegate</span><span class="p">\{</span>
+<span class="kd">struct</span> <span class="kt">MDBlockQuote</span><span class="p">:</span> <span class="kt">MDBlockDelegate</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
 
     <span class="k">var</span> <span class="nv">multilineText</span><span class="p">:</span><span class="kt">String</span>
-<span class="p">\}</span>
+<span class="p">${"$"}{"}"}</span>
 
-<span class="kd">struct</span> <span class="kt">MDTable</span><span class="p">:</span> <span class="kt">MDBlockDelegate</span><span class="p">\{</span>
+<span class="kd">struct</span> <span class="kt">MDTable</span><span class="p">:</span> <span class="kt">MDBlockDelegate</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="k">var</span> <span class="nv">headline</span><span class="p">:</span><span class="kt">MDTableHeader</span>
     <span class="k">var</span> <span class="nv">colconfigs</span><span class="p">:</span><span class="kt">MDTableColConfigs</span>
     <span class="k">var</span> <span class="nv">rows</span><span class="p">:[</span><span class="kt">MDTableRow</span><span class="p">]</span>
-<span class="p">\}</span>
+<span class="p">${"$"}{"}"}</span>
 
-<span class="kd">struct</span> <span class="kt">MDTableHeader</span><span class="p">\{</span>
+<span class="kd">struct</span> <span class="kt">MDTableHeader</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="k">var</span> <span class="nv">cells</span><span class="p">:[</span><span class="kt">MDTableCell</span><span class="p">]</span>
-<span class="p">\}</span>
+<span class="p">${"$"}{"}"}</span>
 
-<span class="kd">struct</span> <span class="kt">MDTableCell</span><span class="p">\{</span>
+<span class="kd">struct</span> <span class="kt">MDTableCell</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="k">var</span> <span class="nv">inlines</span><span class="p">:[</span><span class="kt">MDInlineDelegate</span><span class="p">]</span>
-<span class="p">\}</span>
+<span class="p">${"$"}{"}"}</span>
 
-<span class="kd">struct</span> <span class="kt">MDTableColConfigs</span><span class="p">\{</span>
+<span class="kd">struct</span> <span class="kt">MDTableColConfigs</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="k">var</span> <span class="nv">colconfigs</span><span class="p">:[</span><span class="kt">MDTableColConfig</span><span class="p">]</span>
-<span class="p">\}</span>
+<span class="p">${"$"}{"}"}</span>
 
-<span class="kd">enum</span> <span class="kt">MDTableColConfig</span><span class="p">\{</span>
+<span class="kd">enum</span> <span class="kt">MDTableColConfig</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="k">case</span> <span class="n">leading</span>
     <span class="k">case</span> <span class="n">trailing</span>
     <span class="k">case</span> <span class="n">center</span>
-<span class="p">\}</span>
+<span class="p">${"$"}{"}"}</span>
 
-<span class="kd">struct</span> <span class="kt">MDTableRow</span><span class="p">\{</span>
+<span class="kd">struct</span> <span class="kt">MDTableRow</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
     <span class="k">var</span> <span class="nv">cells</span><span class="p">:[</span><span class="kt">MDTableCell</span><span class="p">]</span>
-<span class="p">\}</span>
+<span class="p">${"$"}{"}"}</span>
 </code></pre></div></div>
 `,body: `Markdownをレンダリングしてくれるパッケージはあるけど、オブジェクトツリーにしてくれるものは無いなと思ったのでやってみてます。
 
@@ -5063,282 +5063,282 @@ https://github.com/sYamaz/MarkdownAnalyzer
 import Foundation
 import SwiftUI
 
-protocol MDNodeDelegate\{\}
+protocol MDNodeDelegate${"$"}{"{"${"$"}{"}"}${"$"}{"}"}
 
-protocol MDBlockDelegate : MDNodeDelegate\{\}
+protocol MDBlockDelegate : MDNodeDelegate${"$"}{"{"${"$"}{"}"}${"$"}{"}"}
 
-protocol MDInlineDelegate : MDNodeDelegate\{\}
+protocol MDInlineDelegate : MDNodeDelegate${"$"}{"{"${"$"}{"}"}${"$"}{"}"}
 
 public class MarkdownAnalyzer
-\{
-    func parse(_ text: String) -> MDSyntaxTree\{
+${"$"}{"{"${"$"}{"}"}
+    func parse(_ text: String) -> MDSyntaxTree${"$"}{"{"${"$"}{"}"}
         var blocks = [MDBlockDelegate]()
         // blockに分割する
         var ind = text.startIndex
-        while(ind != text.endIndex)\{
+        while(ind != text.endIndex)${"$"}{"{"${"$"}{"}"}
             var nextInd = text.index(after: ind)
-            if(text[ind...].starts(with: "# "))\{
+            if(text[ind...].starts(with: "# "))${"$"}{"{"${"$"}{"}"}
                 let blockSpan = text[ind...]
-                if let r = blockSpan.range(of: "\\n\\n")\{
+                if let r = blockSpan.range(of: "\\n\\n")${"$"}{"{"${"$"}{"}"}
                     blocks.append(parseHeadline1(blockSpan[..<r.lowerBound]))
                     nextInd = r.upperBound
-                \} else\{
+                ${"$"}{"}"} else${"$"}{"{"${"$"}{"}"}
                     blocks.append(parseHeadline1(blockSpan))
                     break
-                \}
-            \}
-            else if(text[ind...].starts(with: "## "))\{
+                ${"$"}{"}"}
+            ${"$"}{"}"}
+            else if(text[ind...].starts(with: "## "))${"$"}{"{"${"$"}{"}"}
                 let blockSpan = text[ind...]
-                if let r = blockSpan.range(of: "\\n\\n")\{
+                if let r = blockSpan.range(of: "\\n\\n")${"$"}{"{"${"$"}{"}"}
                     blocks.append(parseHeadline2(blockSpan[..<r.lowerBound]))
                     nextInd = r.upperBound
-                \} else\{
+                ${"$"}{"}"} else${"$"}{"{"${"$"}{"}"}
                     blocks.append(parseHeadline2(blockSpan))
                     break;
-                \}
-            \}
-            else if(text[ind...].starts(with: "### "))\{
+                ${"$"}{"}"}
+            ${"$"}{"}"}
+            else if(text[ind...].starts(with: "### "))${"$"}{"{"${"$"}{"}"}
                 let blockSpan = text[ind...]
-                if let r = blockSpan.range(of: "\\n\\n")\{
+                if let r = blockSpan.range(of: "\\n\\n")${"$"}{"{"${"$"}{"}"}
                     blocks.append(parseHeadline3(blockSpan[..<r.lowerBound]))
                     nextInd = r.upperBound
-                \}else\{
+                ${"$"}{"}"}else${"$"}{"{"${"$"}{"}"}
                     blocks.append(parseHeadline3(blockSpan))
                     break;
-                \}
-            \}
-            else if(text[ind...].starts(with: "#### "))\{
+                ${"$"}{"}"}
+            ${"$"}{"}"}
+            else if(text[ind...].starts(with: "#### "))${"$"}{"{"${"$"}{"}"}
                 let blockSpan = text[ind...]
-                if let r = blockSpan.range(of: "\\n\\n")\{
+                if let r = blockSpan.range(of: "\\n\\n")${"$"}{"{"${"$"}{"}"}
                     blocks.append(parseHeadline4(blockSpan[..<r.lowerBound]))
                     nextInd = r.upperBound
-                \}else\{
+                ${"$"}{"}"}else${"$"}{"{"${"$"}{"}"}
                     blocks.append(parseHeadline4(blockSpan))
                     break;
-                \}
-            \}
-            else if(text[ind...].starts(with: "##### "))\{
+                ${"$"}{"}"}
+            ${"$"}{"}"}
+            else if(text[ind...].starts(with: "##### "))${"$"}{"{"${"$"}{"}"}
                 let blockSpan = text[ind...]
-                if let r = blockSpan.range(of: "\\n\\n")\{
+                if let r = blockSpan.range(of: "\\n\\n")${"$"}{"{"${"$"}{"}"}
                     blocks.append(parseHeadline5(blockSpan[..<r.lowerBound]))
                     nextInd = r.upperBound
-                \}else\{
+                ${"$"}{"}"}else${"$"}{"{"${"$"}{"}"}
                     blocks.append(parseHeadline5(blockSpan))
                     break;
-                \}
-            \}
-            else if(text[ind...].starts(with: "###### "))\{
+                ${"$"}{"}"}
+            ${"$"}{"}"}
+            else if(text[ind...].starts(with: "###### "))${"$"}{"{"${"$"}{"}"}
                 let blockSpan = text[ind...]
-                if let r = blockSpan.range(of: "\\n\\n")\{
+                if let r = blockSpan.range(of: "\\n\\n")${"$"}{"{"${"$"}{"}"}
                     blocks.append(parseHeadline6(blockSpan[..<r.lowerBound]))
                     nextInd = r.upperBound
-                \}else\{
+                ${"$"}{"}"}else${"$"}{"{"${"$"}{"}"}
                     blocks.append(parseHeadline6(blockSpan))
                     break;
-                \}
-            \}
-            else if(text[ind...].starts(with: "---\\n\\n"))\{
-                if let r = text[ind...].range(of: "---\\n\\n")\{
+                ${"$"}{"}"}
+            ${"$"}{"}"}
+            else if(text[ind...].starts(with: "---\\n\\n"))${"$"}{"{"${"$"}{"}"}
+                if let r = text[ind...].range(of: "---\\n\\n")${"$"}{"{"${"$"}{"}"}
                     blocks.append(parseHorizontalRule("---\\n\\n"))
                     nextInd = r.upperBound
-                \}
-            \}
-            else if(text[ind...].starts(with: "===\\n\\n"))\{
-                if let r = text[ind...].range(of: "===\\n\\n")\{
+                ${"$"}{"}"}
+            ${"$"}{"}"}
+            else if(text[ind...].starts(with: "===\\n\\n"))${"$"}{"{"${"$"}{"}"}
+                if let r = text[ind...].range(of: "===\\n\\n")${"$"}{"{"${"$"}{"}"}
                     blocks.append(parseHorizontalRule("===\\n\\n"))
                     nextInd = r.upperBound
-                \}
-            \}
-            else if(text[ind...].starts(with: "\`\`\`"))\{
-                if let start = text[ind...].range(of: "\`\`\`")\{
-                    if let end = text[start.upperBound...].range(of: "\`\`\`\\n\\n")\{
+                ${"$"}{"}"}
+            ${"$"}{"}"}
+            else if(text[ind...].starts(with: "\`\`\`"))${"$"}{"{"${"$"}{"}"}
+                if let start = text[ind...].range(of: "\`\`\`")${"$"}{"{"${"$"}{"}"}
+                    if let end = text[start.upperBound...].range(of: "\`\`\`\\n\\n")${"$"}{"{"${"$"}{"}"}
                         
                         blocks.append(parseCodeBlock(text[ind..<end.upperBound]))
                         nextInd = end.upperBound
-                    \}
-                    else\{
+                    ${"$"}{"}"}
+                    else${"$"}{"{"${"$"}{"}"}
                         break;
-                    \}
-                \}
-            \}
-            else if(text[ind...].starts(with: "- "))\{
+                    ${"$"}{"}"}
+                ${"$"}{"}"}
+            ${"$"}{"}"}
+            else if(text[ind...].starts(with: "- "))${"$"}{"{"${"$"}{"}"}
                 let blockSpan = text[ind...]
-                if let r = blockSpan.range(of: "\\n\\n")\{
+                if let r = blockSpan.range(of: "\\n\\n")${"$"}{"{"${"$"}{"}"}
                     blocks.append(parseUnorderedList(blockSpan[..<r.lowerBound]))
                     nextInd = r.upperBound
-                \}else\{
+                ${"$"}{"}"}else${"$"}{"{"${"$"}{"}"}
                     blocks.append(parseUnorderedList(blockSpan))
                     break;
-                \}
-            \}
-            else if(text[ind...].starts(with: "* "))\{
+                ${"$"}{"}"}
+            ${"$"}{"}"}
+            else if(text[ind...].starts(with: "* "))${"$"}{"{"${"$"}{"}"}
                 let blockSpan = text[ind...]
-                if let r = blockSpan.range(of: "\\n\\n")\{
+                if let r = blockSpan.range(of: "\\n\\n")${"$"}{"{"${"$"}{"}"}
                     blocks.append(parseUnorderedList(blockSpan[..<r.lowerBound]))
                     nextInd = r.upperBound
-                \}else\{
+                ${"$"}{"}"}else${"$"}{"{"${"$"}{"}"}
                     blocks.append(parseUnorderedList(blockSpan))
                     break;
-                \}
-            \}
-            else if(text[ind...].starts(with: "+ "))\{
+                ${"$"}{"}"}
+            ${"$"}{"}"}
+            else if(text[ind...].starts(with: "+ "))${"$"}{"{"${"$"}{"}"}
                 let blockSpan = text[ind...]
-                if let r = blockSpan.range(of: "\\n\\n")\{
+                if let r = blockSpan.range(of: "\\n\\n")${"$"}{"{"${"$"}{"}"}
                     blocks.append(parseUnorderedList(blockSpan[..<r.lowerBound]))
                     nextInd = r.upperBound
-                \}else\{
+                ${"$"}{"}"}else${"$"}{"{"${"$"}{"}"}
                     blocks.append(parseUnorderedList(blockSpan))
                     break;
-                \}
-            \}
-            else if(text[ind...].starts(with: "1. "))\{
+                ${"$"}{"}"}
+            ${"$"}{"}"}
+            else if(text[ind...].starts(with: "1. "))${"$"}{"{"${"$"}{"}"}
                 let blockSpan = text[ind...]
-                if let r = blockSpan.range(of: "\\n\\n")\{
+                if let r = blockSpan.range(of: "\\n\\n")${"$"}{"{"${"$"}{"}"}
                     blocks.append(parseOrderedList(blockSpan[..<r.lowerBound]))
                     nextInd = r.upperBound
-                \}else\{
+                ${"$"}{"}"}else${"$"}{"{"${"$"}{"}"}
                     blocks.append(parseOrderedList(blockSpan))
                     break;
-                \}
-            \}
-            else if(text[ind...].starts(with: "> "))\{
+                ${"$"}{"}"}
+            ${"$"}{"}"}
+            else if(text[ind...].starts(with: "> "))${"$"}{"{"${"$"}{"}"}
                 let blockSpan = text[ind...]
-                if let r = blockSpan.range(of: "\\n\\n")\{
+                if let r = blockSpan.range(of: "\\n\\n")${"$"}{"{"${"$"}{"}"}
                     blocks.append(parseBlockQuote(blockSpan[..<r.lowerBound]))
                     nextInd = r.upperBound
-                \}else\{
+                ${"$"}{"}"}else${"$"}{"{"${"$"}{"}"}
                     blocks.append(parseBlockQuote(blockSpan))
                     break;
-                \}
-            \}
-            else if(text[ind...].starts(with: "|"))\{
+                ${"$"}{"}"}
+            ${"$"}{"}"}
+            else if(text[ind...].starts(with: "|"))${"$"}{"{"${"$"}{"}"}
                 //table or paragragh
                 let blockSpan = text[ind...]
-                if let r = blockSpan.range(of: "|\\n\\n")\{
+                if let r = blockSpan.range(of: "|\\n\\n")${"$"}{"{"${"$"}{"}"}
                     
                     blocks.append(parseTable(blockSpan[..<r.lowerBound]))
                     nextInd = r.upperBound
-                \}else\{
+                ${"$"}{"}"}else${"$"}{"{"${"$"}{"}"}
                     blocks.append(parseParagragh(blockSpan))
                     break
-                \}
-            \}
-            else\{ // paragragh
+                ${"$"}{"}"}
+            ${"$"}{"}"}
+            else${"$"}{"{"${"$"}{"}"} // paragragh
                 let blockSpan = text[ind...]
-                if let r = blockSpan.range(of: "\\n\\n")\{
+                if let r = blockSpan.range(of: "\\n\\n")${"$"}{"{"${"$"}{"}"}
                     blocks.append(parseParagragh(blockSpan[..<r.lowerBound]))
                     nextInd = r.upperBound
-                \}else\{
+                ${"$"}{"}"}else${"$"}{"{"${"$"}{"}"}
                     blocks.append(parseParagragh(blockSpan))
                     break;
-                \}
-            \}
+                ${"$"}{"}"}
+            ${"$"}{"}"}
             
             ind = nextInd
-        \}
+        ${"$"}{"}"}
         
         let ret = MDSyntaxTree(blocks: blocks)
         return ret
-    \}
+    ${"$"}{"}"}
     
-    private func parseHeadline1(_ text:String.SubSequence) -> MDBlockDelegate\{
+    private func parseHeadline1(_ text:String.SubSequence) -> MDBlockDelegate${"$"}{"{"${"$"}{"}"}
         var data = text
         data.removeFirst(1)
         let subString = data.trimmingCharacters(in: CharacterSet(charactersIn: " "))
         let inlines = parseInlineData(String.SubSequence(subString))
         return MDHeading1(inlines: inlines)
-    \}
+    ${"$"}{"}"}
     
-    private func parseHeadline2(_ text:String.SubSequence) -> MDBlockDelegate\{
+    private func parseHeadline2(_ text:String.SubSequence) -> MDBlockDelegate${"$"}{"{"${"$"}{"}"}
         var data = text
         data.removeFirst(2)
         let subString = data.trimmingCharacters(in: CharacterSet(charactersIn: " "))
         let inlines = parseInlineData(String.SubSequence(subString))
         return MDHeading2(inlines: inlines)
-    \}
+    ${"$"}{"}"}
     
-    private func parseHeadline3(_ text:String.SubSequence) -> MDBlockDelegate\{
+    private func parseHeadline3(_ text:String.SubSequence) -> MDBlockDelegate${"$"}{"{"${"$"}{"}"}
         var data = text
         data.removeFirst(3)
         let subString = data.trimmingCharacters(in: CharacterSet(charactersIn: " "))
         let inlines = parseInlineData(String.SubSequence(subString))
         
         return MDHeading3(inlines: inlines)
-    \}
+    ${"$"}{"}"}
     
-    private func parseHeadline4(_ text:String.SubSequence) -> MDBlockDelegate\{
+    private func parseHeadline4(_ text:String.SubSequence) -> MDBlockDelegate${"$"}{"{"${"$"}{"}"}
         var data = text
         data.removeFirst(4)
         let subString = data.trimmingCharacters(in: CharacterSet(charactersIn: " "))
         let inlines = parseInlineData(String.SubSequence(subString))
         return MDHeading4(inlines: inlines)
-    \}
+    ${"$"}{"}"}
     
-    private func parseHeadline5(_ text:String.SubSequence) -> MDBlockDelegate\{
+    private func parseHeadline5(_ text:String.SubSequence) -> MDBlockDelegate${"$"}{"{"${"$"}{"}"}
         var data = text
         data.removeFirst(5)
         let subString = data.trimmingCharacters(in: CharacterSet(charactersIn: " "))
         let inlines = parseInlineData(String.SubSequence(subString))
         return MDHeading5(inlines: inlines)
-    \}
+    ${"$"}{"}"}
     
-    private func parseHeadline6(_ text:String.SubSequence) -> MDBlockDelegate\{
+    private func parseHeadline6(_ text:String.SubSequence) -> MDBlockDelegate${"$"}{"{"${"$"}{"}"}
         var data = text
         data.removeFirst(6)
         let subString = data.trimmingCharacters(in: CharacterSet(charactersIn: " "))
         let inlines = parseInlineData(String.SubSequence(subString))
         return MDHeading6(inlines: inlines)
-    \}
+    ${"$"}{"}"}
     
-    private func parseParagragh(_ text:String.SubSequence) -> MDBlockDelegate\{
+    private func parseParagragh(_ text:String.SubSequence) -> MDBlockDelegate${"$"}{"{"${"$"}{"}"}
         let inlines = parseInlineData(text)
         return MDParagraph(inlines: inlines)
-    \}
+    ${"$"}{"}"}
     
     
-    private func parseUnorderedList(_ text:String.SubSequence) -> MDBlockDelegate\{
+    private func parseUnorderedList(_ text:String.SubSequence) -> MDBlockDelegate${"$"}{"{"${"$"}{"}"}
         var items:[MDUnorderedListItem] = [MDUnorderedListItem]()
         var span = text[text.startIndex...]
-        while(true)\{
-            if let endofLine = span.range(of: "\\n")\{
+        while(true)${"$"}{"{"${"$"}{"}"}
+            if let endofLine = span.range(of: "\\n")${"$"}{"{"${"$"}{"}"}
                 let line = span[span.startIndex..<endofLine.lowerBound]
                 var lineTxt = String(line)
                 lineTxt.removeFirst(2)
-                if(lineTxt.count > 0)\{
+                if(lineTxt.count > 0)${"$"}{"{"${"$"}{"}"}
                     let inlines = parseInlineData(String.SubSequence(lineTxt))
                     items.append(MDUnorderedListItem(inlines: inlines, children: [MDUnorderedListItem]()))
-                \}
+                ${"$"}{"}"}
                 span = span[endofLine.upperBound...]
-            \} else \{
+            ${"$"}{"}"} else ${"$"}{"{"${"$"}{"}"}
                 break
-            \}
-        \}
+            ${"$"}{"}"}
+        ${"$"}{"}"}
         
         return MDUnorderedList(items: items)
-    \}
+    ${"$"}{"}"}
     
-    private func parseOrderedList(_ text:String.SubSequence) -> MDBlockDelegate\{
+    private func parseOrderedList(_ text:String.SubSequence) -> MDBlockDelegate${"$"}{"{"${"$"}{"}"}
         var items:[MDOrderedListItem] = [MDOrderedListItem]()
         var span = text[text.startIndex...]
-        while(true)\{
-            if let endofLine = span.range(of: "\\n")\{
+        while(true)${"$"}{"{"${"$"}{"}"}
+            if let endofLine = span.range(of: "\\n")${"$"}{"{"${"$"}{"}"}
                 let line = span[span.startIndex..<endofLine.lowerBound]
                 var lineTxt = String(line)
                 lineTxt.removeFirst(2)
-                if(lineTxt.count > 0)\{
+                if(lineTxt.count > 0)${"$"}{"{"${"$"}{"}"}
                     let inlines = parseInlineData(String.SubSequence(lineTxt))
                     items.append(MDOrderedListItem(inlines: inlines, children: [MDOrderedListItem]()))
-                \}
+                ${"$"}{"}"}
                 span = span[endofLine.upperBound...]
-            \} else \{
+            ${"$"}{"}"} else ${"$"}{"{"${"$"}{"}"}
                 break
-            \}
-        \}
+            ${"$"}{"}"}
+        ${"$"}{"}"}
         
         return MDOrderedList(items: items)
-    \}
+    ${"$"}{"}"}
     
-    private func parseCodeBlock(_ text:String.SubSequence) -> MDBlockDelegate\{
+    private func parseCodeBlock(_ text:String.SubSequence) -> MDBlockDelegate${"$"}{"{"${"$"}{"}"}
         var data = text
         data.removeFirst(3)
         let id = data.range(of: "\\n")!
@@ -5350,342 +5350,342 @@ public class MarkdownAnalyzer
         contentText.removeLast(3)
         
         return MDCodeBlock(lang: String(langName), multilineText: String(contentText))
-    \}
+    ${"$"}{"}"}
     
-    private func parseBlockQuote(_ text:String.SubSequence) -> MDBlockDelegate\{
+    private func parseBlockQuote(_ text:String.SubSequence) -> MDBlockDelegate${"$"}{"{"${"$"}{"}"}
         return MDBlockQuote(multilineText: String(text))
-    \}
+    ${"$"}{"}"}
     
-    private func parseTable(_ text: String.SubSequence) -> MDBlockDelegate\{
+    private func parseTable(_ text: String.SubSequence) -> MDBlockDelegate${"$"}{"{"${"$"}{"}"}
         let lines = text.split(separator: "\\n")
-        if(lines.count < 3)\{
+        if(lines.count < 3)${"$"}{"{"${"$"}{"}"}
             return parseParagragh(text)
-        \}
+        ${"$"}{"}"}
         
         let headlineRow = lines[0]
         let headlineCellTexts = headlineRow.split(separator: "|")
-        let headlineCells = headlineCellTexts.map\{txt in MDTableCell(inlines: parseInlineData(txt))\}
+        let headlineCells = headlineCellTexts.map${"$"}{"{"${"$"}{"}"}txt in MDTableCell(inlines: parseInlineData(txt))${"$"}{"}"}
         
         let configRow = lines[1]
         let configTexts  = configRow.split(separator: "|")
-        let configs:[MDTableColConfig] = configTexts.map\{c in
-            if(c[c.startIndex] == ":")\{
+        let configs:[MDTableColConfig] = configTexts.map${"$"}{"{"${"$"}{"}"}c in
+            if(c[c.startIndex] == ":")${"$"}{"{"${"$"}{"}"}
                 return MDTableColConfig.leading
-            \}
-            else if(c[c.index(before: c.endIndex)] == ":")\{
+            ${"$"}{"}"}
+            else if(c[c.index(before: c.endIndex)] == ":")${"$"}{"{"${"$"}{"}"}
                 return MDTableColConfig.trailing
-            \}
-            else\{
+            ${"$"}{"}"}
+            else${"$"}{"{"${"$"}{"}"}
                 return MDTableColConfig.center
-            \}
-        \}
+            ${"$"}{"}"}
+        ${"$"}{"}"}
         
-        let dataRows:[MDTableRow] = lines[2...].map\{line in
-            return MDTableRow(cells: line.split(separator: "|").map\{c in
+        let dataRows:[MDTableRow] = lines[2...].map${"$"}{"{"${"$"}{"}"}line in
+            return MDTableRow(cells: line.split(separator: "|").map${"$"}{"{"${"$"}{"}"}c in
                 let inlines = parseInlineData(c)
                 return MDTableCell(inlines: inlines)
-            \})
-        \}
+            ${"$"}{"}"})
+        ${"$"}{"}"}
         
         return MDTable(headline: MDTableHeader(cells: headlineCells), colconfigs: MDTableColConfigs(colconfigs: configs), rows: dataRows)
-    \}
+    ${"$"}{"}"}
     
-    private func parseHorizontalRule(_ text:String.SubSequence) -> MDHorizontalRule\{
+    private func parseHorizontalRule(_ text:String.SubSequence) -> MDHorizontalRule${"$"}{"{"${"$"}{"}"}
         return MDHorizontalRule(data: String(text))
-    \}
+    ${"$"}{"}"}
     
     
-    internal func parseInlineData(_ text:String.SubSequence) -> [MDInlineDelegate]\{
+    internal func parseInlineData(_ text:String.SubSequence) -> [MDInlineDelegate]${"$"}{"{"${"$"}{"}"}
         var ind = text.startIndex
         var ret = [MDInlineDelegate]()
         var txtBuffer = [Character]()
-        while(ind != text.endIndex)\{
+        while(ind != text.endIndex)${"$"}{"{"${"$"}{"}"}
             let nextInd = text.index(after: ind)
             let span = text[ind...]
-            if(span.starts(with: "**"))\{
-                if let start = span.range(of: "**")\{
+            if(span.starts(with: "**"))${"$"}{"{"${"$"}{"}"}
+                if let start = span.range(of: "**")${"$"}{"{"${"$"}{"}"}
                     let subSpan = span[start.upperBound...]
-                    if let end = subSpan.range(of: "**")\{
-                        if(txtBuffer.count != 0)\{
+                    if let end = subSpan.range(of: "**")${"$"}{"{"${"$"}{"}"}
+                        if(txtBuffer.count != 0)${"$"}{"{"${"$"}{"}"}
                             ret.append(parseText(txtBuffer))
                             txtBuffer.removeAll()
-                        \}
+                        ${"$"}{"}"}
                         ret.append(parseBold(subSpan[..<end.lowerBound]))
                         ind = end.upperBound
                         continue
-                    \}
-                \}
-            \}
-            else if(span.starts(with: "__"))\{
+                    ${"$"}{"}"}
+                ${"$"}{"}"}
+            ${"$"}{"}"}
+            else if(span.starts(with: "__"))${"$"}{"{"${"$"}{"}"}
                 
-                if let start = span.range(of: "__")\{
+                if let start = span.range(of: "__")${"$"}{"{"${"$"}{"}"}
                     let subSpan = span[start.upperBound...]
-                    if let end = subSpan.range(of: "__")\{
-                        if(txtBuffer.count != 0)\{
+                    if let end = subSpan.range(of: "__")${"$"}{"{"${"$"}{"}"}
+                        if(txtBuffer.count != 0)${"$"}{"{"${"$"}{"}"}
                             ret.append(parseText(txtBuffer))
                             txtBuffer.removeAll()
-                        \}
+                        ${"$"}{"}"}
                         ret.append(parseBold(subSpan[..<end.lowerBound]))
                         ind = end.upperBound
                         continue
-                    \}
-                \}
-            \}
-            else if(span.starts(with: "*"))\{
-                if let start = span.range(of: "*")\{
+                    ${"$"}{"}"}
+                ${"$"}{"}"}
+            ${"$"}{"}"}
+            else if(span.starts(with: "*"))${"$"}{"{"${"$"}{"}"}
+                if let start = span.range(of: "*")${"$"}{"{"${"$"}{"}"}
                     let subSpan = span[start.upperBound...]
-                    if let end = subSpan.range(of: "*")\{
-                        if(txtBuffer.count != 0)\{
+                    if let end = subSpan.range(of: "*")${"$"}{"{"${"$"}{"}"}
+                        if(txtBuffer.count != 0)${"$"}{"{"${"$"}{"}"}
                             ret.append(parseText(txtBuffer))
                             txtBuffer.removeAll()
-                        \}
+                        ${"$"}{"}"}
                         ret.append(parseItalic(subSpan[..<end.lowerBound]))
                         ind = end.upperBound
                         continue
-                    \}
-                \}
-            \}
-            else if(span.starts(with: "_"))\{
-                if let start = span.range(of: "_")\{
+                    ${"$"}{"}"}
+                ${"$"}{"}"}
+            ${"$"}{"}"}
+            else if(span.starts(with: "_"))${"$"}{"{"${"$"}{"}"}
+                if let start = span.range(of: "_")${"$"}{"{"${"$"}{"}"}
                     let subSpan = span[start.upperBound...]
-                    if let end = subSpan.range(of: "_")\{
-                        if(txtBuffer.count != 0)\{
+                    if let end = subSpan.range(of: "_")${"$"}{"{"${"$"}{"}"}
+                        if(txtBuffer.count != 0)${"$"}{"{"${"$"}{"}"}
                             ret.append(parseText(txtBuffer))
                             txtBuffer.removeAll()
-                        \}
+                        ${"$"}{"}"}
                         ret.append(parseItalic(subSpan[..<end.lowerBound]))
                         ind = end.upperBound
                         continue
-                    \}
-                \}
-            \}
-            else if(span.starts(with: "~~"))\{
-                if let start = span.range(of: "~~")\{
+                    ${"$"}{"}"}
+                ${"$"}{"}"}
+            ${"$"}{"}"}
+            else if(span.starts(with: "~~"))${"$"}{"{"${"$"}{"}"}
+                if let start = span.range(of: "~~")${"$"}{"{"${"$"}{"}"}
                     let subSpan = span[start.upperBound...]
-                    if let end = subSpan.range(of: "~~")\{
-                        if(txtBuffer.count != 0)\{
+                    if let end = subSpan.range(of: "~~")${"$"}{"{"${"$"}{"}"}
+                        if(txtBuffer.count != 0)${"$"}{"{"${"$"}{"}"}
                             ret.append(parseText(txtBuffer))
                             txtBuffer.removeAll()
-                        \}
+                        ${"$"}{"}"}
                         ret.append(parseStrikethrough(subSpan[..<end.lowerBound]))
                         ind = end.upperBound
                         continue
-                    \}
-                \}
-            \}
-            else if(span.starts(with: "\`"))\{
-                if let start = span.range(of: "\`")\{
+                    ${"$"}{"}"}
+                ${"$"}{"}"}
+            ${"$"}{"}"}
+            else if(span.starts(with: "\`"))${"$"}{"{"${"$"}{"}"}
+                if let start = span.range(of: "\`")${"$"}{"{"${"$"}{"}"}
                     let subSpan = span[start.upperBound...]
-                    if let end = subSpan.range(of: "\`")\{
-                        if(txtBuffer.count != 0)\{
+                    if let end = subSpan.range(of: "\`")${"$"}{"{"${"$"}{"}"}
+                        if(txtBuffer.count != 0)${"$"}{"{"${"$"}{"}"}
                             ret.append(parseText(txtBuffer))
                             txtBuffer.removeAll()
-                        \}
+                        ${"$"}{"}"}
                         ret.append(parseInlineCode(subSpan[..<end.lowerBound]))
                         ind = end.upperBound
                         continue
-                    \}
-                \}
-            \}
-            else if(span.starts(with: "["))\{
-                if let nameStart = span.range(of: "](")\{
+                    ${"$"}{"}"}
+                ${"$"}{"}"}
+            ${"$"}{"}"}
+            else if(span.starts(with: "["))${"$"}{"{"${"$"}{"}"}
+                if let nameStart = span.range(of: "](")${"$"}{"{"${"$"}{"}"}
                     var display = span[..<nameStart.lowerBound]
                     display = display[display.index(after: display.startIndex)...]
                     let subSpan = span[nameStart.upperBound...]
-                    if let end = subSpan.range(of: ")")\{
-                        if(txtBuffer.count != 0)\{
+                    if let end = subSpan.range(of: ")")${"$"}{"{"${"$"}{"}"}
+                        if(txtBuffer.count != 0)${"$"}{"{"${"$"}{"}"}
                             ret.append(parseText(txtBuffer))
                             txtBuffer.removeAll()
-                        \}
+                        ${"$"}{"}"}
                         ret.append(parseLink(display, subSpan[..<end.lowerBound]))
                         ind = end.upperBound
                         continue
-                    \}
-                \}
-            \}
-            else if(span.starts(with: "!["))\{
-                if let nameStart = span.range(of: "](")\{
+                    ${"$"}{"}"}
+                ${"$"}{"}"}
+            ${"$"}{"}"}
+            else if(span.starts(with: "!["))${"$"}{"{"${"$"}{"}"}
+                if let nameStart = span.range(of: "](")${"$"}{"{"${"$"}{"}"}
                     var display = span[..<nameStart.lowerBound]
                     display = display[display.index(after: display.startIndex)...]
                     display = display[display.index(after: display.startIndex)...]
                     let subSpan = span[nameStart.upperBound...]
-                    if let end = subSpan.range(of: ")")\{
-                        if(txtBuffer.count != 0)\{
+                    if let end = subSpan.range(of: ")")${"$"}{"{"${"$"}{"}"}
+                        if(txtBuffer.count != 0)${"$"}{"{"${"$"}{"}"}
                             ret.append(parseText(txtBuffer))
                             txtBuffer.removeAll()
-                        \}
+                        ${"$"}{"}"}
                         ret.append(parseImage(display, subSpan[..<end.lowerBound]))
                         ind = end.upperBound
                         continue
-                    \}
-                \}
-            \}
-            else\{
+                    ${"$"}{"}"}
+                ${"$"}{"}"}
+            ${"$"}{"}"}
+            else${"$"}{"{"${"$"}{"}"}
                 txtBuffer.append(text[ind])
-            \}
+            ${"$"}{"}"}
             
             ind = nextInd
-        \}
-        if(txtBuffer.count != 0)\{
+        ${"$"}{"}"}
+        if(txtBuffer.count != 0)${"$"}{"{"${"$"}{"}"}
             ret.append(parseText(txtBuffer))
-        \}
+        ${"$"}{"}"}
         return ret
-    \}
+    ${"$"}{"}"}
     
-    private func parseBold(_ text:String.SubSequence) -> MDBold\{
+    private func parseBold(_ text:String.SubSequence) -> MDBold${"$"}{"{"${"$"}{"}"}
         return MDBold(text:String(text))
-    \}
+    ${"$"}{"}"}
     
-    private func parseInlineCode(_ text: String.SubSequence) -> MDInlineCode\{
+    private func parseInlineCode(_ text: String.SubSequence) -> MDInlineCode${"$"}{"{"${"$"}{"}"}
         return MDInlineCode(text: String(text))
-    \}
+    ${"$"}{"}"}
     
-    private func parseItalic(_ text:String.SubSequence) -> MDItalic\{
+    private func parseItalic(_ text:String.SubSequence) -> MDItalic${"$"}{"{"${"$"}{"}"}
         return MDItalic(text: String(text))
-    \}
+    ${"$"}{"}"}
     
-    private func parseStrikethrough(_ text:String.SubSequence) -> MDStrikethrough\{
+    private func parseStrikethrough(_ text:String.SubSequence) -> MDStrikethrough${"$"}{"{"${"$"}{"}"}
         return MDStrikethrough(text: String(text))
-    \}
+    ${"$"}{"}"}
     
-    private func parseLink(_ name: String.SubSequence, _ address:String.SubSequence) -> MDLink\{
+    private func parseLink(_ name: String.SubSequence, _ address:String.SubSequence) -> MDLink${"$"}{"{"${"$"}{"}"}
         return MDLink(name: String(name), source: String(address))
-    \}
+    ${"$"}{"}"}
     
-    private func parseImage(_ name:String.SubSequence, _ address: String.SubSequence) -> MDImage\{
+    private func parseImage(_ name:String.SubSequence, _ address: String.SubSequence) -> MDImage${"$"}{"{"${"$"}{"}"}
         return MDImage(name:String(name), source: String(address))
-    \}
+    ${"$"}{"}"}
     
-    private func parseText(_ text:[Character]) -> MDText\{
+    private func parseText(_ text:[Character]) -> MDText${"$"}{"{"${"$"}{"}"}
         let txt = String(text)
         return MDText(text: txt)
-    \}
-\}
+    ${"$"}{"}"}
+${"$"}{"}"}
 
-struct MDSyntaxTree\{
+struct MDSyntaxTree${"$"}{"{"${"$"}{"}"}
     var blocks:[MDBlockDelegate]
-\}
+${"$"}{"}"}
 
-struct MDBold: MDInlineDelegate\{
+struct MDBold: MDInlineDelegate${"$"}{"{"${"$"}{"}"}
     var text:String
-\}
+${"$"}{"}"}
 
-struct MDStrikethrough: MDInlineDelegate\{
+struct MDStrikethrough: MDInlineDelegate${"$"}{"{"${"$"}{"}"}
     var text:String
-\}
+${"$"}{"}"}
 
-struct MDItalic:MDInlineDelegate\{
+struct MDItalic:MDInlineDelegate${"$"}{"{"${"$"}{"}"}
     var text:String
-\}
+${"$"}{"}"}
 
-struct MDLink: MDInlineDelegate\{
+struct MDLink: MDInlineDelegate${"$"}{"{"${"$"}{"}"}
     var name:String
     var source:String
-\}
+${"$"}{"}"}
 
-struct MDImage: MDInlineDelegate\{
+struct MDImage: MDInlineDelegate${"$"}{"{"${"$"}{"}"}
     var name:String
     var source:String
-\}
+${"$"}{"}"}
 
-struct MDInlineCode : MDInlineDelegate\{
+struct MDInlineCode : MDInlineDelegate${"$"}{"{"${"$"}{"}"}
     var text:String
-\}
+${"$"}{"}"}
 
-struct MDText: MDInlineDelegate\{
+struct MDText: MDInlineDelegate${"$"}{"{"${"$"}{"}"}
     var text:String
-\}
+${"$"}{"}"}
 
-struct MDHeading1: MDBlockDelegate\{
+struct MDHeading1: MDBlockDelegate${"$"}{"{"${"$"}{"}"}
     var inlines:[MDInlineDelegate]
-\}
+${"$"}{"}"}
 
-struct MDHeading2: MDBlockDelegate\{
+struct MDHeading2: MDBlockDelegate${"$"}{"{"${"$"}{"}"}
     var inlines:[MDInlineDelegate]
-\}
+${"$"}{"}"}
 
-struct MDHeading3: MDBlockDelegate\{
+struct MDHeading3: MDBlockDelegate${"$"}{"{"${"$"}{"}"}
     var inlines:[MDInlineDelegate]
-\}
+${"$"}{"}"}
 
-struct MDHeading4: MDBlockDelegate\{
+struct MDHeading4: MDBlockDelegate${"$"}{"{"${"$"}{"}"}
     var inlines:[MDInlineDelegate]
-\}
+${"$"}{"}"}
 
-struct MDHeading5: MDBlockDelegate\{
+struct MDHeading5: MDBlockDelegate${"$"}{"{"${"$"}{"}"}
     var inlines:[MDInlineDelegate]
-\}
+${"$"}{"}"}
 
-struct MDHeading6: MDBlockDelegate\{
+struct MDHeading6: MDBlockDelegate${"$"}{"{"${"$"}{"}"}
     var inlines:[MDInlineDelegate]
-\}
+${"$"}{"}"}
 
-struct MDParagraph: MDBlockDelegate\{
+struct MDParagraph: MDBlockDelegate${"$"}{"{"${"$"}{"}"}
     var inlines:[MDInlineDelegate]
-\}
+${"$"}{"}"}
 
-struct MDUnorderedList: MDBlockDelegate\{
+struct MDUnorderedList: MDBlockDelegate${"$"}{"{"${"$"}{"}"}
     var items:[MDUnorderedListItem]
-\}
+${"$"}{"}"}
 
 struct MDUnorderedListItem
-\{
+${"$"}{"{"${"$"}{"}"}
     var inlines:[MDInlineDelegate]
     var children:[MDUnorderedListItem]
-\}
+${"$"}{"}"}
 
-struct MDOrderedList: MDBlockDelegate\{
+struct MDOrderedList: MDBlockDelegate${"$"}{"{"${"$"}{"}"}
     var items:[MDOrderedListItem]
-\}
+${"$"}{"}"}
 
 struct MDOrderedListItem
-\{
+${"$"}{"{"${"$"}{"}"}
     var inlines:[MDInlineDelegate]
     var children:[MDOrderedListItem]
-\}
+${"$"}{"}"}
 
-struct MDCodeBlock : MDBlockDelegate\{
+struct MDCodeBlock : MDBlockDelegate${"$"}{"{"${"$"}{"}"}
     var lang:String
     var multilineText:String
-\}
+${"$"}{"}"}
 
-struct MDHorizontalRule: MDBlockDelegate\{
+struct MDHorizontalRule: MDBlockDelegate${"$"}{"{"${"$"}{"}"}
     
     var data:String
-\}
+${"$"}{"}"}
 
-struct MDBlockQuote: MDBlockDelegate\{
+struct MDBlockQuote: MDBlockDelegate${"$"}{"{"${"$"}{"}"}
     
     var multilineText:String
-\}
+${"$"}{"}"}
 
-struct MDTable: MDBlockDelegate\{
+struct MDTable: MDBlockDelegate${"$"}{"{"${"$"}{"}"}
     var headline:MDTableHeader
     var colconfigs:MDTableColConfigs
     var rows:[MDTableRow]
-\}
+${"$"}{"}"}
 
-struct MDTableHeader\{
+struct MDTableHeader${"$"}{"{"${"$"}{"}"}
     var cells:[MDTableCell]
-\}
+${"$"}{"}"}
 
-struct MDTableCell\{
+struct MDTableCell${"$"}{"{"${"$"}{"}"}
     var inlines:[MDInlineDelegate]
-\}
+${"$"}{"}"}
 
-struct MDTableColConfigs\{
+struct MDTableColConfigs${"$"}{"{"${"$"}{"}"}
     var colconfigs:[MDTableColConfig]
-\}
+${"$"}{"}"}
 
-enum MDTableColConfig\{
+enum MDTableColConfig${"$"}{"{"${"$"}{"}"}
     case leading
     case trailing
     case center
-\}
+${"$"}{"}"}
 
-struct MDTableRow\{
+struct MDTableRow${"$"}{"{"${"$"}{"}"}
     var cells:[MDTableCell]
-\}
+${"$"}{"}"}
 \`\`\`
 `,coediting: false,comments_count: 0,created_at: '2021-09-26T22:19:57+09:00',group: '{ }',id: '1a29a2cb5b3207ad87dc',likes_count: 3,private: false,reactions_count: 0,tags: [{name: 'Markdown',versions: [  ]},{name: '構文解析',versions: [  ]},{name: 'Swift',versions: [  ]}],title: 'SwiftでMarkdownを解析してオブジェクトツリーに変換する',updated_at: '2021-10-06T07:54:17+09:00',url: 'https://qiita.com/sYamaz/items/1a29a2cb5b3207ad87dc',user: {description: `職業Web (フロント、バック）開発者。
 
