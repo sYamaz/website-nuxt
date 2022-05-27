@@ -4,6 +4,13 @@ import io
 import requests
 import os
 
+def escape(input:str) -> str:
+  return input.replace('\\', '\\\\')\
+              .replace('`', '\`')\
+              .replace('{', '\{')\
+              .replace('}', '\}')\
+              .replace('$', '$')
+
 def Empty() -> str:
   return '{ }'
 
@@ -95,8 +102,8 @@ def TeamMembership(tm:dict) -> str:
 
 def Item(item:dict) -> str:
   arr = []
-  rendered_body = item['rendered_body'].replace('\\', '\\\\').replace('`', '\`')
-  body = item['body'].replace('\\', '\\\\').replace('`', '\`')
+  rendered_body = escape(item['rendered_body'])
+  body = escape(item['body'])
   coediting = item['coediting']
   comments_count = item['comments_count']
   created_at = item['created_at']
@@ -104,6 +111,7 @@ def Item(item:dict) -> str:
   id = item['id']
   likes_count = item['likes_count']
   private = item['private']
+  reactions_count = item['reactions_count']
   tags = Tags(item['tags']) if 'tags' in item else '[]'
   title = item['title']
   updated_at = item['updated_at']
@@ -121,6 +129,7 @@ def Item(item:dict) -> str:
   arr.append(f'id: \'{id}\'')
   arr.append(f'likes_count: {likes_count}')
   arr.append(f'private: {str(private).lower()}')
+  arr.append(f'reactions_count: {reactions_count}')
   arr.append(f'tags: {tags}')
   arr.append(f'title: \'{title}\'')
   arr.append(f'updated_at: \'{updated_at}\'')
