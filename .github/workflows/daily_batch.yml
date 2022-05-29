@@ -27,6 +27,7 @@ jobs:
     name: Run lintfix
     steps:
       - uses: actions/checkout@v3
+      - run: yarn
       - run: yarn lintfix
       - uses: EndBug/add-and-commit@v9
         with:
