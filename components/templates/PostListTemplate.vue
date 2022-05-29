@@ -1,5 +1,5 @@
 <template>
-  <v-card elevation="1">
+  <v-card elevation="1" class="pa-6">
     <ContentSection title="Posts">
       <OGPCard
         v-for="post in data.posts"

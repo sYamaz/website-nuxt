@@ -18,15 +18,15 @@ import PostListTemplate, { PostListTemplateData } from '~/components/templates/P
     // const ret = await context.app.$qiitaApi.getMyQiitaItems()
     console.log(articles)
     const posts: PostData[] = articles
-    const ret: PostListTemplateData = {
+    const data: PostListTemplateData = {
       posts
     }
-    return ret
+    return {
+      data
+    }
   }
 })
 export default class PostPage extends Vue {
-  posts?: PostData[]
-
   data?: PostListTemplateData
 }
 </script>
