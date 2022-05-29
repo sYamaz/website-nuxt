@@ -1,4 +1,12 @@
 /**
+ * 投稿データ内のタグ情報
+ */
+export interface PostTag{
+  name:string
+  versions:string[]
+}
+
+/**
  * 投稿データ
  * https://qiita.com/api/v2/docs#%E6%8A%95%E7%A8%BF
  * */
@@ -24,7 +32,7 @@ export interface PostData{
   /** 絵文字リアクションの数（Qiita Teamでのみ有効） */
   reactions_count:number
   /** 記事に付いたタグ一覧 */
-  tags:any
+  tags:PostTag[]
   /** 記事のタイトル */
   title:string
   /** データが最後に更新された日時 */
@@ -38,3 +46,4 @@ export interface PostData{
   /** Qiita Teamのチームメンバー情報を表します */
   team_membership: any
 }
+

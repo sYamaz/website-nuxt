@@ -17,7 +17,7 @@ export class QiitaApi implements IApi {
         likes_count: 10,
         private: false,
         reactions_count: 10,
-        tags: null,
+        tags: [],
         title: 'AAAAAAAA',
         updated_at: '2000-01-01T00:00:00+00:00',
         url: '',
