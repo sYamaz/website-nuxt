@@ -1,5 +1,5 @@
 <template>
-  <v-chip class="capitalization_none" disabled>
+  <v-chip class="capitalization_none" disabled small>
     {{ name }}
   </v-chip>
 </template>
