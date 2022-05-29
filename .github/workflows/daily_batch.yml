@@ -1,4 +1,4 @@
-name: GitHub Pages dayly batch
+name: GitHub Pages daily batch
 
 on:
   schedule:
