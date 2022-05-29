@@ -46,4 +46,3 @@ export interface PostData{
   /** Qiita Teamのチームメンバー情報を表します */
   team_membership: any
 }
-

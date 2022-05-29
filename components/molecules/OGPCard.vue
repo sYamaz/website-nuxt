@@ -3,7 +3,7 @@
     <v-card-title>{{ data.title }}</v-card-title>
     <v-card-subtitle>{{ data.url }}</v-card-subtitle>
     <v-card-text>{{ data.body.slice(0, 140) }}...</v-card-text>
-    <v-card-label class="ml-4" v-for="tag in data.tags" :key="tag.name" :name="tag.name" />
+    <v-card-label v-for="tag in data.tags" :key="tag.name" class="ml-4" :name="tag.name" />
   </v-card>
 </template>
 
