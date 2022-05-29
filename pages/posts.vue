@@ -15,8 +15,6 @@ import PostListTemplate, { PostListTemplateData } from '~/components/templates/P
     PostListTemplate
   },
   asyncData (_:Context) {
-    // const ret = await context.app.$qiitaApi.getMyQiitaItems()
-    console.log(articles)
     const posts: PostData[] = articles
     const data: PostListTemplateData = {
       posts

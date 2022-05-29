@@ -1,4 +1,3 @@
-import { NuxtAxiosInstance } from '@nuxtjs/axios'
 import IApi from '~/types/Qiita/Api/v2/IApi'
 import { PostData } from '~/types/Qiita/Api/v2/datas'
 

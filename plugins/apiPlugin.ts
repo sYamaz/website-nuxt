@@ -1,6 +1,5 @@
 import { Plugin } from '@nuxt/types'
 import QiitaApi from '~/api/QiitaApi'
-import { QiitaApi as MockApi } from '~/mock/QiitaApi'
 import IApi from '~/types/Qiita/Api/v2/IApi'
 
 // vueインスタンスから$qiitaApiを使用可能にする
