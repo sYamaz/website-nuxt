@@ -1,4 +1,4 @@
-name: GitHub Pages cron deploy
+name: GitHub Pages dayly batch
 
 on:
   schedule:
@@ -7,6 +7,7 @@ on:
     - cron: '0 18 * * *'
   workflow_dispatch:
 jobs:
+  # articlesを更新する
   update_articles:
     runs-on: ubuntu-latest # Python3 installed
     name: Update constants/articles.ts and marge
@@ -18,9 +19,20 @@ jobs:
         run: python3 -B scripts/articles_generator.py constants/articles.ts
       - uses: EndBug/add-and-commit@v9
         with:
-          message: 'Update constants/articles.ts'
+          message: 'BOT:Update constants/articles.ts'
+  # lintfixを実行する
+  lintfix:
+    needs: update_articles
+    runs-on: ubuntu-latest
+    name: Run lintfix
+    steps:
+      - uses: actions/checkout@v3
+      - run: yarn lintfix
+      - uses: EndBug/add-and-commit@v9
+        with:
+          message: 'BOT:Fix lintfix'
   deploy:
-    needs: update_articles # deployジョブの実行条件
+    needs: lintfix # deployジョブの実行条件
 
     runs-on: ubuntu-latest
     name: Checkout, build, deploy
