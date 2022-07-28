@@ -1,4 +1,263 @@
-export const articles = [{rendered_body: `<p>PythonでQiitaApiから自分の記事一覧を取得し、コードを自動生成できるようになりました。<br>
+export const articles = [{rendered_body: `<p data-sourcepos="1:1-1:233">読み上げてくれればチャット欄見なくていいよねってことで、Youtube APIからライブ配信のコメントをポーリングしつつ、取得したコメントを読み上げさせようとTryしました。</p>
+<p data-sourcepos="3:1-3:48">主に処理部分についての話をします</p>
+<h2 data-sourcepos="5:1-5:9">
+<span id="要素" class="fragment"></span><a href="#%E8%A6%81%E7%B4%A0"><i class="fa fa-link"></i></a>要素</h2>
+<h3 data-sourcepos="7:1-7:49">
+<span id="youtube-apidata-api-live-streaming-api" class="fragment"></span><a href="#youtube-apidata-api-live-streaming-api"><i class="fa fa-link"></i></a>Youtube API（Data API, Live Streaming API）</h3>
+<p data-sourcepos="9:1-9:78">今回使用するAPIは以下です。いずれもAPIキーで認証します</p>
+<h4 data-sourcepos="11:1-11:77">
+<span id="videoshttpsdevelopersgooglecomyoutubev3docsvideoslisthlja" class="fragment"></span><a href="#videoshttpsdevelopersgooglecomyoutubev3docsvideoslisthlja"><i class="fa fa-link"></i></a>Videos：<a href="https://developers.google.com/youtube/v3/docs/videos/list?hl=ja" class="autolink" rel="nofollow noopener" target="_blank">https://developers.google.com/youtube/v3/docs/videos/list?hl=ja</a>
+</h4>
+<p data-sourcepos="13:1-13:76">動画IDを引数にデータを取得し、チャットIDを取得します</p>
+<div class="code-frame" data-lang="ts" data-sourcepos="15:1-41:3"><div class="highlight"><pre><code>
+<span class="c1">// VideoResponseは省略</span>
+
+<span class="k">export</span> <span class="kr">interface</span> <span class="nx">IVideoApi</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
+  <span class="nx">list</span><span class="p">(</span><span class="nx">videoId</span><span class="p">:</span><span class="kr">string</span><span class="p">)</span> <span class="p">:</span><span class="nb">Promise</span><span class="o">&lt;</span><span class="nx">VideoResponse</span><span class="o">&gt;</span>
+<span class="p">${"$"}{"}"}</span>
+
+<span class="k">export</span> <span class="kd">class</span> <span class="nx">VideoApi</span> <span class="k">implements</span> <span class="nx">IVideoApi</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
+  <span class="k">private</span> <span class="k">readonly</span> <span class="nx">key</span><span class="p">:</span><span class="kr">string</span>
+
+  <span class="kd">constructor</span><span class="p">(</span><span class="nx">key</span><span class="p">:</span><span class="kr">string</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">key</span> <span class="o">=</span> <span class="nx">key</span>
+  <span class="p">${"$"}{"}"}</span>
+
+  <span class="nx">list</span><span class="p">(</span><span class="nx">videoId</span><span class="p">:</span><span class="kr">string</span><span class="p">):</span> <span class="nb">Promise</span><span class="o">&lt;</span><span class="nx">VideoResponse</span><span class="o">&gt;</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
+    <span class="kd">const</span> <span class="na">config</span><span class="p">:</span> <span class="nx">AxiosRequestConfig</span> <span class="o">=</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
+      <span class="na">params</span><span class="p">:${"$"}{"{"${"$"}{"}"}</span>
+        <span class="na">part</span><span class="p">:</span> <span class="dl">"</span><span class="s2">liveStreamingDetails</span><span class="dl">"</span><span class="p">,</span>
+        <span class="na">id</span><span class="p">:</span> <span class="nx">videoId</span><span class="p">,</span>
+        <span class="na">key</span><span class="p">:</span><span class="k">this</span><span class="p">.</span><span class="nx">key</span>
+      <span class="p">${"$"}{"}"}</span>
+    <span class="p">${"$"}{"}"}</span>
+    <span class="k">return</span> <span class="nx">axios</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">"</span><span class="s2">https://www.googleapis.com/youtube/v3/videos</span><span class="dl">"</span><span class="p">,</span> <span class="nx">config</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="nx">r</span> <span class="o">=&gt;</span> <span class="nx">r</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span>
+  <span class="p">${"$"}{"}"}</span>
+<span class="p">${"$"}{"}"}</span>
+</code></pre></div></div>
+<h4 data-sourcepos="45:1-45:96">
+<span id="livechatmessageshttpsdevelopersgooglecomyoutubev3livedocslivechatmessageslist" class="fragment"></span><a href="#livechatmessageshttpsdevelopersgooglecomyoutubev3livedocslivechatmessageslist"><i class="fa fa-link"></i></a>LiveChatMessages：<a href="https://developers.google.com/youtube/v3/live/docs/liveChatMessages/list" class="autolink" rel="nofollow noopener" target="_blank">https://developers.google.com/youtube/v3/live/docs/liveChatMessages/list</a>
+</h4>
+<p data-sourcepos="47:1-47:246">チャットIDを引数にコメントを取得します。レスポンスのpageTokenを引数に使用することでコメントをつづきから取得できるので、apiのパラメータは初回/それ以降の２種類にしました。</p>
+<div class="code-frame" data-lang="ts" data-sourcepos="49:1-86:3"><div class="highlight"><pre><code>
+<span class="c1">// LiveChatMessagesResponseは省略</span>
+
+<span class="k">export</span> <span class="kd">class</span> <span class="nx">LiveChatMessagesApi</span> <span class="k">implements</span> <span class="nx">ILiveChatMessagesApi</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
+  <span class="k">private</span> <span class="k">readonly</span> <span class="nx">key</span><span class="p">:</span><span class="kr">string</span> <span class="o">=</span> <span class="dl">""</span>
+  <span class="kd">constructor</span><span class="p">(</span><span class="nx">key</span><span class="p">:</span><span class="kr">string</span><span class="p">)${"$"}{"{"${"$"}{"}"}</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">key</span> <span class="o">=</span> <span class="nx">key</span>
+  <span class="p">${"$"}{"}"}</span>
+
+  <span class="k">async</span> <span class="nx">startList</span><span class="p">(</span><span class="nx">liveChatId</span><span class="p">:</span> <span class="kr">string</span><span class="p">,</span> <span class="nx">maxResults</span><span class="p">:</span> <span class="kr">number</span><span class="p">,</span> <span class="nx">nextPageToken</span><span class="p">:</span> <span class="kr">string</span> <span class="o">|</span> <span class="kc">null</span><span class="p">):</span> <span class="nb">Promise</span><span class="o">&lt;</span><span class="nx">LiveChatMessagesResponse</span><span class="o">&gt;</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
+    <span class="kd">let</span> <span class="na">config</span><span class="p">:</span> <span class="nx">AxiosRequestConfig</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">nextPageToken</span> <span class="o">===</span> <span class="kc">null</span><span class="p">)</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
+      <span class="nx">config</span> <span class="o">=</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
+        <span class="na">params</span><span class="p">:${"$"}{"{"${"$"}{"}"}</span>
+          <span class="nx">liveChatId</span><span class="p">,</span>
+          <span class="na">part</span><span class="p">:</span> <span class="dl">"</span><span class="s2">id,snippet,authorDetails</span><span class="dl">"</span><span class="p">,</span>
+          <span class="nx">maxResults</span><span class="p">,</span>
+          <span class="na">key</span><span class="p">:</span><span class="k">this</span><span class="p">.</span><span class="nx">key</span>
+        <span class="p">${"$"}{"}"}</span>
+      <span class="p">${"$"}{"}"}</span>
+    <span class="p">${"$"}{"}"}</span> <span class="k">else</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
+      <span class="nx">config</span> <span class="o">=</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
+        <span class="na">params</span><span class="p">:${"$"}{"{"${"$"}{"}"}</span>
+          <span class="nx">liveChatId</span><span class="p">,</span>
+          <span class="na">part</span><span class="p">:</span> <span class="dl">"</span><span class="s2">id,snippet,authorDetails</span><span class="dl">"</span><span class="p">,</span>
+          <span class="nx">maxResults</span><span class="p">,</span>
+          <span class="na">key</span><span class="p">:</span><span class="k">this</span><span class="p">.</span><span class="nx">key</span><span class="p">,</span>
+          <span class="na">pageToken</span><span class="p">:</span><span class="nx">nextPageToken</span>
+        <span class="p">${"$"}{"}"}</span>
+      <span class="p">${"$"}{"}"}</span>
+    <span class="p">${"$"}{"}"}</span>
+
+    <span class="kd">const</span> <span class="nx">response</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">axios</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">"</span><span class="s2">https://www.googleapis.com/youtube/v3/liveChat/messages</span><span class="dl">"</span><span class="p">,</span> <span class="nx">config</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nx">response</span><span class="p">.</span><span class="nx">data</span>
+  <span class="p">${"$"}{"}"}</span>
+<span class="p">${"$"}{"}"}</span>
+</code></pre></div></div>
+<h3 data-sourcepos="88:1-88:19">
+<span id="speechsynthesis" class="fragment"></span><a href="#speechsynthesis"><i class="fa fa-link"></i></a>SpeechSynthesis</h3>
+<p data-sourcepos="90:1-90:33">文字列を読み上げさせる</p>
+<div class="code-frame" data-lang="ts" data-sourcepos="92:1-105:3"><div class="highlight"><pre><code><span class="k">export</span> <span class="kr">interface</span> <span class="nx">ISpeaker</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
+  <span class="nx">speak</span><span class="p">(</span><span class="nx">txt</span><span class="p">:</span><span class="kr">string</span><span class="p">):</span><span class="k">void</span>
+<span class="p">${"$"}{"}"}</span>
+
+<span class="k">export</span> <span class="kd">class</span> <span class="nx">Speaker</span> <span class="k">implements</span> <span class="nx">ISpeaker</span><span class="p">${"$"}{"{"${"$"}{"}"}</span>
+  <span class="c1">// 設計の都合上クラスにしているが、この関数だけで良い</span>
+  <span class="nx">speak</span><span class="p">(</span><span class="nx">txt</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="k">void</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span>
+    <span class="kd">const</span> <span class="nx">synthes</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SpeechSynthesisUtterance</span><span class="p">(</span><span class="nx">txt</span><span class="p">)</span>
+    <span class="nx">synthes</span><span class="p">.</span><span class="nx">lang</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">ja-JP</span><span class="dl">"</span>
+    <span class="nx">speechSynthesis</span><span class="p">.</span><span class="nx">speak</span><span class="p">(</span><span class="nx">synthes</span><span class="p">)</span>
+  <span class="p">${"$"}{"}"}</span>
+<span class="p">${"$"}{"}"}</span>
+</code></pre></div></div>
+<h2 data-sourcepos="107:1-107:24">
+<span id="処理のイメージ" class="fragment"></span><a href="#%E5%87%A6%E7%90%86%E3%81%AE%E3%82%A4%E3%83%A1%E3%83%BC%E3%82%B8"><i class="fa fa-link"></i></a>処理のイメージ</h2>
+<ul data-sourcepos="109:1-112:0">
+<li data-sourcepos="109:1-109:60">角丸長方形はオブジェクト、長方形は処理</li>
+<li data-sourcepos="110:1-110:68">実線は処理の流れ、点線はオブジェクトへの参照</li>
+<li data-sourcepos="111:1-112:0">APIからコメント取得するのと読み上げは非同期ループ</li>
+</ul>
+<p data-sourcepos="113:1-113:27">というイメージです</p>
+<qiita-mermaid data-content='${"$"}{"{"${"$"}{"}"}"data":"graph TD;\\n\\nA[urlから動画ID取得]\\nB[Videos APIからチャットID取得]\\nC[LiveChatMessages APIからコメント取得]\\nD[インターバル]\\nstore(コメントのキュー FIFO)\\nhistory(読み上げたものの履歴)\\nZ[コメント読み上げ]\\nY[インターバル]\\n\\nA--&gt;B\\nB--&gt;C\\nC--&gt;D\\nD--停止するまで繰り返す--&gt;B\\nC-.登録.-&gt;store\\n\\nZ-.取得.-&gt;store\\nZ--&gt;Y\\nY--停止するまで繰り返す--&gt;Z\\nZ-.登録.-&gt;history\\n","key":"438b683b35f6d031efd58ae93998a5fc"${"$"}{"}"}'></qiita-mermaid>
+<p data-sourcepos="140:1-140:183"><code>読み上げたものの履歴</code>をUIに表示させればWebアプリとしてはある程度の形になります。(ユーザー名、コメント内容は黄色で伏せてます)</p>
+<p data-sourcepos="142:1-142:164"><a href="https://camo.qiitausercontent.com/357512f3981c08ed2daa0392ed19a03de0303d28/68747470733a2f2f71696974612d696d6167652d73746f72652e73332e61702d6e6f727468656173742d312e616d617a6f6e6177732e636f6d2f302f323038383339392f39373463383030632d666661662d373539612d633737652d3738343164323866396337362e706e67" target="_blank" rel="nofollow noopener"><img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F2088399%2F974c800c-ffaf-759a-c77e-7841d28f9c76.png?ixlib=rb-4.0.0&amp;auto=format&amp;gif-q=60&amp;q=75&amp;s=4a28428fd388d603d900a83ab669f606" alt="スクリーンショット 2022-07-28 22.33.53.png" data-canonical-src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/974c800c-ffaf-759a-c77e-7841d28f9c76.png" srcset="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F2088399%2F974c800c-ffaf-759a-c77e-7841d28f9c76.png?ixlib=rb-4.0.0&amp;auto=format&amp;gif-q=60&amp;q=75&amp;w=1400&amp;fit=max&amp;s=3d8fb8f2aed3a1b2dd8876d8f20fd508 1x" loading="lazy"></a></p>
+`,body: `読み上げてくれればチャット欄見なくていいよねってことで、Youtube APIからライブ配信のコメントをポーリングしつつ、取得したコメントを読み上げさせようとTryしました。
+
+主に処理部分についての話をします
+
+## 要素
+
+### Youtube API（Data API, Live Streaming API）
+
+今回使用するAPIは以下です。いずれもAPIキーで認証します
+
+#### Videos：https://developers.google.com/youtube/v3/docs/videos/list?hl=ja
+    
+動画IDを引数にデータを取得し、チャットIDを取得します
+
+\`\`\`ts 
+
+// VideoResponseは省略
+
+export interface IVideoApi${"$"}{"{"${"$"}{"}"}
+  list(videoId:string) :Promise<VideoResponse>
+${"$"}{"}"}
+
+export class VideoApi implements IVideoApi${"$"}{"{"${"$"}{"}"}
+  private readonly key:string
+
+  constructor(key:string)${"$"}{"{"${"$"}{"}"}
+    this.key = key
+  ${"$"}{"}"}
+
+  list(videoId:string): Promise<VideoResponse> ${"$"}{"{"${"$"}{"}"}
+    const config: AxiosRequestConfig = ${"$"}{"{"${"$"}{"}"}
+      params:${"$"}{"{"${"$"}{"}"}
+        part: "liveStreamingDetails",
+        id: videoId,
+        key:this.key
+      ${"$"}{"}"}
+    ${"$"}{"}"}
+    return axios.get("https://www.googleapis.com/youtube/v3/videos", config).then(r => r.data)
+  ${"$"}{"}"}
+${"$"}{"}"}
+\`\`\`
+
+
+
+#### LiveChatMessages：https://developers.google.com/youtube/v3/live/docs/liveChatMessages/list
+
+チャットIDを引数にコメントを取得します。レスポンスのpageTokenを引数に使用することでコメントをつづきから取得できるので、apiのパラメータは初回/それ以降の２種類にしました。
+
+\`\`\`ts 
+
+// LiveChatMessagesResponseは省略
+
+export class LiveChatMessagesApi implements ILiveChatMessagesApi${"$"}{"{"${"$"}{"}"}
+  private readonly key:string = ""
+  constructor(key:string)${"$"}{"{"${"$"}{"}"}
+    this.key = key
+  ${"$"}{"}"}
+
+  async startList(liveChatId: string, maxResults: number, nextPageToken: string | null): Promise<LiveChatMessagesResponse> ${"$"}{"{"${"$"}{"}"}
+    let config: AxiosRequestConfig
+    if (nextPageToken === null) ${"$"}{"{"${"$"}{"}"}
+      config = ${"$"}{"{"${"$"}{"}"}
+        params:${"$"}{"{"${"$"}{"}"}
+          liveChatId,
+          part: "id,snippet,authorDetails",
+          maxResults,
+          key:this.key
+        ${"$"}{"}"}
+      ${"$"}{"}"}
+    ${"$"}{"}"} else ${"$"}{"{"${"$"}{"}"}
+      config = ${"$"}{"{"${"$"}{"}"}
+        params:${"$"}{"{"${"$"}{"}"}
+          liveChatId,
+          part: "id,snippet,authorDetails",
+          maxResults,
+          key:this.key,
+          pageToken:nextPageToken
+        ${"$"}{"}"}
+      ${"$"}{"}"}
+    ${"$"}{"}"}
+
+    const response = await axios.get("https://www.googleapis.com/youtube/v3/liveChat/messages", config)
+    return response.data
+  ${"$"}{"}"}
+${"$"}{"}"}
+\`\`\`
+
+### SpeechSynthesis
+
+文字列を読み上げさせる
+
+\`\`\`ts 
+export interface ISpeaker${"$"}{"{"${"$"}{"}"}
+  speak(txt:string):void
+${"$"}{"}"}
+
+export class Speaker implements ISpeaker${"$"}{"{"${"$"}{"}"}
+  // 設計の都合上クラスにしているが、この関数だけで良い
+  speak(txt: string): void ${"$"}{"{"${"$"}{"}"}
+    const synthes = new SpeechSynthesisUtterance(txt)
+    synthes.lang = "ja-JP"
+    speechSynthesis.speak(synthes)
+  ${"$"}{"}"}
+${"$"}{"}"}
+\`\`\`
+
+## 処理のイメージ 
+
+* 角丸長方形はオブジェクト、長方形は処理 
+* 実線は処理の流れ、点線はオブジェクトへの参照
+* APIからコメント取得するのと読み上げは非同期ループ
+
+というイメージです
+
+\`\`\`mermaid 
+graph TD;
+
+A[urlから動画ID取得]
+B[Videos APIからチャットID取得]
+C[LiveChatMessages APIからコメント取得]
+D[インターバル]
+store(コメントのキュー FIFO)
+history(読み上げたものの履歴)
+Z[コメント読み上げ]
+Y[インターバル]
+
+A-->B
+B-->C
+C-->D
+D--停止するまで繰り返す-->B
+C-.登録.->store
+
+Z-.取得.->store
+Z-->Y
+Y--停止するまで繰り返す-->Z
+Z-.登録.->history
+
+\`\`\`
+
+\`読み上げたものの履歴\`をUIに表示させればWebアプリとしてはある程度の形になります。(ユーザー名、コメント内容は黄色で伏せてます)
+
+![スクリーンショット 2022-07-28 22.33.53.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/974c800c-ffaf-759a-c77e-7841d28f9c76.png)
+
+
+
+
+
+
+
+
+
+`,coediting: false,comments_count: 0,created_at: '2022-07-28T22:45:16+09:00',group: '{ }',id: '885647616aa57f00a604',likes_count: 0,private: false,reactions_count: 0,tags: [{name: 'TypeScript',versions: [  ]},{name: 'YouTubeAPI',versions: [  ]},{name: 'SpeechSynthesis',versions: [  ]},{name: 'axios',versions: [  ]}],title: 'Youtube API使って得たコメント読み上げさせたい',updated_at: '2022-07-28T22:50:12+09:00',url: 'https://qiita.com/sYamaz/items/885647616aa57f00a604',user: {description: `職業Web (フロント、バック）開発者。
+
+過去dotnetプログラマもしていました。
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 16,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>PythonでQiitaApiから自分の記事一覧を取得し、コードを自動生成できるようになりました。<br>
 今回はGitHub Actionsを用いて、</p>
 <ol>
 <li>QiitaApiから記事一覧を取得し、コードを自動生成</li>
@@ -130,7 +389,7 @@ https://github.com/sYamaz/website-nuxt/actions/runs/2379795524
 `,coediting: false,comments_count: 0,created_at: '2022-05-25T20:28:51+09:00',group: '{ }',id: '4a647ad0fafbf0e1e6c0',likes_count: 2,private: false,reactions_count: 0,tags: [{name: 'QiitaAPI',versions: [  ]},{name: 'githubpages',versions: [  ]},{name: 'GitHubActions',versions: [  ]}],title: 'GitHubPagesの内容をGitHubActionsを使って自動更新する',updated_at: '2022-05-25T20:28:51+09:00',url: 'https://qiita.com/sYamaz/items/4a647ad0fafbf0e1e6c0',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 15,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>先日@nuxt/axiosを使ってQiitaApiから自分の記事一覧を取得しました</p>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 16,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>先日@nuxt/axiosを使ってQiitaApiから自分の記事一覧を取得しました</p>
 <p><qiita-embed-ogp src="https://qiita.com/sYamaz/items/10c8c9db83e5dad62b90"></qiita-embed-ogp></p>
 <p>ただ、この記事の最後に書いたようにスクリプトでコードを自動生成する方が目的に会っていると思っていたのでPythonでQiitaApiにアクセスしようと思います</p>
 <h3>
@@ -573,7 +832,7 @@ pythonでQiitaApiから自分の記事一覧を取得、tsファイルを生成�
 `,coediting: false,comments_count: 1,created_at: '2022-05-24T22:58:05+09:00',group: '{ }',id: '2e5facc0032ed0801a26',likes_count: 0,private: false,reactions_count: 0,tags: [{name: 'Python',versions: [  ]},{name: 'QiitaAPI',versions: [  ]},{name: 'Python3',versions: [  ]}],title: 'PythonでもQiitaApiから自分の記事一覧を取得したい',updated_at: '2022-05-29T18:02:01+09:00',url: 'https://qiita.com/sYamaz/items/2e5facc0032ed0801a26',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 15,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>GitHubpagesに自己紹介サイトを立てて少しずつ拡張しています。<br>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 16,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>GitHubpagesに自己紹介サイトを立てて少しずつ拡張しています。<br>
 今回、サイトにQiita記事へのリンクを貼りたい、けどリンクをペタペタ貼るのもつまらないということで、QiitaApiから私が書いた記事を取得しサイトに表示することにしました。</p>
 <h3>
 <span id="準備" class="fragment"></span><a href="#%E6%BA%96%E5%82%99"><i class="fa fa-link"></i></a>準備</h3>
@@ -926,7 +1185,7 @@ Github Actionを使って定期的にApiアクセス＆コード自動生成→�
 `,coediting: false,comments_count: 0,created_at: '2022-05-23T22:46:08+09:00',group: '{ }',id: '10c8c9db83e5dad62b90',likes_count: 1,private: false,reactions_count: 0,tags: [{name: 'QiitaAPI',versions: [  ]},{name: 'Vue.js',versions: [  ]},{name: 'axios',versions: [  ]},{name: 'nuxt.js',versions: [  ]}],title: '@nuxt/axiosを使ってQiita Apiから記事一覧を取得する',updated_at: '2022-05-23T22:46:08+09:00',url: 'https://qiita.com/sYamaz/items/10c8c9db83e5dad62b90',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 15,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>2022年5月2日に初めてアプリをリリースしました。</p>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 16,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>2022年5月2日に初めてアプリをリリースしました。</p>
 <p>今回は提出からリリースに至るまでの審査の過程やリジェクト内容などをサクッと共有できればと思います。</p>
 <h2>
 <span id="2021年12月15日アプリ提出" class="fragment"></span><a href="#2021%E5%B9%B412%E6%9C%8815%E6%97%A5%E3%82%A2%E3%83%97%E3%83%AA%E6%8F%90%E5%87%BA"><i class="fa fa-link"></i></a>2021年12月15日：アプリ提出</h2>
@@ -1025,7 +1284,7 @@ https://apps.apple.com/jp/app/routinetree/id1600469504
 `,coediting: false,comments_count: 0,created_at: '2022-05-11T21:35:51+09:00',group: '{ }',id: '6f6985cc71cd96dfdb4f',likes_count: 0,private: false,reactions_count: 0,tags: [{name: 'AppStore',versions: [  ]},{name: 'AppStoreConnect',versions: [  ]}],title: '初めてAppStoreにアプリを出した話（ほぼ日記）',updated_at: '2022-05-11T21:35:51+09:00',url: 'https://qiita.com/sYamaz/items/6f6985cc71cd96dfdb4f',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 15,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>タイトルの通りのことをやってみました。</p>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 16,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>タイトルの通りのことをやってみました。</p>
 
 <p>結論から言うと、Blazorをやっているとvueの学習コストが下がるので「dotnetしかやったことないよ！」という人にはVueはお勧めできるかと思います。</p>
 
@@ -1628,7 +1887,7 @@ dotnet開発者が→Webに手を広げていく際の一つの道が、「WinFo
 `,coediting: false,comments_count: 0,created_at: '2022-01-09T17:48:02+09:00',group: '{ }',id: '86f574ec54a1e23ea527',likes_count: 0,private: false,reactions_count: 0,tags: [{name: 'C#',versions: [  ]},{name: 'github-pages',versions: [  ]},{name: 'Vue.js',versions: [  ]},{name: 'Blazor',versions: [  ]}],title: 'C# Blazorで作ったサイトをVue.jsで作り直してみた',updated_at: '2022-01-09T17:48:02+09:00',url: 'https://qiita.com/sYamaz/items/86f574ec54a1e23ea527',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 15,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>本日で今年の仕事納めなので、2021/10/18から続けていた朝活について共有しようかと思います。<br>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 16,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>本日で今年の仕事納めなので、2021/10/18から続けていた朝活について共有しようかと思います。<br>
 （この記事も2021/12/29の朝活中に書いてます）</p>
 
 <h2>
@@ -1789,7 +2048,7 @@ iOSアプリやBlazorホームページはdotnet開発という仕事での経�
 `,coediting: false,comments_count: 0,created_at: '2021-12-29T20:55:34+09:00',group: '{ }',id: '664b898221f7fef2b384',likes_count: 2,private: false,reactions_count: 0,tags: [{name: '朝活',versions: [  ]}],title: '朝活開発を約２カ月半行った結果',updated_at: '2021-12-29T20:55:34+09:00',url: 'https://qiita.com/sYamaz/items/664b898221f7fef2b384',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 15,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>GitHub Pagesで自分のポートフォリオサイト作りたいなと思い立ちましたが</p>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 16,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>GitHub Pagesで自分のポートフォリオサイト作りたいなと思い立ちましたが</p>
 
 <ul>
 <li>markdownで作るのはちょっと味気ない</li>
@@ -2355,7 +2614,7 @@ https://qiita.com/nobu17/items/116a0d1c949885e21d70
 `,coediting: false,comments_count: 0,created_at: '2021-12-25T20:01:57+09:00',group: '{ }',id: 'd0b12043f5b25a36d8e6',likes_count: 2,private: false,reactions_count: 0,tags: [{name: 'github-pages',versions: [  ]},{name: 'dotnet',versions: [  ]},{name: 'Blazor',versions: [  ]},{name: 'BlazorWebAssembly',versions: [  ]},{name: 'Skclusive-UI',versions: [  ]}],title: 'BlazorでSkclusive-UIを使った話',updated_at: '2021-12-25T20:01:57+09:00',url: 'https://qiita.com/sYamaz/items/d0b12043f5b25a36d8e6',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 15,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>Human Interface Guidelinesに沿った使い回しが効くようなTextFieldを検討しました</p>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 16,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>Human Interface Guidelinesに沿った使い回しが効くようなTextFieldを検討しました</p>
 
 <ul>
 <li>Swift5</li>
@@ -2666,7 +2925,7 @@ ${"$"}{"}"}
 `,coediting: false,comments_count: 0,created_at: '2021-12-07T22:48:48+09:00',group: '{ }',id: 'cafa6a4e13db71d54eea',likes_count: 1,private: false,reactions_count: 0,tags: [{name: 'Swift',versions: [  ]},{name: 'textField',versions: [  ]},{name: 'SwiftUI',versions: [  ]},{name: 'HumanInterfaceGuidelines',versions: [  ]}],title: 'SwiftUI: Human Interface Guidelinesに沿ったTextField',updated_at: '2021-12-07T22:51:23+09:00',url: 'https://qiita.com/sYamaz/items/cafa6a4e13db71d54eea',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 15,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>仕事ではdotnet（C#）アプリ開発、プライベートでSwift/SwiftUIでiOSアプリの開発をしています。<br>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 16,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>仕事ではdotnet（C#）アプリ開発、プライベートでSwift/SwiftUIでiOSアプリの開発をしています。<br>
 現在AppStoreへの初リリースを目標に黙々と手を動かしている途中ですが、その際に得られた感覚について共有できればと思います。<br>
 万人に共通するわけではないと思いますが誰かの気づきの一助になれば幸いです。</p>
 
@@ -2702,7 +2961,7 @@ Swift/SwiftUIについては見習いレベルですが、dotnet(C#)開発をそ
 `,coediting: false,comments_count: 0,created_at: '2021-11-27T23:44:02+09:00',group: '{ }',id: 'cfc3f1bbd0b3cb512a19',likes_count: 4,private: false,reactions_count: 0,tags: [{name: '初心者',versions: [  ]},{name: '考え方',versions: [  ]}],title: '新たなプログラミング言語に挑戦するときは見栄を捨てようという話',updated_at: '2021-11-27T23:44:02+09:00',url: 'https://qiita.com/sYamaz/items/cfc3f1bbd0b3cb512a19',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 15,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>趣味でSwiftをいじっている私ですが<code>@Published</code>プロパティラッパーとかを見て、「dotnetアプリ開発でお世話になっているReactivePropertyっぽいな...」と思ってました。</p>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 16,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>趣味でSwiftをいじっている私ですが<code>@Published</code>プロパティラッパーとかを見て、「dotnetアプリ開発でお世話になっているReactivePropertyっぽいな...」と思ってました。</p>
 
 <p><qiita-embed-ogp src="https://github.com/runceel/ReactiveProperty"></qiita-embed-ogp></p>
 
@@ -3072,7 +3331,7 @@ OK！
 `,coediting: false,comments_count: 0,created_at: '2021-10-30T20:27:51+09:00',group: '{ }',id: '56e943c2536397cc41d4',likes_count: 0,private: false,reactions_count: 0,tags: [{name: 'Swift',versions: [  ]},{name: 'ReactiveProperty',versions: [  ]},{name: 'dotnet',versions: [  ]},{name: 'Combine',versions: [  ]},{name: 'dotnetcore',versions: [  ]}],title: 'dotnet慣れした私がSwift CombineのAnyCancellableの取り扱いでハマった話',updated_at: '2021-10-30T20:27:51+09:00',url: 'https://qiita.com/sYamaz/items/56e943c2536397cc41d4',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 15,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p><a href="https://qiita.com/sYamaz/items/9ef8fceb5650fc7b7ad8" id="reference-6995fde8c3fa0eb25fc5">体温を最速で入力するためのユーザーインターフェースの検討(その1) - Qiita</a>で体温入力のユーザーインターフェースを考えていました。</p>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 16,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p><a href="https://qiita.com/sYamaz/items/9ef8fceb5650fc7b7ad8" id="reference-6995fde8c3fa0eb25fc5">体温を最速で入力するためのユーザーインターフェースの検討(その1) - Qiita</a>で体温入力のユーザーインターフェースを考えていました。</p>
 
 <p><a href="https://camo.qiitausercontent.com/46e7710c56e7d2ff88ce9381adc1d37869379798/68747470733a2f2f71696974612d696d6167652d73746f72652e73332e61702d6e6f727468656173742d312e616d617a6f6e6177732e636f6d2f302f323038383339392f38383238326330322d613538642d636566342d326132382d3333343131656166656433302e676966" target="_blank" rel="nofollow noopener"><img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F2088399%2F88282c02-a58d-cef4-2a28-33411eafed30.gif?ixlib=rb-4.0.0&amp;auto=format&amp;gif-q=60&amp;q=75&amp;s=b10cc6dae9aaf1acec2aa284de125c66" alt="タイトルなし.gif" data-canonical-src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/88282c02-a58d-cef4-2a28-33411eafed30.gif" srcset="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F2088399%2F88282c02-a58d-cef4-2a28-33411eafed30.gif?ixlib=rb-4.0.0&amp;auto=format&amp;gif-q=60&amp;q=75&amp;w=1400&amp;fit=max&amp;s=9e42e486d8a5ded7e523a609cbfd64e3 1x" loading="lazy"></a></p>
 
@@ -3475,7 +3734,7 @@ Store-Value部分は使いやすいかどうか、テストしやすいかどう
 `,coediting: false,comments_count: 0,created_at: '2021-10-27T22:30:12+09:00',group: '{ }',id: '7b72e26ed48579eb814b',likes_count: 1,private: false,reactions_count: 0,tags: [{name: 'MVVM',versions: [  ]},{name: 'Swift',versions: [  ]},{name: 'SwiftUI',versions: [  ]}],title: 'SwiftUI/Swift: 既存のプロジェクトをMVVMパターンに変更する',updated_at: '2021-10-27T22:40:45+09:00',url: 'https://qiita.com/sYamaz/items/7b72e26ed48579eb814b',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 15,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>体調管理（と会社での感染予防）のために毎朝体温を測るのが習慣化しています。<br>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 16,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>体調管理（と会社での感染予防）のために毎朝体温を測るのが習慣化しています。<br>
 しかし、朝の1分1秒は非常に貴重な時間です。できればiPhoneでの体温データ入力も極限まで無駄を減らしたいところです。</p>
 
 <p>そこで、体温を最速で入力するためにはどんな入力インターフェースがいいのかを検討してみようと思いました。</p>
@@ -3708,7 +3967,7 @@ https://github.com/sYamaz/BodyTempLogger
 `,coediting: false,comments_count: 0,created_at: '2021-10-17T22:22:01+09:00',group: '{ }',id: '9ef8fceb5650fc7b7ad8',likes_count: 1,private: false,reactions_count: 0,tags: [{name: 'UI',versions: [  ]},{name: 'Swift',versions: [  ]},{name: 'HealthKit',versions: [  ]},{name: 'ユーザーインターフェース',versions: [  ]},{name: 'SwiftUI',versions: [  ]}],title: '体温を最速で入力するためのユーザーインターフェースの検討（その1）',updated_at: '2021-10-28T22:25:02+09:00',url: 'https://qiita.com/sYamaz/items/9ef8fceb5650fc7b7ad8',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 15,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>まずは公式ドキュメントをちゃんと読む人間になろうと思いたち、Apple公式ドキュメント<strong>だけ</strong>を元にHealthKitにアクセスを試みました。</p>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 16,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>まずは公式ドキュメントをちゃんと読む人間になろうと思いたち、Apple公式ドキュメント<strong>だけ</strong>を元にHealthKitにアクセスを試みました。</p>
 
 <h1>
 <span id="環境" class="fragment"></span><a href="#%E7%92%B0%E5%A2%83"><i class="fa fa-link"></i></a>環境</h1>
@@ -4051,7 +4310,7 @@ ${"$"}{"}"}
 `,coediting: false,comments_count: 1,created_at: '2021-10-14T22:26:17+09:00',group: '{ }',id: 'cedfd869f74f14b4b25b',likes_count: 0,private: false,reactions_count: 0,tags: [{name: 'Swift',versions: [  ]},{name: 'HealthKit',versions: [  ]}],title: 'Swift: HealthKitに体温データを入力する。できるだけ公式ドキュメントだけを見て。',updated_at: '2021-12-30T15:59:37+09:00',url: 'https://qiita.com/sYamaz/items/cedfd869f74f14b4b25b',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 15,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>前回、<a href="https://qiita.com/sYamaz/items/1a29a2cb5b3207ad87dc" id="reference-b37a8931e3901955ed10">SwiftでMarkdownを解析してオブジェクトツリーに変換する</a>という記事を作成しましたが、今回はその続きです。</p>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 16,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>前回、<a href="https://qiita.com/sYamaz/items/1a29a2cb5b3207ad87dc" id="reference-b37a8931e3901955ed10">SwiftでMarkdownを解析してオブジェクトツリーに変換する</a>という記事を作成しましたが、今回はその続きです。</p>
 
 <p>尚、前回記事で「レンダリングはしてくれるけどオブジェクトツリーにしてくれるパッケージあまりないな...」と言いましたが大抵のSwiftのMarkdownレンダリング系パッケージは</p>
 
@@ -4281,7 +4540,7 @@ https://github.com/sYamaz/MarkdownAnalyzer
 `,coediting: false,comments_count: 0,created_at: '2021-10-03T22:30:32+09:00',group: '{ }',id: '31ef5374ad7c9a0dfde4',likes_count: 0,private: false,reactions_count: 0,tags: [{name: 'test',versions: [  ]},{name: 'Markdown',versions: [  ]},{name: '構文解析',versions: [  ]},{name: 'Swift',versions: [  ]}],title: 'Swift：開発中のMarkdown解析パッケージをもう少しテストしやすくする',updated_at: '2021-10-03T22:30:32+09:00',url: 'https://qiita.com/sYamaz/items/31ef5374ad7c9a0dfde4',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 15,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>Markdownをレンダリングしてくれるパッケージはあるけど、オブジェクトツリーにしてくれるものは無いなと思ったのでやってみてます。</p>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 16,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>Markdownをレンダリングしてくれるパッケージはあるけど、オブジェクトツリーにしてくれるものは無いなと思ったのでやってみてます。</p>
 
 <p>オブジェクトツリーに変換できるとコードからMarkdownを扱いやすくなるんじゃないかと思ってます。</p>
 
@@ -5708,4 +5967,4 @@ ${"$"}{"}"}
 `,coediting: false,comments_count: 0,created_at: '2021-09-26T22:19:57+09:00',group: '{ }',id: '1a29a2cb5b3207ad87dc',likes_count: 3,private: false,reactions_count: 0,tags: [{name: 'Markdown',versions: [  ]},{name: '構文解析',versions: [  ]},{name: 'Swift',versions: [  ]}],title: 'SwiftでMarkdownを解析してオブジェクトツリーに変換する',updated_at: '2021-10-06T07:54:17+09:00',url: 'https://qiita.com/sYamaz/items/1a29a2cb5b3207ad87dc',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 15,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }}]
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 16,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }}]
