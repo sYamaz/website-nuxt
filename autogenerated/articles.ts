@@ -254,7 +254,7 @@ Z-.登録.->history
 
 
 
-`,coediting: false,comments_count: 0,created_at: '2022-07-28T22:45:16+09:00',group: '{ }',id: '885647616aa57f00a604',likes_count: 0,private: false,reactions_count: 0,tags: [{name: 'TypeScript',versions: [  ]},{name: 'YouTubeAPI',versions: [  ]},{name: 'SpeechSynthesis',versions: [  ]},{name: 'axios',versions: [  ]}],title: 'Youtube API使って得たコメント読み上げさせたい',updated_at: '2022-07-28T22:50:12+09:00',url: 'https://qiita.com/sYamaz/items/885647616aa57f00a604',user: {description: `職業Web (フロント、バック）開発者。
+`,coediting: false,comments_count: 0,created_at: '2022-07-28T22:45:16+09:00',group: '{ }',id: '885647616aa57f00a604',likes_count: 1,private: false,reactions_count: 0,tags: [{name: 'TypeScript',versions: [  ]},{name: 'YouTubeAPI',versions: [  ]},{name: 'SpeechSynthesis',versions: [  ]},{name: 'axios',versions: [  ]}],title: 'Youtube API使って得たコメント読み上げさせたい',updated_at: '2022-07-28T22:50:12+09:00',url: 'https://qiita.com/sYamaz/items/885647616aa57f00a604',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
 趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 16,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>PythonでQiitaApiから自分の記事一覧を取得し、コードを自動生成できるようになりました。<br>
