@@ -102,7 +102,7 @@ export const articles = [{rendered_body: `<p data-sourcepos="1:1-1:233">読み�
 <p data-sourcepos="113:1-113:27">というイメージです</p>
 <qiita-mermaid data-content='${"$"}{"{"${"$"}{"}"}"data":"graph TD;\\n\\nA[urlから動画ID取得]\\nB[Videos APIからチャットID取得]\\nC[LiveChatMessages APIからコメント取得]\\nD[インターバル]\\nstore(コメントのキュー FIFO)\\nhistory(読み上げたものの履歴)\\nZ[コメント読み上げ]\\nY[インターバル]\\n\\nA--&gt;B\\nB--&gt;C\\nC--&gt;D\\nD--停止するまで繰り返す--&gt;B\\nC-.登録.-&gt;store\\n\\nZ-.取得.-&gt;store\\nZ--&gt;Y\\nY--停止するまで繰り返す--&gt;Z\\nZ-.登録.-&gt;history\\n","key":"438b683b35f6d031efd58ae93998a5fc"${"$"}{"}"}'></qiita-mermaid>
 <p data-sourcepos="140:1-140:183"><code>読み上げたものの履歴</code>をUIに表示させればWebアプリとしてはある程度の形になります。(ユーザー名、コメント内容は黄色で伏せてます)</p>
-<p data-sourcepos="142:1-142:164"><a href="https://camo.qiitausercontent.com/357512f3981c08ed2daa0392ed19a03de0303d28/68747470733a2f2f71696974612d696d6167652d73746f72652e73332e61702d6e6f727468656173742d312e616d617a6f6e6177732e636f6d2f302f323038383339392f39373463383030632d666661662d373539612d633737652d3738343164323866396337362e706e67" target="_blank" rel="nofollow noopener"><img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F2088399%2F974c800c-ffaf-759a-c77e-7841d28f9c76.png?ixlib=rb-4.0.0&amp;auto=format&amp;gif-q=60&amp;q=75&amp;s=4a28428fd388d603d900a83ab669f606" alt="スクリーンショット 2022-07-28 22.33.53.png" data-canonical-src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/974c800c-ffaf-759a-c77e-7841d28f9c76.png" srcset="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F2088399%2F974c800c-ffaf-759a-c77e-7841d28f9c76.png?ixlib=rb-4.0.0&amp;auto=format&amp;gif-q=60&amp;q=75&amp;w=1400&amp;fit=max&amp;s=3d8fb8f2aed3a1b2dd8876d8f20fd508 1x" loading="lazy"></a></p>
+<p data-sourcepos="142:1-142:164"><a href="https://camo.qiitausercontent.com/357512f3981c08ed2daa0392ed19a03de0303d28/68747470733a2f2f71696974612d696d6167652d73746f72652e73332e61702d6e6f727468656173742d312e616d617a6f6e6177732e636f6d2f302f323038383339392f39373463383030632d666661662d373539612d633737652d3738343164323866396337362e706e67" target="_blank" rel="nofollow noopener"><img src="https://camo.qiitausercontent.com/357512f3981c08ed2daa0392ed19a03de0303d28/68747470733a2f2f71696974612d696d6167652d73746f72652e73332e61702d6e6f727468656173742d312e616d617a6f6e6177732e636f6d2f302f323038383339392f39373463383030632d666661662d373539612d633737652d3738343164323866396337362e706e67" alt="スクリーンショット 2022-07-28 22.33.53.png" data-canonical-src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/974c800c-ffaf-759a-c77e-7841d28f9c76.png" loading="lazy"></a></p>
 `,body: `読み上げてくれればチャット欄見なくていいよねってことで、Youtube APIからライブ配信のコメントをポーリングしつつ、取得したコメントを読み上げさせようとTryしました。
 
 主に処理部分についての話をします
@@ -257,15 +257,15 @@ Z-.登録.->history
 `,coediting: false,comments_count: 0,created_at: '2022-07-28T22:45:16+09:00',group: '{ }',id: '885647616aa57f00a604',likes_count: 1,private: false,reactions_count: 0,tags: [{name: 'TypeScript',versions: [  ]},{name: 'YouTubeAPI',versions: [  ]},{name: 'SpeechSynthesis',versions: [  ]},{name: 'axios',versions: [  ]}],title: 'Youtube API使って得たコメント読み上げさせたい',updated_at: '2022-07-28T22:50:12+09:00',url: 'https://qiita.com/sYamaz/items/885647616aa57f00a604',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 16,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>PythonでQiitaApiから自分の記事一覧を取得し、コードを自動生成できるようになりました。<br>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 16,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p data-sourcepos="1:1-2:38">PythonでQiitaApiから自分の記事一覧を取得し、コードを自動生成できるようになりました。<br>
 今回はGitHub Actionsを用いて、</p>
-<ol>
-<li>QiitaApiから記事一覧を取得し、コードを自動生成</li>
-<li>コミット、プッシュ</li>
-<li>GitHub Pagesにデプロイ</li>
+<ol data-sourcepos="4:1-7:0">
+<li data-sourcepos="4:1-4:68">QiitaApiから記事一覧を取得し、コードを自動生成</li>
+<li data-sourcepos="5:1-5:30">コミット、プッシュ</li>
+<li data-sourcepos="6:1-7:0">GitHub Pagesにデプロイ</li>
 </ol>
-<p>の一連の作業を毎日朝の３時に実行できるようにします。ということで以下のworkflowを作成しました。</p>
-<div class="code-frame" data-lang="yaml">
+<p data-sourcepos="8:1-8:137">の一連の作業を毎日朝の３時に実行できるようにします。ということで以下のworkflowを作成しました。</p>
+<div class="code-frame" data-lang="yaml" data-sourcepos="10:1-59:3">
 <div class="code-lang"><span class="bold">~/github/workflows/update_articles.yaml</span></div>
 <div class="highlight"><pre><code><span class="na">name</span><span class="pi">:</span> <span class="s">GitHub Pages cron deploy</span>
 
@@ -317,10 +317,10 @@ Z-.登録.->history
           <span class="na">publish_branch</span><span class="pi">:</span> <span class="s">gh-pages</span>
 </code></pre></div>
 </div>
-<h2>
+<h2 data-sourcepos="61:1-61:9">
 <span id="結果" class="fragment"></span><a href="#%E7%B5%90%E6%9E%9C"><i class="fa fa-link"></i></a>結果</h2>
-<p>今日の3時ごろに実行されていたようなのでOKです</p>
-<p><qiita-embed-ogp src="https://github.com/sYamaz/website-nuxt/actions/runs/2379795524"></qiita-embed-ogp></p>
+<p data-sourcepos="63:1-63:66">今日の3時ごろに実行されていたようなのでOKです</p>
+<p data-sourcepos="65:1-65:62"><qiita-embed-ogp src="https://github.com/sYamaz/website-nuxt/actions/runs/2379795524"></qiita-embed-ogp></p>
 `,body: `PythonでQiitaApiから自分の記事一覧を取得し、コードを自動生成できるようになりました。
 今回はGitHub Actionsを用いて、
 
