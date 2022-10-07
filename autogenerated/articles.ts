@@ -102,7 +102,7 @@ export const articles = [{rendered_body: `<p data-sourcepos="1:1-1:233">読み�
 <p data-sourcepos="113:1-113:27">というイメージです</p>
 <qiita-mermaid data-content='${"$"}{"{"${"$"}{"}"}"data":"graph TD;\\n\\nA[urlから動画ID取得]\\nB[Videos APIからチャットID取得]\\nC[LiveChatMessages APIからコメント取得]\\nD[インターバル]\\nstore(コメントのキュー FIFO)\\nhistory(読み上げたものの履歴)\\nZ[コメント読み上げ]\\nY[インターバル]\\n\\nA--&gt;B\\nB--&gt;C\\nC--&gt;D\\nD--停止するまで繰り返す--&gt;B\\nC-.登録.-&gt;store\\n\\nZ-.取得.-&gt;store\\nZ--&gt;Y\\nY--停止するまで繰り返す--&gt;Z\\nZ-.登録.-&gt;history\\n","key":"438b683b35f6d031efd58ae93998a5fc"${"$"}{"}"}'></qiita-mermaid>
 <p data-sourcepos="140:1-140:183"><code>読み上げたものの履歴</code>をUIに表示させればWebアプリとしてはある程度の形になります。(ユーザー名、コメント内容は黄色で伏せてます)</p>
-<p data-sourcepos="142:1-142:164"><a href="https://camo.qiitausercontent.com/357512f3981c08ed2daa0392ed19a03de0303d28/68747470733a2f2f71696974612d696d6167652d73746f72652e73332e61702d6e6f727468656173742d312e616d617a6f6e6177732e636f6d2f302f323038383339392f39373463383030632d666661662d373539612d633737652d3738343164323866396337362e706e67" target="_blank" rel="nofollow noopener"><img src="https://camo.qiitausercontent.com/357512f3981c08ed2daa0392ed19a03de0303d28/68747470733a2f2f71696974612d696d6167652d73746f72652e73332e61702d6e6f727468656173742d312e616d617a6f6e6177732e636f6d2f302f323038383339392f39373463383030632d666661662d373539612d633737652d3738343164323866396337362e706e67" alt="スクリーンショット 2022-07-28 22.33.53.png" data-canonical-src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/974c800c-ffaf-759a-c77e-7841d28f9c76.png" loading="lazy"></a></p>
+<p data-sourcepos="142:1-142:164"><a href="https://camo.qiitausercontent.com/357512f3981c08ed2daa0392ed19a03de0303d28/68747470733a2f2f71696974612d696d6167652d73746f72652e73332e61702d6e6f727468656173742d312e616d617a6f6e6177732e636f6d2f302f323038383339392f39373463383030632d666661662d373539612d633737652d3738343164323866396337362e706e67" target="_blank" rel="nofollow noopener"><img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F2088399%2F974c800c-ffaf-759a-c77e-7841d28f9c76.png?ixlib=rb-4.0.0&amp;auto=format&amp;gif-q=60&amp;q=75&amp;s=4a28428fd388d603d900a83ab669f606" alt="スクリーンショット 2022-07-28 22.33.53.png" data-canonical-src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/974c800c-ffaf-759a-c77e-7841d28f9c76.png" srcset="https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F2088399%2F974c800c-ffaf-759a-c77e-7841d28f9c76.png?ixlib=rb-4.0.0&amp;auto=format&amp;gif-q=60&amp;q=75&amp;w=1400&amp;fit=max&amp;s=3d8fb8f2aed3a1b2dd8876d8f20fd508 1x" loading="lazy"></a></p>
 `,body: `読み上げてくれればチャット欄見なくていいよねってことで、Youtube APIからライブ配信のコメントをポーリングしつつ、取得したコメントを読み上げさせようとTryしました。
 
 主に処理部分についての話をします
@@ -389,22 +389,22 @@ https://github.com/sYamaz/website-nuxt/actions/runs/2379795524
 `,coediting: false,comments_count: 0,created_at: '2022-05-25T20:28:51+09:00',group: '{ }',id: '4a647ad0fafbf0e1e6c0',likes_count: 2,private: false,reactions_count: 0,tags: [{name: 'QiitaAPI',versions: [  ]},{name: 'githubpages',versions: [  ]},{name: 'GitHubActions',versions: [  ]}],title: 'GitHubPagesの内容をGitHubActionsを使って自動更新する',updated_at: '2022-05-25T20:28:51+09:00',url: 'https://qiita.com/sYamaz/items/4a647ad0fafbf0e1e6c0',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 16,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>先日@nuxt/axiosを使ってQiitaApiから自分の記事一覧を取得しました</p>
-<p><qiita-embed-ogp src="https://qiita.com/sYamaz/items/10c8c9db83e5dad62b90"></qiita-embed-ogp></p>
-<p>ただ、この記事の最後に書いたようにスクリプトでコードを自動生成する方が目的に会っていると思っていたのでPythonでQiitaApiにアクセスしようと思います</p>
-<h3>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 16,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p data-sourcepos="1:1-1:85">先日@nuxt/axiosを使ってQiitaApiから自分の記事一覧を取得しました</p>
+<p data-sourcepos="3:1-3:51"><qiita-embed-ogp src="https://qiita.com/sYamaz/items/10c8c9db83e5dad62b90"></qiita-embed-ogp></p>
+<p data-sourcepos="5:1-5:209">ただ、この記事の最後に書いたようにスクリプトでコードを自動生成する方が目的に会っていると思っていたのでPythonでQiitaApiにアクセスしようと思います</p>
+<h3 data-sourcepos="7:1-7:10">
 <span id="環境" class="fragment"></span><a href="#%E7%92%B0%E5%A2%83"><i class="fa fa-link"></i></a>環境</h3>
-<ul>
-<li>Python 3.8.9
-<ul>
-<li><code>pip install requests</code></li>
+<ul data-sourcepos="9:1-11:0">
+<li data-sourcepos="9:1-11:0">Python 3.8.9
+<ul data-sourcepos="10:5-11:0">
+<li data-sourcepos="10:5-11:0"><code>pip install requests</code></li>
 </ul>
 </li>
 </ul>
-<h3>
+<h3 data-sourcepos="12:1-12:19">
 <span id="スクリプト" class="fragment"></span><a href="#%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%97%E3%83%88"><i class="fa fa-link"></i></a>スクリプト</h3>
-<p><code>requests</code>パッケージを使用しApiから記事一覧を取得します。簡潔に書くと以下</p>
-<div class="code-frame" data-lang="python"><div class="highlight"><pre><code><span class="kn">import</span> <span class="nn">requests</span>
+<p data-sourcepos="14:1-14:103"><code>requests</code>パッケージを使用しApiから記事一覧を取得します。簡潔に書くと以下</p>
+<div class="code-frame" data-lang="python" data-sourcepos="16:1-26:3"><div class="highlight"><pre><code><span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">import</span> <span class="nn">json</span>
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'https://qiita.com/api/v2/items?query=user:sYamaz'</span><span class="p">)</span>
@@ -414,9 +414,9 @@ https://github.com/sYamaz/website-nuxt/actions/runs/2379795524
   <span class="c1"># item(=記事)ごとの処理
 </span>
 </code></pre></div></div>
-<p>この内容をもとにarticles.tsを出力できるようにします。</p>
-<p>期待する内容</p>
-<div class="code-frame" data-lang="typescript">
+<p data-sourcepos="28:1-28:74">この内容をもとにarticles.tsを出力できるようにします。</p>
+<p data-sourcepos="30:1-30:18">期待する内容</p>
+<div class="code-frame" data-lang="typescript" data-sourcepos="32:1-42:3">
 <div class="code-lang"><span class="bold">autogenerated/articles.ts</span></div>
 <div class="highlight"><pre><code><span class="k">export</span> <span class="kd">const</span> <span class="nx">articles</span> <span class="o">=</span> <span class="p">[</span>
   <span class="p">${"$"}{"{"${"$"}{"}"}</span>
@@ -430,7 +430,7 @@ https://github.com/sYamaz/website-nuxt/actions/runs/2379795524
 </code></pre></div>
 </div>
 <details><summary>スクリプト全文（長いので折りたたみ）</summary><div>
-<div class="code-frame" data-lang="python"><div class="highlight"><pre><code><span class="kn">import</span> <span class="nn">sys</span>
+<div class="code-frame" data-lang="python" data-sourcepos="46:1-210:3"><div class="highlight"><pre><code><span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">io</span>
 <span class="kn">import</span> <span class="nn">requests</span>
@@ -595,16 +595,16 @@ https://github.com/sYamaz/website-nuxt/actions/runs/2379795524
   <span class="n">main</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 </code></pre></div></div>
 </div></details>
-<h2>
+<h2 data-sourcepos="214:1-214:15">
 <span id="終わりに" class="fragment"></span><a href="#%E7%B5%82%E3%82%8F%E3%82%8A%E3%81%AB"><i class="fa fa-link"></i></a>終わりに</h2>
-<p>pythonでQiitaApiから自分の記事一覧を取得、tsファイルを生成することができました。</p>
-<p>次はGithub Actionsと連携させて、</p>
-<ul>
-<li>日1回Apiから取得 → tsファイル生成</li>
-<li>コミット</li>
-<li>Github Pagesデプロイ</li>
+<p data-sourcepos="216:1-216:112">pythonでQiitaApiから自分の記事一覧を取得、tsファイルを生成することができました。</p>
+<p data-sourcepos="218:1-218:41">次はGithub Actionsと連携させて、</p>
+<ul data-sourcepos="220:1-223:0">
+<li data-sourcepos="220:1-220:49">日1回Apiから取得 → tsファイル生成</li>
+<li data-sourcepos="221:1-221:14">コミット</li>
+<li data-sourcepos="222:1-223:0">Github Pagesデプロイ</li>
 </ul>
-<p>を目指そうと思います。</p>
+<p data-sourcepos="224:1-224:33">を目指そうと思います。</p>
 `,body: `先日@nuxt/axiosを使ってQiitaApiから自分の記事一覧を取得しました
 
 https://qiita.com/sYamaz/items/10c8c9db83e5dad62b90
@@ -832,18 +832,18 @@ pythonでQiitaApiから自分の記事一覧を取得、tsファイルを生成�
 `,coediting: false,comments_count: 1,created_at: '2022-05-24T22:58:05+09:00',group: '{ }',id: '2e5facc0032ed0801a26',likes_count: 0,private: false,reactions_count: 0,tags: [{name: 'Python',versions: [  ]},{name: 'QiitaAPI',versions: [  ]},{name: 'Python3',versions: [  ]}],title: 'PythonでもQiitaApiから自分の記事一覧を取得したい',updated_at: '2022-05-29T18:02:01+09:00',url: 'https://qiita.com/sYamaz/items/2e5facc0032ed0801a26',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 16,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>GitHubpagesに自己紹介サイトを立てて少しずつ拡張しています。<br>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 16,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p data-sourcepos="1:1-2:238">GitHubpagesに自己紹介サイトを立てて少しずつ拡張しています。<br>
 今回、サイトにQiita記事へのリンクを貼りたい、けどリンクをペタペタ貼るのもつまらないということで、QiitaApiから私が書いた記事を取得しサイトに表示することにしました。</p>
-<h3>
+<h3 data-sourcepos="4:1-4:10">
 <span id="準備" class="fragment"></span><a href="#%E6%BA%96%E5%82%99"><i class="fa fa-link"></i></a>準備</h3>
-<div class="code-frame" data-lang="shell"><div class="highlight"><pre><code>yarn add @nuxtjs/axios
+<div class="code-frame" data-lang="shell" data-sourcepos="6:1-8:3"><div class="highlight"><pre><code>yarn add @nuxtjs/axios
 </code></pre></div></div>
-<h2>
+<h2 data-sourcepos="10:1-10:29">
 <span id="qiitaのpatを使用する" class="fragment"></span><a href="#qiita%E3%81%AEpat%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B"><i class="fa fa-link"></i></a>QiitaのPATを使用する</h2>
-<p>Qiitaの設定でPATを生成、axiosのヘッダーに登録します。<br>
+<p data-sourcepos="12:1-14:51">Qiitaの設定でPATを生成、axiosのヘッダーに登録します。<br>
 ここではQiitaApiクラスを作成し、<code>asyncData(ctx:Context)</code>などで使用できるようにします。<br>
 （ここでは型定義の紹介は省きます）</p>
-<div class="code-frame" data-lang="typescript">
+<div class="code-frame" data-lang="typescript" data-sourcepos="16:1-54:3">
 <div class="code-lang"><span class="bold">~/plugins/apiPlugins.ts</span></div>
 <div class="highlight"><pre><code><span class="k">import</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span> <span class="nx">Plugin</span> <span class="p">${"$"}{"}"}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@nuxt/types</span><span class="dl">'</span>
 <span class="k">import</span> <span class="nx">QiitaApi</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">~/api/QiitaApi</span><span class="dl">'</span>
@@ -884,8 +884,8 @@ pythonでQiitaApiから自分の記事一覧を取得、tsファイルを生成�
 <span class="k">export</span> <span class="k">default</span> <span class="nx">apiPlugin</span>
 </code></pre></div>
 </div>
-<p><code>GET /api/v2/authenticated_user/items</code>を使用することで、PATを設定したユーザーの記事を取得できます。</p>
-<div class="code-frame" data-lang="typescript">
+<p data-sourcepos="56:1-56:128"><code>GET /api/v2/authenticated_user/items</code>を使用することで、PATを設定したユーザーの記事を取得できます。</p>
+<div class="code-frame" data-lang="typescript" data-sourcepos="58:1-80:3">
 <div class="code-lang"><span class="bold">~/api/QiitaApi.ts</span></div>
 <div class="highlight"><pre><code><span class="k">import</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span> <span class="nx">NuxtAxiosInstance</span> <span class="p">${"$"}{"}"}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@nuxtjs/axios</span><span class="dl">'</span>
 <span class="k">import</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span> <span class="nx">PostData</span> <span class="p">${"$"}{"}"}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">~/types/Qiita/Api/v2/datas</span><span class="dl">'</span>
@@ -910,8 +910,8 @@ pythonでQiitaApiから自分の記事一覧を取得、tsファイルを生成�
 <span class="p">${"$"}{"}"}</span>
 </code></pre></div>
 </div>
-<p>APIから取得する記事のタイプ</p>
-<div class="code-frame" data-lang="typescript">
+<p data-sourcepos="82:1-82:39">APIから取得する記事のタイプ</p>
+<div class="code-frame" data-lang="typescript" data-sourcepos="84:1-125:3">
 <div class="code-lang"><span class="bold">~/types/Qiita/Api/v2/datas.d.ts</span></div>
 <div class="highlight"><pre><code><span class="cm">/**
  * 投稿データ
@@ -955,12 +955,12 @@ pythonでQiitaApiから自分の記事一覧を取得、tsファイルを生成�
 <span class="p">${"$"}{"}"}</span>
 </code></pre></div>
 </div>
-<h2>
+<h2 data-sourcepos="127:1-127:32">
 <span id="qiitaのpatを使用しない" class="fragment"></span><a href="#qiita%E3%81%AEpat%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%97%E3%81%AA%E3%81%84"><i class="fa fa-link"></i></a>QiitaのPATを使用しない</h2>
-<p>publicリポジトリでGithub pages使うとenvファイルに書いたPATが丸見えになってしまうので他の方法を考えます。（もしかしたらGithubのsecretsなどをうまく使用する方法があるのかもしれませんが、現状思い浮かばなかったので...）</p>
-<p><code>GET /api/v2/items</code>で取得します。<br>
+<p data-sourcepos="129:1-129:301">publicリポジトリでGithub pages使うとenvファイルに書いたPATが丸見えになってしまうので他の方法を考えます。（もしかしたらGithubのsecretsなどをうまく使用する方法があるのかもしれませんが、現状思い浮かばなかったので...）</p>
+<p data-sourcepos="131:1-132:155"><code>GET /api/v2/items</code>で取得します。<br>
 まだ、大した記事数ではないので<code>page</code>や<code>per_page</code>パラメータは使用せず、検索クエリパラメータ<code>query</code>のみ使用します</p>
-<div class="code-frame" data-lang="typescript">
+<div class="code-frame" data-lang="typescript" data-sourcepos="134:1-160:3">
 <div class="code-lang"><span class="bold">~/api/QiitaApi.ts</span></div>
 <div class="highlight"><pre><code><span class="k">import</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span> <span class="nx">NuxtAxiosInstance</span> <span class="p">${"$"}{"}"}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@nuxtjs/axios</span><span class="dl">'</span>
 <span class="k">import</span> <span class="p">${"$"}{"{"${"$"}{"}"}</span> <span class="nx">PostData</span> <span class="p">${"$"}{"}"}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">~/types/Qiita/Api/v2/datas</span><span class="dl">'</span>
@@ -989,20 +989,20 @@ pythonでQiitaApiから自分の記事一覧を取得、tsファイルを生成�
 <span class="p">${"$"}{"}"}</span>
 </code></pre></div>
 </div>
-<h2>
+<h2 data-sourcepos="162:1-162:15">
 <span id="終わりに" class="fragment"></span><a href="#%E7%B5%82%E3%82%8F%E3%82%8A%E3%81%AB"><i class="fa fa-link"></i></a>終わりに</h2>
-<p><code>@nuxt/axios</code>を使ってQiitaApiにアクセスし、自分の記事一覧を取得することができました。</p>
-<p>ただし、使用制限（認証あり：1000回/時、認証なし：60回/時）があったり、記事自体そこまで頻繁に更新するものでもないことから、今回のような目的の場合はスクリプトなどでコードを自動生成するような方法の方が適していると思います。</p>
-<p>Github Actionを使って定期的にApiアクセス＆コード自動生成→コミット/マージ→Github Pagesにデプロイとかできると面白そうです。</p>
-<hr>
-<p>参考リンク</p>
-<ul>
-<li><a href="https://qiita.com/api/v2/docs">Qiita Api v2 ドキュメント</a></li>
-<li><a href="https://axios.nuxtjs.org/extend#new-axios-instance" rel="nofollow noopener" target="_blank">axios.nuxtjs.org</a></li>
+<p data-sourcepos="164:1-164:117"><code>@nuxt/axios</code>を使ってQiitaApiにアクセスし、自分の記事一覧を取得することができました。</p>
+<p data-sourcepos="166:1-166:326">ただし、使用制限（認証あり：1000回/時、認証なし：60回/時）があったり、記事自体そこまで頻繁に更新するものでもないことから、今回のような目的の場合はスクリプトなどでコードを自動生成するような方法の方が適していると思います。</p>
+<p data-sourcepos="168:1-168:170">Github Actionを使って定期的にApiアクセス＆コード自動生成→コミット/マージ→Github Pagesにデプロイとかできると面白そうです。</p>
+<hr data-sourcepos="170:1-170:3">
+<p data-sourcepos="171:1-171:15">参考リンク</p>
+<ul data-sourcepos="173:1-175:0">
+<li data-sourcepos="173:1-173:66"><a href="https://qiita.com/api/v2/docs">Qiita Api v2 ドキュメント</a></li>
+<li data-sourcepos="174:1-175:0"><a href="https://axios.nuxtjs.org/extend#new-axios-instance" rel="nofollow noopener" target="_blank">axios.nuxtjs.org</a></li>
 </ul>
-<p>自己紹介サイト</p>
-<ul>
-<li><a href="https://syamaz.github.io/website-nuxt/" rel="nofollow noopener" target="_blank">https://syamaz.github.io/website-nuxt/</a></li>
+<p data-sourcepos="176:1-176:21">自己紹介サイト</p>
+<ul data-sourcepos="178:1-178:82">
+<li data-sourcepos="178:1-178:82"><a href="https://syamaz.github.io/website-nuxt/" rel="nofollow noopener" target="_blank">https://syamaz.github.io/website-nuxt/</a></li>
 </ul>
 `,body: `GitHubpagesに自己紹介サイトを立てて少しずつ拡張しています。
 今回、サイトにQiita記事へのリンクを貼りたい、けどリンクをペタペタ貼るのもつまらないということで、QiitaApiから私が書いた記事を取得しサイトに表示することにしました。
@@ -1185,44 +1185,44 @@ Github Actionを使って定期的にApiアクセス＆コード自動生成→�
 `,coediting: false,comments_count: 0,created_at: '2022-05-23T22:46:08+09:00',group: '{ }',id: '10c8c9db83e5dad62b90',likes_count: 2,private: false,reactions_count: 0,tags: [{name: 'QiitaAPI',versions: [  ]},{name: 'Vue.js',versions: [  ]},{name: 'axios',versions: [  ]},{name: 'nuxt.js',versions: [  ]}],title: '@nuxt/axiosを使ってQiita Apiから記事一覧を取得する',updated_at: '2022-05-23T22:46:08+09:00',url: 'https://qiita.com/sYamaz/items/10c8c9db83e5dad62b90',user: {description: `職業Web (フロント、バック）開発者。
 
 過去dotnetプログラマもしていました。
-趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 16,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p>2022年5月2日に初めてアプリをリリースしました。</p>
-<p>今回は提出からリリースに至るまでの審査の過程やリジェクト内容などをサクッと共有できればと思います。</p>
-<h2>
+趣味でSwift、Vueをいじってます`,facebook_id: '',followees_count: 0,followers_count: 1,github_login_name: 'sYamaz',id: 'sYamaz',items_count: 16,linkedin_id: 'shun-yamazaki/',location: '',name: 'Shun Yamazaki',organization: '',permanent_id: '2088399',profile_image_url: 'https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/2088399/profile-images/1639196322',team_only: false,twitter_screen_name: 'ShunYamazaki5',website_url: 'https://syamaz.github.io/website-nuxt/'},page_views_count: null,team_membership: { }},{rendered_body: `<p data-sourcepos="1:1-1:66">2022年5月2日に初めてアプリをリリースしました。</p>
+<p data-sourcepos="3:1-3:147">今回は提出からリリースに至るまでの審査の過程やリジェクト内容などをサクッと共有できればと思います。</p>
+<h2 data-sourcepos="5:1-5:38">
 <span id="2021年12月15日アプリ提出" class="fragment"></span><a href="#2021%E5%B9%B412%E6%9C%8815%E6%97%A5%E3%82%A2%E3%83%97%E3%83%AA%E6%8F%90%E5%87%BA"><i class="fa fa-link"></i></a>2021年12月15日：アプリ提出</h2>
-<p>App Store Connectの審査に自作アプリを提出しました。<br>
+<p data-sourcepos="7:1-8:60">App Store Connectの審査に自作アプリを提出しました。<br>
 私としてはこれが初めての経験となります。</p>
-<h2>
+<h2 data-sourcepos="10:1-10:47">
 <span id="2021年12月20日in-review状態になる" class="fragment"></span><a href="#2021%E5%B9%B412%E6%9C%8820%E6%97%A5in-review%E7%8A%B6%E6%85%8B%E3%81%AB%E3%81%AA%E3%82%8B"><i class="fa fa-link"></i></a>2021年12月20日：In Review状態になる</h2>
-<p>休日を除けば提出してから２〜３日経過してレビューが開始されたようでした。</p>
-<p>思ったよりレビュー開始までに時間かかったなと思いましたが、個人開発で特に切羽詰まっているものでもなかったので気長に待つつもりでいました。</p>
-<h2>
+<p data-sourcepos="12:1-12:108">休日を除けば提出してから２〜３日経過してレビューが開始されたようでした。</p>
+<p data-sourcepos="14:1-14:204">思ったよりレビュー開始までに時間かかったなと思いましたが、個人開発で特に切羽詰まっているものでもなかったので気長に待つつもりでいました。</p>
+<h2 data-sourcepos="16:1-16:56">
 <span id="2021年12月20日謎のリジェクトを受ける" class="fragment"></span><a href="#2021%E5%B9%B412%E6%9C%8820%E6%97%A5%E8%AC%8E%E3%81%AE%E3%83%AA%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%82%92%E5%8F%97%E3%81%91%E3%82%8B"><i class="fa fa-link"></i></a>2021年12月20日：謎のリジェクトを受ける</h2>
-<blockquote>
-<p>Hello,</p>
-<p>The review of your app is taking longer than expected. Once we &gt; have completed our review, we will notify you via Resolution Center.</p>
-<p>If you would like to inquire about the status of this review, you may file a request via the Apple Developer Contact Us page.</p>
-<p>Best regards,</p>
-<p>App Store Review</p>
-<p>却下の理由：Other</p>
+<blockquote data-sourcepos="18:1-28:25">
+<p data-sourcepos="18:3-18:8">Hello,</p>
+<p data-sourcepos="20:3-20:135">The review of your app is taking longer than expected. Once we &gt; have completed our review, we will notify you via Resolution Center.</p>
+<p data-sourcepos="22:3-22:127">If you would like to inquire about the status of this review, you may file a request via the Apple Developer Contact Us page.</p>
+<p data-sourcepos="24:3-24:15">Best regards,</p>
+<p data-sourcepos="26:3-26:18">App Store Review</p>
+<p data-sourcepos="28:3-28:25">却下の理由：Other</p>
 </blockquote>
-<p>意訳：予想より時間かかっています。レビュー終わったらお知らせします。</p>
-<p>ということで、ステータスはリジェクトでしたが、こちらから何かアクションを起こさなくても良さそうだったのでそのまま放置していました。</p>
-<h2>
+<p data-sourcepos="30:1-30:102">意訳：予想より時間かかっています。レビュー終わったらお知らせします。</p>
+<p data-sourcepos="32:1-32:195">ということで、ステータスはリジェクトでしたが、こちらから何かアクションを起こさなくても良さそうだったのでそのまま放置していました。</p>
+<h2 data-sourcepos="34:1-34:52">
 <span id="2022年3月29日再びin-review状態になる" class="fragment"></span><a href="#2022%E5%B9%B43%E6%9C%8829%E6%97%A5%E5%86%8D%E3%81%B3in-review%E7%8A%B6%E6%85%8B%E3%81%AB%E3%81%AA%E3%82%8B"><i class="fa fa-link"></i></a>2022年3月29日：再びIn Review状態になる</h2>
-<p>忘れた頃、実に約３ヶ月ぶりに唐突にレビューが再開されました</p>
-<h2>
+<p data-sourcepos="36:1-36:87">忘れた頃、実に約３ヶ月ぶりに唐突にレビューが再開されました</p>
+<h2 data-sourcepos="38:1-38:37">
 <span id="2022年3月29日リジェクト" class="fragment"></span><a href="#2022%E5%B9%B43%E6%9C%8829%E6%97%A5%E3%83%AA%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88"><i class="fa fa-link"></i></a>2022年3月29日：リジェクト</h2>
-<p>却下の理由は<code>Guideline 2.3 - Performance - Accurate Metadata</code></p>
-<p>前回の、<code>却下の理由：Other</code>と違ってこの時はアプリに問題があってのリジェクトだったので対応する必要があります。</p>
-<h2>
+<p data-sourcepos="40:1-40:67">却下の理由は<code>Guideline 2.3 - Performance - Accurate Metadata</code></p>
+<p data-sourcepos="42:1-42:160">前回の、<code>却下の理由：Other</code>と違ってこの時はアプリに問題があってのリジェクトだったので対応する必要があります。</p>
+<h2 data-sourcepos="44:1-44:30">
 <span id="2022年5月2日再審査" class="fragment"></span><a href="#2022%E5%B9%B45%E6%9C%882%E6%97%A5%E5%86%8D%E5%AF%A9%E6%9F%BB"><i class="fa fa-link"></i></a>2022年5月2日：再審査</h2>
-<p>上記の却下の理由は、"ライトモードとダークモードのスクリーンショットを提出しているがアプリ本体にテーマ切り替えの機能はない"ことのようです。</p>
-<p>システムのテーマに合わせてアプリのテーマも切り替わるようにはなっていたのですが、どうやらそれだけでは足りないみたいです（ここの確証が得られる情報をまだ見つけられていません）。</p>
-<p>今回はテーマにこだわりはなかったのでライトモードのスクリーンショットのみに差し替えたところ即日審査通過となりました。</p>
-<p>対応自体は1日で終わりましたが、プライベートがバタバタしていたのでリジェクトから約１ヶ月後の再提出となりました。</p>
-<hr>
-<p>そのアプリ（iPhoneのみ）</p>
-<p><qiita-embed-ogp src="https://apps.apple.com/jp/app/routinetree/id1600469504"></qiita-embed-ogp></p>
+<p data-sourcepos="46:1-46:206">上記の却下の理由は、"ライトモードとダークモードのスクリーンショットを提出しているがアプリ本体にテーマ切り替えの機能はない"ことのようです。</p>
+<p data-sourcepos="48:1-48:261">システムのテーマに合わせてアプリのテーマも切り替わるようにはなっていたのですが、どうやらそれだけでは足りないみたいです（ここの確証が得られる情報をまだ見つけられていません）。</p>
+<p data-sourcepos="50:1-50:174">今回はテーマにこだわりはなかったのでライトモードのスクリーンショットのみに差し替えたところ即日審査通過となりました。</p>
+<p data-sourcepos="52:1-52:166">対応自体は1日で終わりましたが、プライベートがバタバタしていたのでリジェクトから約１ヶ月後の再提出となりました。</p>
+<hr data-sourcepos="54:1-55:0">
+<p data-sourcepos="56:1-56:33">そのアプリ（iPhoneのみ）</p>
+<p data-sourcepos="58:1-58:54"><qiita-embed-ogp src="https://apps.apple.com/jp/app/routinetree/id1600469504"></qiita-embed-ogp></p>
 `,body: `2022年5月2日に初めてアプリをリリースしました。
 
 今回は提出からリリースに至るまでの審査の過程やリジェクト内容などをサクッと共有できればと思います。
