@@ -3,3 +3,9 @@
 https://nuxt.com/docs/bridge/overview#upgrade-nuxt-2
 
 * lockファイルを削除する
+* package.jsonからnuxtを削除し、最新のnuxt-edgeをインストールする
+
+```
+yarn remove nuxt
+yarn add nuxt-edge
+```
