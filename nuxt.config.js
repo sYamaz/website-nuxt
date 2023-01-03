@@ -2,8 +2,10 @@ import colors from 'vuetify/es5/util/colors'
 import { defineNuxtConfig } from '@nuxt/bridge'
 
 /* nuxt.config.js */
-const environment = process.env.NODE_ENV || 'local'
-const env = require(`./env/${environment}.js`)
+let baseURL = '/website-nuxt/'
+if (process.env.NODE_ENV !== 'production') {
+  baseURL = '/'
+}
 
 export default defineNuxtConfig({
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -78,8 +80,7 @@ export default defineNuxtConfig({
 
   // Base-URL Configuration for github pages
   router: {
-    base: env.BASE_URL
-  },
-  env
+    base: baseURL
+  }
 
 })
