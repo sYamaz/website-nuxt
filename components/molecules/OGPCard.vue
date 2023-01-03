@@ -1,31 +1,17 @@
 <template>
-  <v-card :href="data.url" class="py-2">
-    <v-card-title>{{ data.title }}</v-card-title>
-    <v-card-subtitle>{{ data.url }}</v-card-subtitle>
-    <v-card-text>{{ data.body.slice(0, 140) }}...</v-card-text>
-    <v-card-label v-for="tag in data.tags" :key="tag.name" class="ml-4" :name="tag.name" />
+  <v-card :href="prop.data.url" class="py-2">
+    <v-card-title>{{ prop.data.title }}</v-card-title>
+    <v-card-subtitle>{{ prop.data.url }}</v-card-subtitle>
+    <v-card-text>{{ prop.data.body.slice(0, 140) }}...</v-card-text>
+    <v-card-label v-for="tag in prop.data.tags" :key="tag.name" class="ml-4" :name="tag.name" />
   </v-card>
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
-import { Prop, Component } from 'nuxt-property-decorator'
-import LocalImage from '~/components/atoms/LocalImage.vue'
-import CardUrl from '~/components/atoms/CardUrl.vue'
-import VCardLabel from '~/components/atoms/VCardLabel.vue'
+<script lang="ts" setup>
 import { PostData } from '~/types/Qiita/Api/v2/datas'
+import VCardLabel from '~/components/atoms/VCardLabel.vue'
 
-@Component({
-  components: {
-    LocalImage,
-    CardUrl,
-    VCardLabel
-  }
-})
-export default class OGPCard extends Vue {
-  @Prop({ default: {}, required: true })
-    data!:PostData
-}
+const prop = defineProps<{data:PostData}>()
 </script>
 
 <style></style>

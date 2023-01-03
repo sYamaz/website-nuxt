@@ -1,15 +1,7 @@
 <template>
-  <h2>{{ title }}</h2>
+  <h2>{{ prop.title }}</h2>
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
-import Component from 'vue-class-component'
-import { Prop } from 'vue-property-decorator'
-
-@Component
-export default class SectionHeadline extends Vue {
-    @Prop({ default: 'title' })
-      title!:string
-}
+<script lang="ts" setup>
+const prop = defineProps<{title:string}>()
 </script>

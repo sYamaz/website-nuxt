@@ -1,17 +1,12 @@
 <template>
   <v-chip class="capitalization_none" disabled small>
-    {{ name }}
+    {{ prop.name }}
   </v-chip>
 </template>
 
-<script lang="ts">
-import { Vue, Prop, Component } from 'nuxt-property-decorator'
+<script lang="ts" setup>
+const prop = defineProps<{name:string}>()
 
-@Component({})
-export default class VCardLabel extends Vue {
-  @Prop({ default: 'name' })
-    name!: string
-}
 </script>
 
 <style lang="scss">

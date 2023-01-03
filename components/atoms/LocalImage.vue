@@ -1,13 +1,9 @@
 <template>
-  <v-img :src="img" />
+  <v-img :src="prop.img" />
 </template>
 
-<script lang="ts">
-import { Vue, Prop, Component } from 'nuxt-property-decorator'
+<script lang="ts" setup>
 
-@Component({})
-export default class LocalImage extends Vue {
-  @Prop({ default: null })
-    img! :any
-}
+const prop = defineProps<{img: any}>()
+
 </script>

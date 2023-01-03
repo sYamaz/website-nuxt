@@ -1,18 +1,15 @@
 <template>
   <v-row justify="center" align="center">
     <v-col cols="12" sm="8" md="6">
-      <PageHeadline :title="data.pageTitle" />
+      <PageHeadline :title="prop.data.pageTitle" />
       <v-container>
-        <WorkCard v-for="work in data.works" :key="work.name" class="my-4" :work="work" />
+        <WorkCard v-for="work in prop.data.works" :key="work.name" class="my-4" :work="work" />
       </v-container>
     </v-col>
   </v-row>
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
-import Component from 'vue-class-component'
-import { Prop } from 'vue-property-decorator'
+<script lang="ts" setup>
 import WorkCard, { Work } from '~/components/organisms/WorkCard.vue'
 import PageHeadline from '~/components/atoms/PageHeadline.vue'
 
@@ -21,16 +18,7 @@ export interface CardListViewTemplateData {
   works: Work[]
 }
 
-@Component({
-  components: {
-    PageHeadline,
-    WorkCard
-  }
-})
-export default class CardListViewTemplate extends Vue {
-  @Prop({ default: {} })
-    data!: CardListViewTemplateData
-}
+const prop = defineProps<{data: CardListViewTemplateData}>()
 </script>
 
 <style>

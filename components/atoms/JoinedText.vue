@@ -1,16 +1,10 @@
 <template>
   <p>
-    {{ textArray.join(', ') }}
+    {{ prop.textArray.join(', ') }}
   </p>
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
-import { Component, Prop } from 'nuxt-property-decorator'
+<script lang="ts" setup>
 
-@Component
-export default class JoinedText extends Vue {
-    @Prop({ default: ['A', 'B'] })
-      textArray!:string[]
-}
+const prop = defineProps<{textArray: string[]}>()
 </script>

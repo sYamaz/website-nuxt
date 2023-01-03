@@ -2,7 +2,7 @@
   <v-simple-table>
     <template #default>
       <tbody>
-        <tr v-for="(item, i) in records" :key="i">
+        <tr v-for="(item, i) in prop.records" :key="i">
           <td>
             {{ item.col1 }}
           </td>
@@ -13,19 +13,13 @@
   </v-simple-table>
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
-import Component from 'vue-class-component'
-import { Prop } from 'vue-property-decorator'
+<script lang="ts" setup>
 
 export interface TwoColomnsRecord{
     col1: any
     col2: any
 }
 
-@Component
-export default class TwoColomnsTable extends Vue {
-    @Prop({ default: [] })
-      records!:TwoColomnsRecord[]
-}
+const prop = defineProps<{records: TwoColomnsRecord[]}>()
+
 </script>

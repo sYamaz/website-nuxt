@@ -3,35 +3,19 @@
     <v-row class="">
       <v-col cols="12" sm="2" style="max-width: fit-content;" class="pa-4">
         <v-avatar alt="sYamaz" s size="64">
-          <img :src="avatarSrc">
+          <img :src="prop.avatarSrc">
         </v-avatar>
       </v-col>
       <v-col class="" align-self="center">
-        <SubContentHeadline :title="headline" />
-        <p>{{ description }}</p>
+        <SubContentHeadline :title="prop.headline" />
+        <p>{{ prop.description }}</p>
       </v-col>
     </v-row>
   </v-container>
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
-import Component from 'vue-class-component'
-import { Prop } from 'vue-property-decorator'
+<script lang="ts" setup>
 import SubContentHeadline from '~/components/atoms/SubContentHeadline.vue'
-@Component({
-  components: {
-    SubContentHeadline
-  }
-})
-export default class AvatarDescriptionSection extends Vue {
-  @Prop({ default: 'headline' })
-    headline!: string
 
-  @Prop({ default: 'description' })
-    description!: string
-
-  @Prop({ default: null })
-    avatarSrc!: any
-}
+const prop = defineProps<{headline:string, description:string, avatarSrc:any}>()
 </script>

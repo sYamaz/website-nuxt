@@ -1,24 +1,14 @@
 <template>
   <v-container class="pa-0">
-    <SectionHeadline :title="title" />
+    <SectionHeadline :title="prop.title" />
     <v-container class="mx-4">
       <slot />
     </v-container>
   </v-container>
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
-import { Prop, Component } from 'nuxt-property-decorator'
+<script lang="ts" setup>
 import SectionHeadline from '../atoms/SectionHeadline.vue'
 
-@Component({
-  components: {
-    SectionHeadline
-  }
-})
-export default class ContentSection extends Vue {
-  @Prop({ default: 'Section title' })
-    title!: string
-}
+const prop = defineProps<{title:string}>()
 </script>

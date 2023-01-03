@@ -1,15 +1,7 @@
 <template>
-  <h3>{{ title }}</h3>
+  <h3>{{ prop.title }}</h3>
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
-import { Component, Prop } from 'nuxt-property-decorator'
-
-@Component
-export default class SubContentHeadline extends Vue {
-  @Prop({ default: 'title' })
-    title!:string
-}
-
+<script lang="ts" setup>
+const prop = defineProps<{title: string}>()
 </script>
