@@ -19,4 +19,5 @@ yarn add --dev @nuxt/bridge@npm:@nuxt/bridge-edge
 
 * package.jsonのスクリプトを修正する
 * nuxt-configを修正する
-
+* tsconfig.jsonを修正する
+* runtimeConfigの更新　→　不要
