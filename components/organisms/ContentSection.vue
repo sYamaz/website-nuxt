@@ -19,6 +19,6 @@ import SectionHeadline from '../atoms/SectionHeadline.vue'
 })
 export default class ContentSection extends Vue {
   @Prop({ default: 'Section title' })
-  private title!: string
+    title!: string
 }
 </script>

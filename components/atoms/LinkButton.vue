@@ -26,6 +26,6 @@ export default class LinkButton extends Vue {
         }
       ]
     })
-  private linkData!: LinkData[]
+      linkData!: LinkData
 }
 </script>

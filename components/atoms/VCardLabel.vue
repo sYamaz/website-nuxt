@@ -10,7 +10,7 @@ import { Vue, Prop, Component } from 'nuxt-property-decorator'
 @Component({})
 export default class VCardLabel extends Vue {
   @Prop({ default: 'name' })
-  private name!: string
+    name!: string
 }
 </script>
 

@@ -11,6 +11,6 @@ import { Component, Prop } from 'nuxt-property-decorator'
 @Component
 export default class JoinedText extends Vue {
     @Prop({ default: ['A', 'B'] })
-  private textArray!:string[]
+      textArray!:string[]
 }
 </script>

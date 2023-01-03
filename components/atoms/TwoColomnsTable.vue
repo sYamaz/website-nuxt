@@ -26,6 +26,6 @@ export interface TwoColomnsRecord{
 @Component
 export default class TwoColomnsTable extends Vue {
     @Prop({ default: [] })
-  private records!:TwoColomnsRecord[]
+      records!:TwoColomnsRecord[]
 }
 </script>

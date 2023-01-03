@@ -8,6 +8,6 @@ import { Vue, Prop, Component } from 'nuxt-property-decorator'
 @Component({})
 export default class LocalImage extends Vue {
   @Prop({ default: null })
-  private img! :any
+    img! :any
 }
 </script>

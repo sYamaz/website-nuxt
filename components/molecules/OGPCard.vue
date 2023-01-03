@@ -24,7 +24,7 @@ import { PostData } from '~/types/Qiita/Api/v2/datas'
 })
 export default class OGPCard extends Vue {
   @Prop({ default: {}, required: true })
-  private data!:PostData
+    data!:PostData
 }
 </script>
 

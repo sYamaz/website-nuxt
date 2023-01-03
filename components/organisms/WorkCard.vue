@@ -46,6 +46,6 @@ export default class WorkCard extends Vue {
         status: 'Status'
       }
     })
-  private work!:Work
+      work!:Work
 }
 </script>

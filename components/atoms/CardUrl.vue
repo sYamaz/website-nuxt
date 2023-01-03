@@ -10,7 +10,7 @@ import { Vue, Prop, Component } from 'nuxt-property-decorator'
 @Component({})
 export default class CardUrl extends Vue {
   @Prop({ default: '{url}' })
-  private url!:string
+    url!:string
 }
 </script>
 

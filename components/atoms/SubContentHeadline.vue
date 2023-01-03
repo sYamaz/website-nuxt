@@ -9,7 +9,7 @@ import { Component, Prop } from 'nuxt-property-decorator'
 @Component
 export default class SubContentHeadline extends Vue {
   @Prop({ default: 'title' })
-  private title!:string
+    title!:string
 }
 
 </script>

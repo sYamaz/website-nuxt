@@ -1,11 +1,6 @@
 <template>
   <ContentSection title="Posts">
-    <OGPCard
-      v-for="post in data.posts"
-      :key="post.id"
-      class="ma-4"
-      :data="post"
-    />
+    <OGPCard v-for="post in data.posts" :key="post.id" class="ma-4" :data="post" />
   </ContentSection>
 </template>
 
@@ -27,9 +22,10 @@ export interface PostListTemplateData {
 })
 export default class PostListTemplate extends Vue {
   @Prop({ default: undefined })
-  private data!: PostListTemplateData
+    data!: PostListTemplateData
 }
 </script>
 
 <style>
+
 </style>

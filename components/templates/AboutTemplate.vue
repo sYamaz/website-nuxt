@@ -33,20 +33,20 @@ import ContentSection from '~/components/organisms/ContentSection.vue'
 import TwoColomnsTable, { TwoColomnsRecord } from '~/components/atoms/TwoColomnsTable.vue'
 import JoinedText from '~/components/atoms/JoinedText.vue'
 
-export interface AboutTemplateData{
-    pageTitle:string
-    introAvatar:any
-    introHeadline:string
-    introDescription:string
+export interface AboutTemplateData {
+  pageTitle: string
+  introAvatar: any
+  introHeadline: string
+  introDescription: string
 
-    bioTitle:string,
-    bioRecords:TwoColomnsRecord[]
+  bioTitle: string,
+  bioRecords: TwoColomnsRecord[]
 
-    hobbyTitle:string,
-    hobbyItems:string[]
+  hobbyTitle: string,
+  hobbyItems: string[]
 
-    webTitle:string
-    webLinks: LinkData[]
+  webTitle: string
+  webLinks: LinkData[]
 }
 
 @Component({
@@ -60,11 +60,7 @@ export interface AboutTemplateData{
   }
 })
 export default class AboutTemplate extends Vue {
-    @Prop({
-      default: {
-
-      }
-    })
-  private data!:AboutTemplateData
+  @Prop({ default: {} })
+  public data!: AboutTemplateData
 }
 </script>

@@ -16,9 +16,9 @@ import { Prop } from 'vue-property-decorator'
 import WorkCard, { Work } from '~/components/organisms/WorkCard.vue'
 import PageHeadline from '~/components/atoms/PageHeadline.vue'
 
-export interface CardListViewTemplateData{
-    pageTitle:string
-    works: Work[]
+export interface CardListViewTemplateData {
+  pageTitle: string
+  works: Work[]
 }
 
 @Component({
@@ -28,8 +28,8 @@ export interface CardListViewTemplateData{
   }
 })
 export default class CardListViewTemplate extends Vue {
-    @Prop({ default: {} })
-  private data!:CardListViewTemplateData
+  @Prop({ default: {} })
+    data!: CardListViewTemplateData
 }
 </script>
 

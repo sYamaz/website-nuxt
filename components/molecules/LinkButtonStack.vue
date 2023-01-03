@@ -31,6 +31,6 @@ export default class LinkButtonStack extends Vue {
         }
       ]
     })
-  private datas!:LinkData[]
+      datas!:LinkData[]
 }
 </script>

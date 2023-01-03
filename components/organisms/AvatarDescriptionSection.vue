@@ -26,12 +26,12 @@ import SubContentHeadline from '~/components/atoms/SubContentHeadline.vue'
 })
 export default class AvatarDescriptionSection extends Vue {
   @Prop({ default: 'headline' })
-  private headline!: string
+    headline!: string
 
   @Prop({ default: 'description' })
-  private description!: string
+    description!: string
 
   @Prop({ default: null })
-  private avatarSrc!: any
+    avatarSrc!: any
 }
 </script>

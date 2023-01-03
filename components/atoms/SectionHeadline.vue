@@ -10,6 +10,6 @@ import { Prop } from 'vue-property-decorator'
 @Component
 export default class SectionHeadline extends Vue {
     @Prop({ default: 'title' })
-  private title!:string
+      title!:string
 }
 </script>
