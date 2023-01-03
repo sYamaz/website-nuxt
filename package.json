@@ -3,6 +3,7 @@
   "version": "1.0.1",
   "private": true,
   "scripts": {
+    "prepare": "nuxi prepare",
     "front": "cross-env NODE_ENV=\"local_front\" nuxt",
     "dev": "cross-env NODE_ENV=\"local\" nuxi dev",
     "build": "cross-env NODE_ENV=\"production\" nuxi build",
