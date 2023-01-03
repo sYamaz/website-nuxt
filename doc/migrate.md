@@ -9,3 +9,10 @@ https://nuxt.com/docs/bridge/overview#upgrade-nuxt-2
 yarn remove nuxt
 yarn add nuxt-edge
 ```
+
+* yarn installする
+* nuxt bridgeをインストールする
+
+```
+yarn add --dev @nuxt/bridge@npm:@nuxt/bridge-edge
+```
