@@ -1,10 +1,11 @@
 import colors from 'vuetify/es5/util/colors'
+import { defineNuxtConfig } from '@nuxt/bridge'
 
 /* nuxt.config.js */
 const environment = process.env.NODE_ENV || 'local'
 const env = require(`./env/${environment}.js`)
 
-export default {
+export default defineNuxtConfig({
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
@@ -82,4 +83,4 @@ export default {
   },
   env
 
-}
+})
